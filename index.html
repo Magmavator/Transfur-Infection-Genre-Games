@@ -297,7 +297,8 @@
 
 <script>
     // ==================== CORS PROXY ====================
-    const PROXY = 'https://api.allorigins.win/raw?url=';
+    // Using corsproxy.io which is more reliable
+    const PROXY = 'https://corsproxy.io/?';
 
     // ==================== HELPER: EXTRACT PLACE ID FROM URL ====================
     function extractPlaceId(input) {
@@ -308,7 +309,7 @@
     }
 
     // ==================== FETCH WITH PROXY AND TIMEOUT ====================
-    async function fetchWithProxy(url, timeoutMs = 8000) {
+    async function fetchWithProxy(url, timeoutMs = 10000) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), timeoutMs);
         
@@ -331,7 +332,7 @@
         return await fetchWithProxy(url);
     }
 
-    // ==================== LOAD ALL GAME DATA (WITH PROGRESS) ====================
+    // ==================== LOAD ALL GAME DATA ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
@@ -356,8 +357,10 @@
                     const detailsData = await fetchWithProxy(detailsUrl);
                     const details = detailsData.data[0];
                     
-                    // Get icon URL directly (this URL works without CORS)
+                    // Fetch actual image URL
                     const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`;
+                    const iconData = await fetchWithProxy(iconUrl);
+                    const imageUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || 'https://placehold.co/120x120/5f9ea0/white?text=No+Image';
                     
                     enrichedGames[index] = {
                         ...game,
@@ -365,13 +368,13 @@
                         placeId,
                         name: details.name,
                         playerCount: details.playing,
-                        created: details.created,
-                        updated: details.updated,
+                        created: new Date(details.created).toLocaleDateString(),
+                        updated: new Date(details.updated).toLocaleDateString(),
                         ownerName: details.creator.name,
                         ownerUrl: details.creator.type === 'Group' 
                             ? `https://www.roblox.com/groups/${details.creator.id}`
                             : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                        thumbnailUrl: iconUrl, // Store the API endpoint, we'll fetch it directly in render
+                        imageUrl: imageUrl,
                         gameUrl: `https://www.roblox.com/games/${placeId}`
                     };
                     
@@ -384,15 +387,15 @@
                         created: '?',
                         updated: '?',
                         ownerName: '?',
-                        thumbnailUrl: '',
+                        imageUrl: 'https://placehold.co/120x120/c00/white?text=Error',
                         gameUrl: '#'
                     };
                 }
                 
                 // Render progressively
-                grid.innerHTML = '';
-                renderGames(enrichedGames.filter(g => g));
-                buildTagFilters(enrichedGames.filter(g => g));
+                const validGames = enrichedGames.filter(g => g);
+                renderGames(validGames);
+                buildTagFilters(validGames);
             });
             
             await Promise.allSettled(promises);
@@ -403,18 +406,8 @@
         }
     }
 
-    // ==================== FETCH ACTUAL IMAGE URL ====================
-    async function fetchImageUrl(iconApiUrl) {
-        try {
-            const data = await fetchWithProxy(iconApiUrl);
-            return data.data?.[0]?.thumbnails?.[0]?.imageUrl || 'https://via.placeholder.com/120x120?text=no+image';
-        } catch {
-            return 'https://via.placeholder.com/120x120?text=no+image';
-        }
-    }
-
     // ==================== RENDER GAMES ====================
-    async function renderGames(games) {
+    function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
             grid.innerHTML = '<div class="loading">loading games...</div>';
@@ -422,17 +415,8 @@
         }
         
         let html = '';
-        for (const [index, game] of games.entries()) {
+        games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
-            
-            const createdDate = game.created !== '?' ? new Date(game.created).toLocaleDateString() : '?';
-            const updatedDate = game.updated !== '?' ? new Date(game.updated).toLocaleDateString() : '?';
-            
-            // Fetch the actual image URL
-            let imageUrl = 'https://via.placeholder.com/120x120?text=loading';
-            if (game.thumbnailUrl) {
-                imageUrl = await fetchImageUrl(game.thumbnailUrl);
-            }
             
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
@@ -447,7 +431,7 @@
             html += `
                 <div class="game-card">
                     <div class="game-thumb">
-                        <img src="${imageUrl}" alt="${game.name}">
+                        <img src="${game.imageUrl || 'https://placehold.co/120x120/666/white?text=No+Image'}" alt="${game.name}">
                     </div>
                     <div class="game-info">
                         <div class="game-title">
@@ -457,8 +441,8 @@
                         ${tagsHtml}
                         <div class="game-stats">
                             <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${createdDate}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${updatedDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${game.updated}</span></span>
                             <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
                         <div class="maintainer-note">
@@ -472,7 +456,7 @@
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="https://via.placeholder.com/80x80?text=sub" alt="subgame">
+                                <img src="https://placehold.co/80x80/4a5b6b/white?text=Sub" alt="subgame">
                             </div>
                             <div class="subgame-info">
                                 <div class="subgame-title">${sub.name || 'Test Place'}</div>
@@ -486,7 +470,7 @@
             }
             
             html += `</div></div></div>`;
-        }
+        });
         
         grid.innerHTML = html;
     }
