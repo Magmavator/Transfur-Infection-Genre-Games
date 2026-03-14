@@ -1,10 +1,11 @@
 name: Update Game Data
 
 on:
+  # Scheduled runs - every 6 hours
   schedule:
-    # Runs every day at 6 AM UTC
-    - cron: '0 6 * * *'
-  # Also lets you run it manually
+    - cron: '0 */6 * * *'  # Runs at minute 0 every 6 hours
+    
+  # Manual trigger (you click a button)
   workflow_dispatch:
 
 jobs:
@@ -24,19 +25,26 @@ jobs:
           cat > fetch-games.js << 'EOF'
           const fs = require('fs');
           
-          // Your game list — edit this!
-          const GAMES = [
-            { placeId: "18440199762", tags: ["OG", "tactical"], note: "No nametags FPS" },
-            { placeId: "114145425550635", tags: ["polished", "vehicles"], note: "Deformation derby" }
-          ];
+          // Load your base games.json
+          const baseGames = JSON.parse(fs.readFileSync('games.json', 'utf8'));
           
           async function fetchGameData() {
             const games = [];
             
-            for (const game of GAMES) {
+            for (const game of baseGames.games) {
               try {
+                console.log(`Fetching: ${game.placeId || game.url}`);
+                
+                // Get placeId from either direct ID or URL
+                let placeId = game.placeId;
+                if (!placeId && game.url) {
+                  const match = game.url.match(/games\/(\d+)/);
+                  placeId = match ? match[1] : null;
+                }
+                if (!placeId) throw new Error('No valid placeId found');
+                
                 // 1. Get universeId from placeId
-                const universeRes = await fetch(`https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`);
+                const universeRes = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
                 const universeData = await universeRes.json();
                 const universeId = universeData.universeId;
                 
@@ -53,6 +61,7 @@ jobs:
                 games.push({
                   ...game,
                   universeId,
+                  placeId,
                   name: details.name,
                   playerCount: details.playing,
                   created: details.created,
@@ -62,21 +71,35 @@ jobs:
                     ? `https://www.roblox.com/groups/${details.creator.id}`
                     : `https://www.roblox.com/users/${details.creator.id}/profile`,
                   thumbnailUrl: iconUrl,
-                  gameUrl: `https://www.roblox.com/games/${game.placeId}`
+                  gameUrl: `https://www.roblox.com/games/${placeId}`
                 });
                 
-                console.log(`✅ Fetched: ${details.name}`);
+                console.log(`✅ Success: ${details.name}`);
               } catch (err) {
-                console.error(`❌ Failed: ${game.placeId}`, err.message);
+                console.error(`❌ Failed: ${game.placeId || game.url}`, err.message);
+                games.push({
+                  ...game,
+                  name: 'Failed to load',
+                  playerCount: '?',
+                  created: '?',
+                  updated: '?',
+                  ownerName: '?',
+                  thumbnailUrl: '',
+                  gameUrl: '#',
+                  error: err.message
+                });
               }
             }
             
-            // Save to file
-            fs.writeFileSync('games-data.json', JSON.stringify({ 
+            // Save to file with timestamp
+            const output = {
               lastUpdated: new Date().toISOString().split('T')[0],
-              games 
-            }, null, 2));
-            console.log('✅ Saved to games-data.json');
+              lastUpdatedFull: new Date().toISOString(),
+              games: games
+            };
+            
+            fs.writeFileSync('games-data.json', JSON.stringify(output, null, 2));
+            console.log(`✅ Saved ${games.length} games to games-data.json`);
           }
           
           fetchGameData();
@@ -90,5 +113,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add games-data.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update game data"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update game data [skip ci]"
           git push
