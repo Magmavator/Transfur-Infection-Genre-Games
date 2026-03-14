@@ -307,40 +307,51 @@
         return match ? match[1] : null;
     }
 
-    // ==================== FETCH WITH PROXY ====================
-    async function fetchWithProxy(url) {
-        const response = await fetch(PROXY + encodeURIComponent(url));
-        const text = await response.text();
+    // ==================== FETCH WITH PROXY AND TIMEOUT ====================
+    async function fetchWithProxy(url, timeoutMs = 5000) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
+        
         try {
+            const response = await fetch(PROXY + encodeURIComponent(url), {
+                signal: controller.signal
+            });
+            clearTimeout(timeout);
+            const text = await response.text();
             return JSON.parse(text);
-        } catch {
-            throw new Error('Invalid JSON response');
+        } catch (err) {
+            clearTimeout(timeout);
+            throw err;
         }
     }
 
     // ==================== GET UNIVERSE ID FROM PLACE ID ====================
     async function getUniverseId(placeId) {
         const url = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
-        const data = await fetchWithProxy(url);
-        return data.universeId;
+        return await fetchWithProxy(url);
     }
 
-    // ==================== LOAD ALL GAME DATA ====================
+    // ==================== LOAD ALL GAME DATA (WITH PROGRESS) ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
         try {
+            // Load JSON first
             const response = await fetch('games.json');
             const customData = await response.json();
             
             const enrichedGames = [];
+            let completedCount = 0;
             
-            for (const game of customData.games) {
+            // Process each game in parallel, but render as they complete
+            const promises = customData.games.map(async (game, index) => {
                 try {
                     const placeId = extractPlaceId(game.placeId || game.url);
                     if (!placeId) throw new Error('Invalid place ID or URL');
                     
-                    const universeId = await getUniverseId(placeId);
+                    // Get universeId
+                    const universeData = await getUniverseId(placeId);
+                    const universeId = universeData.universeId;
                     
                     // Fetch game details
                     const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
@@ -352,7 +363,7 @@
                     const iconData = await fetchWithProxy(iconUrl);
                     const icon = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
                     
-                    enrichedGames.push({
+                    const enrichedGame = {
                         ...game,
                         universeId,
                         placeId,
@@ -366,11 +377,19 @@
                             : `https://www.roblox.com/users/${details.creator.id}/profile`,
                         thumbnailUrl: icon,
                         gameUrl: `https://www.roblox.com/games/${placeId}`
-                    });
+                    };
+                    
+                    enrichedGames[index] = enrichedGame;
+                    completedCount++;
+                    
+                    // Render progressively every time a game loads
+                    grid.innerHTML = '';
+                    renderGames(enrichedGames.filter(g => g)); // Filter out undefined
+                    buildTagFilters(enrichedGames.filter(g => g));
                     
                 } catch (err) {
-                    console.error('Failed to process game:', game, err);
-                    enrichedGames.push({
+                    console.error(`Failed to load game ${index}:`, err);
+                    enrichedGames[index] = {
                         ...game,
                         name: 'Failed to load',
                         playerCount: '?',
@@ -379,12 +398,13 @@
                         ownerName: '?',
                         thumbnailUrl: '',
                         gameUrl: '#'
-                    });
+                    };
+                    completedCount++;
                 }
-            }
+            });
             
-            renderGames(enrichedGames);
-            buildTagFilters(enrichedGames);
+            // Wait for all to complete (but we already rendered progressively)
+            await Promise.allSettled(promises);
             
         } catch (err) {
             console.error('Failed to load games.json:', err);
@@ -395,8 +415,12 @@
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
-        grid.innerHTML = '';
+        if (!games.length) {
+            grid.innerHTML = '<div class="loading">loading games...</div>';
+            return;
+        }
         
+        let html = '';
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
@@ -413,7 +437,7 @@
                 tagsHtml += '</div>';
             }
             
-            let html = `
+            html += `
                 <div class="game-card">
                     <div class="game-thumb">
                         <img src="${game.thumbnailUrl || 'https://via.placeholder.com/120x120?text=no+image'}" alt="${game.name}">
@@ -437,7 +461,7 @@
             `;
             
             if (hasSubgames) {
-                for (const sub of game.subgames) {
+                game.subgames.forEach(sub => {
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
@@ -451,12 +475,13 @@
                             </div>
                         </div>
                     `;
-                }
+                });
             }
             
             html += `</div></div></div>`;
-            grid.innerHTML += html;
         });
+        
+        grid.innerHTML = html;
     }
 
     // ==================== TAG FILTERS ====================
