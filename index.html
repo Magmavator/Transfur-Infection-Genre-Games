@@ -317,76 +317,29 @@
 
     // ==================== LOAD ALL GAME DATA ====================
     async function loadGames() {
-        const grid = document.getElementById('game-grid');
+    const grid = document.getElementById('game-grid');
+    
+    try {
+        console.log('1. Fetching games.json...');
+        const response = await fetch('games.json');
+        console.log('2. Response status:', response.status);
+        const customData = await response.json();
+        console.log('3. JSON loaded:', customData);
         
-        try {
-            // 1. Load your JSON with just placeIds/URLs
-            const response = await fetch('games.json');
-            const customData = await response.json();
-            
-            const enrichedGames = [];
-            
-            // 2. Process each game
-            for (const game of customData.games) {
-                try {
-                    // Get placeId from either direct ID or URL
-                    const placeId = extractPlaceId(game.placeId || game.url);
-                    if (!placeId) throw new Error('Invalid place ID or URL');
-                    
-                    // Convert placeId to universeId
-                    const universeId = await getUniverseId(placeId);
-                    
-                    // Fetch game details using universeId
-                    const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-                    const detailsRes = await fetch(detailsUrl);
-                    const detailsData = await detailsRes.json();
-                    const details = detailsData.data[0];
-                    
-                    // Fetch game icon
-                    const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`;
-                    const iconRes = await fetch(iconUrl);
-                    const iconData = await iconRes.json();
-                    const icon = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
-                    
-                    enrichedGames.push({
-                        ...game,
-                        universeId,
-                        placeId,
-                        name: details.name,
-                        playerCount: details.playing,
-                        created: details.created,
-                        updated: details.updated,
-                        ownerName: details.creator.name,
-                        ownerUrl: details.creator.type === 'Group' 
-                            ? `https://www.roblox.com/groups/${details.creator.id}`
-                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                        thumbnailUrl: icon,
-                        gameUrl: `https://www.roblox.com/games/${placeId}`
-                    });
-                    
-                } catch (err) {
-                    console.error('Failed to process game:', game, err);
-                    enrichedGames.push({
-                        ...game,
-                        name: 'Failed to load',
-                        playerCount: '?',
-                        created: '?',
-                        updated: '?',
-                        ownerName: '?',
-                        thumbnailUrl: '',
-                        gameUrl: '#'
-                    });
-                }
-            }
-            
-            renderGames(enrichedGames);
-            buildTagFilters(enrichedGames);
-            
-        } catch (err) {
-            console.error('Failed to load games.json:', err);
-            grid.innerHTML = '<div class="error">⚠️ failed to load games.json</div>';
-        }
+        // Test one API call directly
+        const testUniverseId = "6249819283";
+        const testUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${testUniverseId}&size=512x512&format=Png`;
+        console.log('4. Testing API:', testUrl);
+        const testRes = await fetch(testUrl);
+        console.log('5. API status:', testRes.status);
+        const testData = await testRes.json();
+        console.log('6. API response:', testData);
+        
+    } catch (err) {
+        console.error('Debug error:', err);
+        grid.innerHTML = `<div class="error">⚠️ ${err.message}</div>`;
     }
+}
 
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
