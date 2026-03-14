@@ -38,6 +38,8 @@
             background: #2c3e50;
             padding: 4px 10px;
             border-radius: 4px;
+            cursor: help;
+            border-bottom: 1px dotted #8aa0b0;
         }
         .topbar .nav a {
             color: #e8f0fe;
@@ -215,6 +217,30 @@
             color: #5f9ea0;
             border-bottom: 1px solid #5f9ea0;
         }
+        /* custom tooltip */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a2b3c;
+            color: #e8f0fe;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            z-index: 10;
+            margin-bottom: 5px;
+        }
+        [data-tooltip]:hover:before {
+            display: block;
+        }
         .maintainer-note {
             margin-top: 10px;
             padding: 8px 12px;
@@ -309,7 +335,7 @@
 <div class="container">
 
     <div class="topbar">
-        <span class="updated">📅 last updated: <span id="last-updated">loading...</span></span>
+        <span class="updated" id="last-updated-container">📅 last updated: <span id="last-updated">loading...</span></span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
@@ -330,9 +356,12 @@
 <script>
     let allGames = [];
     let activeFilter = null;
+    let siteLastUpdated = "";
 
     // ==================== RELATIVE TIME HELPER ====================
     function getRelativeTime(dateString) {
+        if (!dateString) return "unknown";
+        
         const updated = new Date(dateString);
         const now = new Date();
         const diffMs = now - updated;
@@ -355,7 +384,12 @@
     fetch('games.json')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('last-updated').innerText = data.lastUpdated;
+            siteLastUpdated = data.lastUpdated;
+            // Show both relative and absolute in top bar
+            const relativeTime = getRelativeTime(siteLastUpdated);
+            document.getElementById('last-updated').innerText = relativeTime;
+            document.getElementById('last-updated-container').setAttribute('data-tooltip', `absolute: ${siteLastUpdated}`);
+            
             allGames = data.games;
             renderGames(allGames);
             buildTagFilters(allGames);
@@ -457,8 +491,8 @@
                     ${tagsHtml}
                     <div class="game-stats">
                         <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.players}</span></span>
-                        <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
-                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value" title="${game.lastUpdate}">${getRelativeTime(game.lastUpdate)}</span></span>
+                        <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="absolute: ${game.created}">${getRelativeTime(game.created)}</span></span>
+                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value" data-tooltip="absolute: ${game.lastUpdate}">${getRelativeTime(game.lastUpdate)}</span></span>
                         <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                     </div>
                     <div class="maintainer-note">
@@ -479,7 +513,7 @@
                                 <div class="subgame-title"><a href="${sub.url}">${sub.name}</a></div>
                                 <div class="subgame-stats">
                                     <span><span class="stat-label">players:</span> ${sub.players}</span>
-                                    <span title="${sub.lastUpdate}"><span class="stat-label">updated:</span> ${getRelativeTime(sub.lastUpdate)}</span>
+                                    <span data-tooltip="absolute: ${sub.lastUpdate}"><span class="stat-label">updated:</span> ${getRelativeTime(sub.lastUpdate)}</span>
                                     <span><span class="stat-label">owner:</span> <a href="${sub.ownerUrl}" style="color:#1a2b3c;">${sub.ownerName}</a></span>
                                 </div>
                             </div>
