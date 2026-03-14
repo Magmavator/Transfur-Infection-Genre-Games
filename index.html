@@ -308,7 +308,7 @@
     }
 
     // ==================== FETCH WITH PROXY AND TIMEOUT ====================
-    async function fetchWithProxy(url, timeoutMs = 5000) {
+    async function fetchWithProxy(url, timeoutMs = 8000) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), timeoutMs);
         
@@ -336,14 +336,12 @@
         const grid = document.getElementById('game-grid');
         
         try {
-            // Load JSON first
             const response = await fetch('games.json');
             const customData = await response.json();
             
             const enrichedGames = [];
-            let completedCount = 0;
             
-            // Process each game in parallel, but render as they complete
+            // Process each game in parallel
             const promises = customData.games.map(async (game, index) => {
                 try {
                     const placeId = extractPlaceId(game.placeId || game.url);
@@ -358,12 +356,10 @@
                     const detailsData = await fetchWithProxy(detailsUrl);
                     const details = detailsData.data[0];
                     
-                    // Fetch icon
+                    // Get icon URL directly (this URL works without CORS)
                     const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`;
-                    const iconData = await fetchWithProxy(iconUrl);
-                    const icon = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
                     
-                    const enrichedGame = {
+                    enrichedGames[index] = {
                         ...game,
                         universeId,
                         placeId,
@@ -375,17 +371,9 @@
                         ownerUrl: details.creator.type === 'Group' 
                             ? `https://www.roblox.com/groups/${details.creator.id}`
                             : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                        thumbnailUrl: icon,
+                        thumbnailUrl: iconUrl, // Store the API endpoint, we'll fetch it directly in render
                         gameUrl: `https://www.roblox.com/games/${placeId}`
                     };
-                    
-                    enrichedGames[index] = enrichedGame;
-                    completedCount++;
-                    
-                    // Render progressively every time a game loads
-                    grid.innerHTML = '';
-                    renderGames(enrichedGames.filter(g => g)); // Filter out undefined
-                    buildTagFilters(enrichedGames.filter(g => g));
                     
                 } catch (err) {
                     console.error(`Failed to load game ${index}:`, err);
@@ -399,11 +387,14 @@
                         thumbnailUrl: '',
                         gameUrl: '#'
                     };
-                    completedCount++;
                 }
+                
+                // Render progressively
+                grid.innerHTML = '';
+                renderGames(enrichedGames.filter(g => g));
+                buildTagFilters(enrichedGames.filter(g => g));
             });
             
-            // Wait for all to complete (but we already rendered progressively)
             await Promise.allSettled(promises);
             
         } catch (err) {
@@ -412,8 +403,18 @@
         }
     }
 
+    // ==================== FETCH ACTUAL IMAGE URL ====================
+    async function fetchImageUrl(iconApiUrl) {
+        try {
+            const data = await fetchWithProxy(iconApiUrl);
+            return data.data?.[0]?.thumbnails?.[0]?.imageUrl || 'https://via.placeholder.com/120x120?text=no+image';
+        } catch {
+            return 'https://via.placeholder.com/120x120?text=no+image';
+        }
+    }
+
     // ==================== RENDER GAMES ====================
-    function renderGames(games) {
+    async function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
             grid.innerHTML = '<div class="loading">loading games...</div>';
@@ -421,11 +422,17 @@
         }
         
         let html = '';
-        games.forEach((game, index) => {
+        for (const [index, game] of games.entries()) {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
             const createdDate = game.created !== '?' ? new Date(game.created).toLocaleDateString() : '?';
             const updatedDate = game.updated !== '?' ? new Date(game.updated).toLocaleDateString() : '?';
+            
+            // Fetch the actual image URL
+            let imageUrl = 'https://via.placeholder.com/120x120?text=loading';
+            if (game.thumbnailUrl) {
+                imageUrl = await fetchImageUrl(game.thumbnailUrl);
+            }
             
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
@@ -440,7 +447,7 @@
             html += `
                 <div class="game-card">
                     <div class="game-thumb">
-                        <img src="${game.thumbnailUrl || 'https://via.placeholder.com/120x120?text=no+image'}" alt="${game.name}">
+                        <img src="${imageUrl}" alt="${game.name}">
                     </div>
                     <div class="game-info">
                         <div class="game-title">
@@ -479,7 +486,7 @@
             }
             
             html += `</div></div></div>`;
-        });
+        }
         
         grid.innerHTML = html;
     }
