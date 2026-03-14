@@ -50,7 +50,6 @@
             color: #5f9ea0;
         }
         
-        /* filter bar */
         .filter-bar {
             background: white;
             border-radius: 8px;
@@ -146,7 +145,6 @@
             color: #5f9ea0;
         }
         
-        /* tags */
         .game-tags {
             display: flex;
             flex-wrap: wrap;
@@ -205,6 +203,8 @@
         .stat-value {
             font-weight: 600;
             color: #1a2b3c;
+            cursor: help;
+            border-bottom: 1px dotted #9aa9b7;
         }
         .stat-value a {
             color: #1a2b3c;
@@ -279,6 +279,10 @@
             gap: 12px 20px;
             font-size: 12px;
         }
+        .subgame-stats span {
+            cursor: help;
+            border-bottom: 1px dotted #9aa9b7;
+        }
         @media (max-width: 600px) {
             .game-card {
                 flex-direction: column;
@@ -313,7 +317,6 @@
         </div>
     </div>
 
-    <!-- FILTER BAR -->
     <div class="filter-bar">
         <span class="filter-label">filter by tag:</span>
         <div class="tag-filters" id="tag-filters"></div>
@@ -327,6 +330,26 @@
 <script>
     let allGames = [];
     let activeFilter = null;
+
+    // ==================== RELATIVE TIME HELPER ====================
+    function getRelativeTime(dateString) {
+        const updated = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - updated;
+        const diffSec = Math.floor(diffMs / 1000);
+        const diffMin = Math.floor(diffSec / 60);
+        const diffHour = Math.floor(diffMin / 60);
+        const diffDay = Math.floor(diffHour / 24);
+        const diffMonth = Math.floor(diffDay / 30);
+        const diffYear = Math.floor(diffMonth / 12);
+
+        if (diffSec < 60) return 'just now';
+        if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+        if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
+        if (diffDay < 30) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+        if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
+        return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
+    }
 
     // ==================== LOAD JSON ====================
     fetch('games.json')
@@ -362,7 +385,6 @@
             filterContainer.appendChild(btn);
         });
         
-        // highlight active filter if any
         if (activeFilter) {
             document.querySelectorAll('.tag-filter-btn').forEach(btn => {
                 if (btn.textContent === activeFilter) {
@@ -375,17 +397,14 @@
     // ==================== FILTER FUNCTION ====================
     function filterByTag(tag) {
         if (activeFilter === tag) {
-            // toggle off
             activeFilter = null;
             renderGames(allGames);
         } else {
-            // toggle on
             activeFilter = tag;
             const filtered = allGames.filter(game => game.tags && game.tags.includes(tag));
             renderGames(filtered);
         }
         
-        // update button states
         document.querySelectorAll('.tag-filter-btn').forEach(btn => {
             if (btn.textContent === activeFilter) {
                 btn.classList.add('active');
@@ -416,7 +435,6 @@
             const gameCard = document.createElement('div');
             gameCard.className = 'game-card';
 
-            // build tags HTML
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
@@ -427,7 +445,6 @@
                 tagsHtml += '</div>';
             }
 
-            // main game HTML
             let html = `
                 <div class="game-thumb">
                     <img src="${thumbUrl}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/120x120?text=no+image'">
@@ -441,7 +458,7 @@
                     <div class="game-stats">
                         <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.players}</span></span>
                         <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
-                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value">${game.lastUpdate}</span></span>
+                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value" title="${game.lastUpdate}">${getRelativeTime(game.lastUpdate)}</span></span>
                         <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                     </div>
                     <div class="maintainer-note">
@@ -450,7 +467,6 @@
                     <div id="subgames-${index}" class="subgames">
             `;
 
-            // add subgames if any
             if (hasSubgames) {
                 game.subgames.forEach(sub => {
                     const subThumb = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${sub.universeId}&size=768x432&format=Png`;
@@ -463,7 +479,7 @@
                                 <div class="subgame-title"><a href="${sub.url}">${sub.name}</a></div>
                                 <div class="subgame-stats">
                                     <span><span class="stat-label">players:</span> ${sub.players}</span>
-                                    <span><span class="stat-label">updated:</span> ${sub.lastUpdate}</span>
+                                    <span title="${sub.lastUpdate}"><span class="stat-label">updated:</span> ${getRelativeTime(sub.lastUpdate)}</span>
                                     <span><span class="stat-label">owner:</span> <a href="${sub.ownerUrl}" style="color:#1a2b3c;">${sub.ownerName}</a></span>
                                 </div>
                             </div>
@@ -497,5 +513,4 @@
 </script>
 
 </body>
-    test
 </html>
