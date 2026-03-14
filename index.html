@@ -21,7 +21,6 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        /* top bar - sharper */
         .topbar {
             background: #1a2b3c;
             color: #e8f0fe;
@@ -50,7 +49,56 @@
         .topbar .nav a:hover {
             color: #5f9ea0;
         }
-        /* game grid - more compact */
+        
+        /* filter bar */
+        .filter-bar {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px solid #cbd5e0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+        .filter-label {
+            font-weight: 600;
+            color: #1a2b3c;
+        }
+        .tag-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            flex: 1;
+        }
+        .tag-filter-btn {
+            background: none;
+            border: 1px solid #cbd5e0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #1a2b3c;
+        }
+        .tag-filter-btn:hover {
+            background: #e8f0fe;
+            border-color: #5f9ea0;
+        }
+        .tag-filter-btn.active {
+            background: #5f9ea0;
+            border-color: #5f9ea0;
+            color: white;
+        }
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #5f9ea0;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
         .game-grid {
             display: flex;
             flex-direction: column;
@@ -97,6 +145,29 @@
         .game-title a:hover {
             color: #5f9ea0;
         }
+        
+        /* tags */
+        .game-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        .tag {
+            background: #e8f0fe;
+            color: #1a2b3c;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #cbd5e0;
+        }
+        .tag.og {
+            background: #ffd700;
+            color: #1a2b3c;
+            border-color: #daa520;
+        }
+        
         .expand-btn {
             background: none;
             border: 1px solid #5f9ea0;
@@ -111,7 +182,6 @@
             background: #5f9ea0;
             color: white;
         }
-        /* stats row - compact grid */
         .game-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -158,7 +228,6 @@
             color: #1a2b3c;
             font-weight: 600;
         }
-        /* subgames section - collapsible */
         .subgames {
             margin-top: 12px;
             padding-top: 12px;
@@ -244,89 +313,176 @@
         </div>
     </div>
 
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <span class="filter-label">filter by tag:</span>
+        <div class="tag-filters" id="tag-filters"></div>
+        <button class="clear-btn" id="clear-filters">clear</button>
+    </div>
+
     <div id="game-grid" class="game-grid"></div>
 
 </div>
 
 <script>
+    let allGames = [];
+    let activeFilter = null;
+
     // ==================== LOAD JSON ====================
     fetch('games.json')
         .then(response => response.json())
         .then(data => {
-            // update last updated
             document.getElementById('last-updated').innerText = data.lastUpdated;
-
-            // render games
-            const grid = document.getElementById('game-grid');
-            
-            data.games.forEach((game, index) => {
-                const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${game.universeId}&size=768x432&format=Png`;
-                const hasSubgames = game.subgames && game.subgames.length > 0;
-
-                const gameCard = document.createElement('div');
-                gameCard.className = 'game-card';
-
-                // main game HTML
-                let html = `
-                    <div class="game-thumb">
-                        <img src="${thumbUrl}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/120x120?text=no+image'">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-title">
-                            <a href="${game.url}">${game.name}</a>
-                            ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
-                        </div>
-                        <div class="game-stats">
-                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.players}</span></span>
-                            <span class="stat-item"><span class="stat-label">quality:</span> <span class="stat-value">${game.quality}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
-                            <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value">${game.lastUpdate}</span></span>
-                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
-                        </div>
-                        <div class="maintainer-note">
-                            <strong>✎ note:</strong> ${game.maintainerNote}
-                        </div>
-                        <div id="subgames-${index}" class="subgames">
-                `;
-
-                // add subgames if any
-                if (hasSubgames) {
-                    game.subgames.forEach(sub => {
-                        const subThumb = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${sub.universeId}&size=768x432&format=Png`;
-                        html += `
-                            <div class="subgame-card">
-                                <div class="subgame-thumb">
-                                    <img src="${subThumb}" alt="${sub.name}" onerror="this.src='https://via.placeholder.com/80x80?text=sub'">
-                                </div>
-                                <div class="subgame-info">
-                                    <div class="subgame-title"><a href="${sub.url}">${sub.name}</a></div>
-                                    <div class="subgame-stats">
-                                        <span><span class="stat-label">players:</span> ${sub.players}</span>
-                                        <span><span class="stat-label">quality:</span> ${sub.quality}</span>
-                                        <span><span class="stat-label">updated:</span> ${sub.lastUpdate}</span>
-                                        <span><span class="stat-label">owner:</span> <a href="${sub.ownerUrl}" style="color:#1a2b3c;">${sub.ownerName}</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-
-                html += `
-                        </div>
-                    </div>
-                `;
-
-                gameCard.innerHTML = html;
-                grid.appendChild(gameCard);
-            });
+            allGames = data.games;
+            renderGames(allGames);
+            buildTagFilters(allGames);
         })
         .catch(error => {
             console.error('Failed to load games:', error);
             document.getElementById('game-grid').innerHTML = '<p style="padding: 40px; text-align: center;">⚠️ failed to load games — check console</p>';
         });
 
-    // toggle function for subgames
+    // ==================== BUILD TAG FILTERS ====================
+    function buildTagFilters(games) {
+        const tagSet = new Set();
+        games.forEach(game => {
+            if (game.tags) {
+                game.tags.forEach(tag => tagSet.add(tag));
+            }
+        });
+        
+        const sortedTags = Array.from(tagSet).sort();
+        const filterContainer = document.getElementById('tag-filters');
+        
+        sortedTags.forEach(tag => {
+            const btn = document.createElement('button');
+            btn.className = 'tag-filter-btn';
+            btn.textContent = tag;
+            btn.onclick = () => filterByTag(tag);
+            filterContainer.appendChild(btn);
+        });
+        
+        // highlight active filter if any
+        if (activeFilter) {
+            document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+                if (btn.textContent === activeFilter) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    }
+
+    // ==================== FILTER FUNCTION ====================
+    function filterByTag(tag) {
+        if (activeFilter === tag) {
+            // toggle off
+            activeFilter = null;
+            renderGames(allGames);
+        } else {
+            // toggle on
+            activeFilter = tag;
+            const filtered = allGames.filter(game => game.tags && game.tags.includes(tag));
+            renderGames(filtered);
+        }
+        
+        // update button states
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+            if (btn.textContent === activeFilter) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    // ==================== CLEAR FILTERS ====================
+    document.getElementById('clear-filters').onclick = function() {
+        activeFilter = null;
+        renderGames(allGames);
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+    };
+
+    // ==================== RENDER GAMES ====================
+    function renderGames(games) {
+        const grid = document.getElementById('game-grid');
+        grid.innerHTML = '';
+
+        games.forEach((game, index) => {
+            const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${game.universeId}&size=768x432&format=Png`;
+            const hasSubgames = game.subgames && game.subgames.length > 0;
+
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+
+            // build tags HTML
+            let tagsHtml = '';
+            if (game.tags && game.tags.length > 0) {
+                tagsHtml = '<div class="game-tags">';
+                game.tags.forEach(tag => {
+                    const tagClass = tag === 'OG' ? 'tag og' : 'tag';
+                    tagsHtml += `<span class="${tagClass}">${tag}</span>`;
+                });
+                tagsHtml += '</div>';
+            }
+
+            // main game HTML
+            let html = `
+                <div class="game-thumb">
+                    <img src="${thumbUrl}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/120x120?text=no+image'">
+                </div>
+                <div class="game-info">
+                    <div class="game-title">
+                        <a href="${game.url}">${game.name}</a>
+                        ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
+                    </div>
+                    ${tagsHtml}
+                    <div class="game-stats">
+                        <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.players}</span></span>
+                        <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
+                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value">${game.lastUpdate}</span></span>
+                        <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+                    </div>
+                    <div class="maintainer-note">
+                        <strong>✎ note:</strong> ${game.maintainerNote}
+                    </div>
+                    <div id="subgames-${index}" class="subgames">
+            `;
+
+            // add subgames if any
+            if (hasSubgames) {
+                game.subgames.forEach(sub => {
+                    const subThumb = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${sub.universeId}&size=768x432&format=Png`;
+                    html += `
+                        <div class="subgame-card">
+                            <div class="subgame-thumb">
+                                <img src="${subThumb}" alt="${sub.name}" onerror="this.src='https://via.placeholder.com/80x80?text=sub'">
+                            </div>
+                            <div class="subgame-info">
+                                <div class="subgame-title"><a href="${sub.url}">${sub.name}</a></div>
+                                <div class="subgame-stats">
+                                    <span><span class="stat-label">players:</span> ${sub.players}</span>
+                                    <span><span class="stat-label">updated:</span> ${sub.lastUpdate}</span>
+                                    <span><span class="stat-label">owner:</span> <a href="${sub.ownerUrl}" style="color:#1a2b3c;">${sub.ownerName}</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            gameCard.innerHTML = html;
+            grid.appendChild(gameCard);
+        });
+    }
+
+    // ==================== TOGGLE SUBGAMES ====================
     window.toggleSubgames = function(index) {
         const subgamesDiv = document.getElementById(`subgames-${index}`);
         const btn = event.target;
