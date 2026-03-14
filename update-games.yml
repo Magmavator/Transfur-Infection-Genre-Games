@@ -1,0 +1,94 @@
+name: Update Game Data
+
+on:
+  schedule:
+    # Runs every day at 6 AM UTC
+    - cron: '0 6 * * *'
+  # Also lets you run it manually
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Create game data script
+        run: |
+          cat > fetch-games.js << 'EOF'
+          const fs = require('fs');
+          
+          // Your game list — edit this!
+          const GAMES = [
+            { placeId: "18440199762", tags: ["OG", "tactical"], note: "No nametags FPS" },
+            { placeId: "114145425550635", tags: ["polished", "vehicles"], note: "Deformation derby" }
+          ];
+          
+          async function fetchGameData() {
+            const games = [];
+            
+            for (const game of GAMES) {
+              try {
+                // 1. Get universeId from placeId
+                const universeRes = await fetch(`https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`);
+                const universeData = await universeRes.json();
+                const universeId = universeData.universeId;
+                
+                // 2. Get game details
+                const detailsRes = await fetch(`https://games.roblox.com/v1/games?universeIds=${universeId}`);
+                const detailsData = await detailsRes.json();
+                const details = detailsData.data[0];
+                
+                // 3. Get icon URL
+                const iconRes = await fetch(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`);
+                const iconData = await iconRes.json();
+                const iconUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
+                
+                games.push({
+                  ...game,
+                  universeId,
+                  name: details.name,
+                  playerCount: details.playing,
+                  created: details.created,
+                  updated: details.updated,
+                  ownerName: details.creator.name,
+                  ownerUrl: details.creator.type === 'Group' 
+                    ? `https://www.roblox.com/groups/${details.creator.id}`
+                    : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                  thumbnailUrl: iconUrl,
+                  gameUrl: `https://www.roblox.com/games/${game.placeId}`
+                });
+                
+                console.log(`✅ Fetched: ${details.name}`);
+              } catch (err) {
+                console.error(`❌ Failed: ${game.placeId}`, err.message);
+              }
+            }
+            
+            // Save to file
+            fs.writeFileSync('games-data.json', JSON.stringify({ 
+              lastUpdated: new Date().toISOString().split('T')[0],
+              games 
+            }, null, 2));
+            console.log('✅ Saved to games-data.json');
+          }
+          
+          fetchGameData();
+          EOF
+      
+      - name: Run fetch script
+        run: node fetch-games.js
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add games-data.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update game data"
+          git push
