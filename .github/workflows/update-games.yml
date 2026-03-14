@@ -8,18 +8,19 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          # REMOVED the cache line - you don't need it
+          node-version: '20'  # Upgraded from 18 to 20 for better compatibility
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Create game data script
         run: |
@@ -105,9 +106,13 @@ jobs:
           
           fetchGameData();
           EOF
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Run fetch script
         run: node fetch-games.js
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       
       - name: Commit and push changes
         run: |
@@ -116,3 +121,5 @@ jobs:
           git add games-data.json
           git diff --quiet && git diff --staged --quiet || git commit -m "Update game data [skip ci]"
           git push
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
