@@ -12,17 +12,14 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
-      # Use the latest version of checkout (v4 is fine, it supports Node 24)
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      # Update to the latest setup-node version
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          # Optional: cache npm dependencies
-          cache: 'npm'
+          # REMOVED the cache line - you don't need it
       
       - name: Create game data script
         run: |
