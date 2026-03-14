@@ -126,6 +126,10 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .game-title a {
             color: #1a2b3c;
@@ -165,7 +169,6 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: 500;
-            margin-left: 10px;
         }
         .expand-btn:hover {
             background: #5f9ea0;
@@ -272,16 +275,22 @@
             padding: 40px;
         }
         .error { color: #c00; }
+        .last-updated {
+            font-size: 12px;
+            color: #8aa0b0;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
 
     <div class="topbar">
-        <span>📅 COMINA GAME LIST</span>
+        <span>📅 COMINA GAME LIST <span id="last-updated" class="last-updated"></span></span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
+            <a href="https://github.com/Magmavator/Transfur-Infection-Genre-Games">github</a>
         </div>
     </div>
 
@@ -296,113 +305,27 @@
 </div>
 
 <script>
-    // ==================== CORS PROXY ====================
-    // Using corsproxy.io which is more reliable
-    const PROXY = 'https://corsproxy.io/?';
-
-    // ==================== HELPER: EXTRACT PLACE ID FROM URL ====================
-    function extractPlaceId(input) {
-        if (!input) return null;
-        if (/^\d+$/.test(input)) return input;
-        const match = input.match(/games\/(\d+)/);
-        return match ? match[1] : null;
-    }
-
-    // ==================== FETCH WITH PROXY AND TIMEOUT ====================
-    async function fetchWithProxy(url, timeoutMs = 10000) {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), timeoutMs);
-        
-        try {
-            const response = await fetch(PROXY + encodeURIComponent(url), {
-                signal: controller.signal
-            });
-            clearTimeout(timeout);
-            const text = await response.text();
-            return JSON.parse(text);
-        } catch (err) {
-            clearTimeout(timeout);
-            throw err;
-        }
-    }
-
-    // ==================== GET UNIVERSE ID FROM PLACE ID ====================
-    async function getUniverseId(placeId) {
-        const url = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
-        return await fetchWithProxy(url);
-    }
-
-    // ==================== LOAD ALL GAME DATA ====================
+    // ==================== LOAD STATIC GAME DATA ====================
+    // No proxies! No CORS! Just a simple JSON file updated daily by GitHub Actions
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
         try {
-            const response = await fetch('games.json');
-            const customData = await response.json();
+            const response = await fetch('games-data.json');
+            const data = await response.json();
             
-            const enrichedGames = [];
+            // Update last updated display
+            if (data.lastUpdated) {
+                document.getElementById('last-updated').textContent = `(updated ${data.lastUpdated})`;
+            }
             
-            // Process each game in parallel
-            const promises = customData.games.map(async (game, index) => {
-                try {
-                    const placeId = extractPlaceId(game.placeId || game.url);
-                    if (!placeId) throw new Error('Invalid place ID or URL');
-                    
-                    // Get universeId
-                    const universeData = await getUniverseId(placeId);
-                    const universeId = universeData.universeId;
-                    
-                    // Fetch game details
-                    const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-                    const detailsData = await fetchWithProxy(detailsUrl);
-                    const details = detailsData.data[0];
-                    
-                    // Fetch actual image URL
-                    const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`;
-                    const iconData = await fetchWithProxy(iconUrl);
-                    const imageUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || 'https://placehold.co/120x120/5f9ea0/white?text=No+Image';
-                    
-                    enrichedGames[index] = {
-                        ...game,
-                        universeId,
-                        placeId,
-                        name: details.name,
-                        playerCount: details.playing,
-                        created: new Date(details.created).toLocaleDateString(),
-                        updated: new Date(details.updated).toLocaleDateString(),
-                        ownerName: details.creator.name,
-                        ownerUrl: details.creator.type === 'Group' 
-                            ? `https://www.roblox.com/groups/${details.creator.id}`
-                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                        imageUrl: imageUrl,
-                        gameUrl: `https://www.roblox.com/games/${placeId}`
-                    };
-                    
-                } catch (err) {
-                    console.error(`Failed to load game ${index}:`, err);
-                    enrichedGames[index] = {
-                        ...game,
-                        name: 'Failed to load',
-                        playerCount: '?',
-                        created: '?',
-                        updated: '?',
-                        ownerName: '?',
-                        imageUrl: 'https://placehold.co/120x120/c00/white?text=Error',
-                        gameUrl: '#'
-                    };
-                }
-                
-                // Render progressively
-                const validGames = enrichedGames.filter(g => g);
-                renderGames(validGames);
-                buildTagFilters(validGames);
-            });
-            
-            await Promise.allSettled(promises);
+            const games = data.games || [];
+            renderGames(games);
+            buildTagFilters(games);
             
         } catch (err) {
-            console.error('Failed to load games.json:', err);
-            grid.innerHTML = '<div class="error">⚠️ failed to load games.json</div>';
+            console.error('Failed to load games:', err);
+            grid.innerHTML = '<div class="error">⚠️ failed to load games — try refreshing</div>';
         }
     }
 
@@ -410,7 +333,7 @@
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
-            grid.innerHTML = '<div class="loading">loading games...</div>';
+            grid.innerHTML = '<div class="loading">no games found</div>';
             return;
         }
         
@@ -418,6 +341,11 @@
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
+            // Format dates
+            const createdDate = game.created ? new Date(game.created).toLocaleDateString() : '?';
+            const updatedDate = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
+            
+            // Build tags HTML
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
@@ -431,7 +359,7 @@
             html += `
                 <div class="game-card">
                     <div class="game-thumb">
-                        <img src="${game.imageUrl || 'https://placehold.co/120x120/666/white?text=No+Image'}" alt="${game.name}">
+                        <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" alt="${game.name}">
                     </div>
                     <div class="game-info">
                         <div class="game-title">
@@ -440,13 +368,13 @@
                         </div>
                         ${tagsHtml}
                         <div class="game-stats">
-                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${game.updated}</span></span>
-                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount ?? '?'}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${createdDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${updatedDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl || '#'}">${game.ownerName || '?'}</a></span></span>
                         </div>
                         <div class="maintainer-note">
-                            <strong>✎ note:</strong> ${game.maintainerNote || 'No notes'}
+                            <strong>✎ note:</strong> ${game.maintainerNote || game.note || 'No notes'}
                         </div>
                         <div id="subgames-${index}" class="subgames">
             `;
@@ -456,10 +384,10 @@
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="https://placehold.co/80x80/4a5b6b/white?text=Sub" alt="subgame">
+                                <img src="${sub.thumbnailUrl || 'https://placehold.co/80x80/5f9ea0/white?text=Sub'}" alt="subgame">
                             </div>
                             <div class="subgame-info">
-                                <div class="subgame-title">${sub.name || 'Test Place'}</div>
+                                <div class="subgame-title"><a href="${sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a></div>
                                 <div class="subgame-stats">
                                     <span>${sub.note || ''}</span>
                                 </div>
