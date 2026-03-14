@@ -11,8 +11,113 @@
       "ownerName": "@Magmavator",
       "ownerUrl": "https://www.roblox.com/users/184720852/profile",
       "maintainerNote": "real deformation physics, active dev, community growing.",
-      "tags": ["polished", "OG", "active"],
-      "subgames": [...]
+      "tags": ["polished", "OG", "active", "vehicle", "multiplayer"],
+      "subgames": [
+        {
+          "name": "Tungsten Garages · Test Place",
+          "url": "https://www.roblox.com/games/114145425550636/test",
+          "universeId": "114145425550636",
+          "players": "test (0–5)",
+          "lastUpdate": "2026-02",
+          "ownerName": "@Magmavator",
+          "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+          "tags": ["experimental", "test"]
+        },
+        {
+          "name": "Tungsten Garages · Beta Branch",
+          "url": "https://www.roblox.com/games/114145425550637/beta",
+          "universeId": "114145425550637",
+          "players": "beta (2–8)",
+          "lastUpdate": "2026-03",
+          "ownerName": "@Magmavator",
+          "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+          "tags": ["beta", "unstable"]
+        }
+      ]
+    },
+    {
+      "name": "KEPLER 1410 B",
+      "url": "https://www.roblox.com/games/18440199762/KEPLER-1410-B",
+      "universeId": "18440199762",
+      "players": "low (5–20)",
+      "created": "2024-07",
+      "lastUpdate": "2025-12",
+      "ownerName": "@Magmavator",
+      "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+      "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players.",
+      "tags": ["unique", "rough", "FPS", "hardcore", "tactical"],
+      "subgames": [
+        {
+          "name": "KEPLER · CTF Event",
+          "url": "https://www.roblox.com/games/18440199763/ctf",
+          "universeId": "18440199763",
+          "players": "event (0–12)",
+          "lastUpdate": "2026-01",
+          "ownerName": "@Magmavator",
+          "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+          "tags": ["event", "limited"]
+        }
+      ]
+    },
+    {
+      "name": "NEON DRIFT LEGACY",
+      "url": "https://www.roblox.com/games/2233445566/neon-drift",
+      "universeId": "2233445566",
+      "players": "dead (0–3)",
+      "created": "2022-03",
+      "lastUpdate": "2023-08",
+      "ownerName": "@AbandonedDev",
+      "ownerUrl": "https://www.roblox.com/users/987654321/profile",
+      "maintainerNote": "dead game but servers still up. classic 2022 vibes.",
+      "tags": ["dead", "racing", "OG", "classic", "abandoned"],
+      "subgames": []
+    },
+    {
+      "name": "PRISON BREAK ELITE",
+      "url": "https://www.roblox.com/games/9988776655/prison-break",
+      "universeId": "9988776655",
+      "players": "thriving (200–400)",
+      "created": "2023-11",
+      "lastUpdate": "2026-03",
+      "ownerName": "@PrisonTeam",
+      "ownerUrl": "https://www.roblox.com/users/555666777/profile",
+      "maintainerNote": "constant updates, huge community, active staff.",
+      "tags": ["polished", "active", "popular", "roleplay", "OG"],
+      "subgames": [
+        {
+          "name": "PRISON BREAK · TEST SERVERS",
+          "url": "https://www.roblox.com/games/9988776656/prison-test",
+          "universeId": "9988776656",
+          "players": "test (0–10)",
+          "lastUpdate": "2026-03",
+          "ownerName": "@PrisonTeam",
+          "ownerUrl": "https://www.roblox.com/users/555666777/profile",
+          "tags": ["test", "beta"]
+        },
+        {
+          "name": "PRISON BREAK · CLASSIC 2023",
+          "url": "https://www.roblox.com/games/9988776654/prison-classic",
+          "universeId": "9988776654",
+          "players": "low (5–15)",
+          "lastUpdate": "2024-01",
+          "ownerName": "@PrisonTeam",
+          "ownerUrl": "https://www.roblox.com/users/555666777/profile",
+          "tags": ["classic", "archive"]
+        }
+      ]
+    },
+    {
+      "name": "BUBBLE BATTLE ARENA",
+      "url": "https://www.roblox.com/games/1122334455/bubble-arena",
+      "universeId": "1122334455",
+      "players": "unknown (???)",
+      "created": "2025-09",
+      "lastUpdate": "2025-09",
+      "ownerName": "@NewDev",
+      "ownerUrl": "https://www.roblox.com/users/111222333/profile",
+      "maintainerNote": "brand new, no players yet. looks promising though.",
+      "tags": ["new", "unplayed", "casual", "colorful"],
+      "subgames": []
     }
   ]
 }
