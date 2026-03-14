@@ -11,9 +11,11 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 👈 ADD THIS LINE
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Updated to v4
+        uses: actions/checkout@v4
       
       - name: Setup Node.js
         uses: actions/setup-node@v4  # Updated to v4
