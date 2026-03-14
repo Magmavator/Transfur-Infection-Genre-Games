@@ -267,16 +267,11 @@
             gap: 12px 20px;
             font-size: 12px;
         }
-        .loading {
+        .loading, .error {
             text-align: center;
             padding: 40px;
-            color: #666;
         }
-        .error {
-            text-align: center;
-            padding: 40px;
-            color: #c00;
-        }
+        .error { color: #c00; }
     </style>
 </head>
 <body>
@@ -301,34 +296,62 @@
 </div>
 
 <script>
-    // ==================== LOAD CUSTOM DATA FROM JSON ====================
+    // ==================== HELPER: EXTRACT PLACE ID FROM URL ====================
+    function extractPlaceId(input) {
+        if (!input) return null;
+        // If it's already just numbers, return it
+        if (/^\d+$/.test(input)) return input;
+        
+        // Try to extract from URL
+        const match = input.match(/games\/(\d+)/);
+        return match ? match[1] : null;
+    }
+
+    // ==================== GET UNIVERSE ID FROM PLACE ID ====================
+    async function getUniverseId(placeId) {
+        const url = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data.universeId;
+    }
+
+    // ==================== LOAD ALL GAME DATA ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
         try {
-            // Fetch your custom data (tags, notes, universeIds)
+            // 1. Load your JSON with just placeIds/URLs
             const response = await fetch('games.json');
             const customData = await response.json();
             
             const enrichedGames = [];
             
-            // For each game, fetch live data from Roblox API
+            // 2. Process each game
             for (const game of customData.games) {
                 try {
-                    // 1. Fetch game details (player count, dates, name, owner)
-                    const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${game.universeId}`;
+                    // Get placeId from either direct ID or URL
+                    const placeId = extractPlaceId(game.placeId || game.url);
+                    if (!placeId) throw new Error('Invalid place ID or URL');
+                    
+                    // Convert placeId to universeId
+                    const universeId = await getUniverseId(placeId);
+                    
+                    // Fetch game details using universeId
+                    const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
                     const detailsRes = await fetch(detailsUrl);
                     const detailsData = await detailsRes.json();
                     const details = detailsData.data[0];
                     
-                    // 2. Fetch game icon
-                    const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${game.universeId}&size=512x512&format=Png`;
+                    // Fetch game icon
+                    const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`;
                     const iconRes = await fetch(iconUrl);
                     const iconData = await iconRes.json();
                     const icon = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
                     
                     enrichedGames.push({
                         ...game,
+                        universeId,
+                        placeId,
                         name: details.name,
                         playerCount: details.playing,
                         created: details.created,
@@ -338,12 +361,11 @@
                             ? `https://www.roblox.com/groups/${details.creator.id}`
                             : `https://www.roblox.com/users/${details.creator.id}/profile`,
                         thumbnailUrl: icon,
-                        rootPlaceId: details.rootPlaceId,
-                        gameUrl: `https://www.roblox.com/games/${details.rootPlaceId}`
+                        gameUrl: `https://www.roblox.com/games/${placeId}`
                     });
+                    
                 } catch (err) {
-                    console.error('Failed to fetch Roblox data for:', game.universeId, err);
-                    // Still show the game with error state
+                    console.error('Failed to process game:', game, err);
                     enrichedGames.push({
                         ...game,
                         name: 'Failed to load',
@@ -351,7 +373,6 @@
                         created: '?',
                         updated: '?',
                         ownerName: '?',
-                        ownerUrl: '#',
                         thumbnailUrl: '',
                         gameUrl: '#'
                     });
@@ -363,7 +384,7 @@
             
         } catch (err) {
             console.error('Failed to load games.json:', err);
-            grid.innerHTML = '<div class="error">⚠️ failed to load games.json — check console</div>';
+            grid.innerHTML = '<div class="error">⚠️ failed to load games.json</div>';
         }
     }
 
@@ -375,11 +396,9 @@
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
-            // Format dates nicely
             const createdDate = game.created !== '?' ? new Date(game.created).toLocaleDateString() : '?';
             const updatedDate = game.updated !== '?' ? new Date(game.updated).toLocaleDateString() : '?';
             
-            // Build tags HTML
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
@@ -414,11 +433,11 @@
             `;
             
             if (hasSubgames) {
-                game.subgames.forEach(sub => {
+                for (const sub of game.subgames) {
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="https://via.placeholder.com/80x80?text=subgame" alt="subgame">
+                                <img src="https://via.placeholder.com/80x80?text=sub" alt="subgame">
                             </div>
                             <div class="subgame-info">
                                 <div class="subgame-title">${sub.name || 'Test Place'}</div>
@@ -428,7 +447,7 @@
                             </div>
                         </div>
                     `;
-                });
+                }
             }
             
             html += `</div></div></div>`;
@@ -442,9 +461,7 @@
     function buildTagFilters(games) {
         currentGames = games;
         const tagSet = new Set();
-        games.forEach(game => {
-            game.tags?.forEach(tag => tagSet.add(tag));
-        });
+        games.forEach(game => game.tags?.forEach(tag => tagSet.add(tag)));
         
         const filterContainer = document.getElementById('tag-filters');
         filterContainer.innerHTML = '';
@@ -461,38 +478,24 @@
     function filterByTag(tag) {
         const filtered = currentGames.filter(g => g.tags?.includes(tag));
         renderGames(filtered);
-        
-        // Update button states
         document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-            if (btn.textContent === tag) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            btn.classList.toggle('active', btn.textContent === tag);
         });
     }
 
-    document.getElementById('clear-filters').onclick = function() {
+    document.getElementById('clear-filters').onclick = () => {
         renderGames(currentGames);
-        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     };
 
-    // ==================== TOGGLE SUBGAMES ====================
     window.toggleSubgames = function(index) {
         const div = document.getElementById(`subgames-${index}`);
         const btn = event.target;
-        if (div.classList.contains('visible')) {
-            div.classList.remove('visible');
-            btn.textContent = '▼ subgames';
-        } else {
-            div.classList.add('visible');
-            btn.textContent = '▲ subgames';
-        }
+        div.classList.toggle('visible');
+        btn.textContent = div.classList.contains('visible') ? '▲ subgames' : '▼ subgames';
     };
 
-    // ==================== START ====================
+    // Start
     loadGames();
 </script>
 
