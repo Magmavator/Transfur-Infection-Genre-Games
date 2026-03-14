@@ -33,14 +33,6 @@
             justify-content: space-between;
             border-left: 4px solid #5f9ea0;
         }
-        .topbar .updated {
-            font-size: 13px;
-            background: #2c3e50;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: help;
-            border-bottom: 1px dotted #8aa0b0;
-        }
         .topbar .nav a {
             color: #e8f0fe;
             margin-left: 20px;
@@ -134,10 +126,6 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
         }
         .game-title a {
             color: #1a2b3c;
@@ -177,6 +165,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: 500;
+            margin-left: 10px;
         }
         .expand-btn:hover {
             background: #5f9ea0;
@@ -205,8 +194,6 @@
         .stat-value {
             font-weight: 600;
             color: #1a2b3c;
-            cursor: help;
-            border-bottom: 1px dotted #9aa9b7;
         }
         .stat-value a {
             color: #1a2b3c;
@@ -215,30 +202,6 @@
         }
         .stat-value a:hover {
             color: #5f9ea0;
-            border-bottom: 1px solid #5f9ea0;
-        }
-        [data-tooltip] {
-            position: relative;
-            cursor: help;
-        }
-        [data-tooltip]:before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a2b3c;
-            color: #e8f0fe;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            white-space: nowrap;
-            display: none;
-            z-index: 10;
-            margin-bottom: 5px;
-        }
-        [data-tooltip]:hover:before {
-            display: block;
         }
         .maintainer-note {
             margin-top: 10px;
@@ -304,29 +267,15 @@
             gap: 12px 20px;
             font-size: 12px;
         }
-        .subgame-stats span {
-            cursor: help;
-            border-bottom: 1px dotted #9aa9b7;
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
         }
-        @media (max-width: 600px) {
-            .game-card {
-                flex-direction: column;
-            }
-            .game-thumb {
-                flex: 0 0 auto;
-                text-align: center;
-            }
-            .game-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-            .topbar {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            .topbar .nav a {
-                margin: 0 10px;
-            }
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #c00;
         }
     </style>
 </head>
@@ -334,11 +283,10 @@
 <div class="container">
 
     <div class="topbar">
-        <span class="updated" id="last-updated-container">📅 last updated: <span id="last-updated">loading...</span></span>
+        <span>📅 COMINA GAME LIST</span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
-            <a href="contact.html">contact</a>
         </div>
     </div>
 
@@ -348,162 +296,90 @@
         <button class="clear-btn" id="clear-filters">clear</button>
     </div>
 
-    <div id="game-grid" class="game-grid"></div>
+    <div id="game-grid" class="game-grid"><div class="loading">loading games...</div></div>
 
 </div>
 
 <script>
-    let allGames = [];
-    let activeFilter = null;
-    let siteLastUpdated = "";
-
-    // ==================== RELATIVE TIME HELPER ====================
-    function getRelativeTime(dateString) {
-        if (!dateString) return "unknown";
+    // ==================== LOAD CUSTOM DATA FROM JSON ====================
+    async function loadGames() {
+        const grid = document.getElementById('game-grid');
         
-        const updated = new Date(dateString);
-        const now = new Date();
-        const diffMs = now - updated;
-        const diffSec = Math.floor(diffMs / 1000);
-        const diffMin = Math.floor(diffSec / 60);
-        const diffHour = Math.floor(diffMin / 60);
-        const diffDay = Math.floor(diffHour / 24);
-        const diffMonth = Math.floor(diffDay / 30);
-        const diffYear = Math.floor(diffMonth / 12);
-
-        if (diffSec < 60) return 'just now';
-        if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
-        if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
-        if (diffDay < 30) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
-        if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
-        return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
-    }
-
-    // ==================== LOAD JSON AND FETCH LIVE DATA ====================
-    fetch('games.json')
-        .then(response => response.json())
-        .then(async (data) => {
-            siteLastUpdated = data.lastUpdated;
-            document.getElementById('last-updated').innerText = getRelativeTime(siteLastUpdated);
-            document.getElementById('last-updated-container').setAttribute('data-tooltip', `absolute: ${siteLastUpdated}`);
-
-            // Fetch live details and thumbnails for all games
-            const gamesWithLiveData = await Promise.all(data.games.map(async (game) => {
+        try {
+            // Fetch your custom data (tags, notes, universeIds)
+            const response = await fetch('games.json');
+            const customData = await response.json();
+            
+            const enrichedGames = [];
+            
+            // For each game, fetch live data from Roblox API
+            for (const game of customData.games) {
                 try {
-                    // 1. Fetch game details (player count, etc.) using universeId
+                    // 1. Fetch game details (player count, dates, name, owner)
                     const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${game.universeId}`;
-                    const detailsResponse = await fetch(detailsUrl);
-                    const detailsData = await detailsResponse.json();
-                    const gameDetails = detailsData.data[0];
-
-                    // 2. Fetch the game icon thumbnail
+                    const detailsRes = await fetch(detailsUrl);
+                    const detailsData = await detailsRes.json();
+                    const details = detailsData.data[0];
+                    
+                    // 2. Fetch game icon
                     const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${game.universeId}&size=512x512&format=Png`;
-                    const iconResponse = await fetch(iconUrl);
-                    const iconData = await iconResponse.json();
-                    const iconImageUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || 'https://via.placeholder.com/120x120?text=no+icon';
-
-                    // 3. Fetch thumbnails for maintainer note section (3 images)
-                    const thumbnailsUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${game.universeId}&size=768x432&format=Png`;
-                    const thumbnailsResponse = await fetch(thumbnailsUrl);
-                    const thumbnailsData = await thumbnailsResponse.json();
-                    const gameThumbnails = thumbnailsData.data?.[0]?.thumbnails?.map(t => t.imageUrl) || [];
-
-                    return {
+                    const iconRes = await fetch(iconUrl);
+                    const iconData = await iconRes.json();
+                    const icon = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
+                    
+                    enrichedGames.push({
                         ...game,
-                        livePlayerCount: gameDetails?.playing ?? 'N/A',
-                        liveDetails: gameDetails,
-                        thumbnailUrl: iconImageUrl,
-                        gameThumbnails: gameThumbnails.slice(0, 3) // Get up to 3 thumbnails
-                    };
-                } catch (error) {
-                    console.error(`Failed to fetch live data for ${game.name}:`, error);
-                    return {
+                        name: details.name,
+                        playerCount: details.playing,
+                        created: details.created,
+                        updated: details.updated,
+                        ownerName: details.creator.name,
+                        ownerUrl: details.creator.type === 'Group' 
+                            ? `https://www.roblox.com/groups/${details.creator.id}`
+                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                        thumbnailUrl: icon,
+                        rootPlaceId: details.rootPlaceId,
+                        gameUrl: `https://www.roblox.com/games/${details.rootPlaceId}`
+                    });
+                } catch (err) {
+                    console.error('Failed to fetch Roblox data for:', game.universeId, err);
+                    // Still show the game with error state
+                    enrichedGames.push({
                         ...game,
-                        livePlayerCount: 'Error',
-                        thumbnailUrl: 'https://via.placeholder.com/120x120?text=error',
-                        gameThumbnails: []
-                    };
+                        name: 'Failed to load',
+                        playerCount: '?',
+                        created: '?',
+                        updated: '?',
+                        ownerName: '?',
+                        ownerUrl: '#',
+                        thumbnailUrl: '',
+                        gameUrl: '#'
+                    });
                 }
-            }));
-
-            allGames = gamesWithLiveData;
-            renderGames(allGames);
-            buildTagFilters(allGames);
-        })
-        .catch(error => {
-            console.error('Failed to load games:', error);
-            document.getElementById('game-grid').innerHTML = '<p style="padding: 40px; text-align: center;">⚠️ failed to load games — check console</p>';
-        });
-
-    // ==================== BUILD TAG FILTERS ====================
-    function buildTagFilters(games) {
-        const tagSet = new Set();
-        games.forEach(game => {
-            if (game.tags) {
-                game.tags.forEach(tag => tagSet.add(tag));
             }
-        });
-        
-        const sortedTags = Array.from(tagSet).sort();
-        const filterContainer = document.getElementById('tag-filters');
-        
-        sortedTags.forEach(tag => {
-            const btn = document.createElement('button');
-            btn.className = 'tag-filter-btn';
-            btn.textContent = tag;
-            btn.onclick = () => filterByTag(tag);
-            filterContainer.appendChild(btn);
-        });
-        
-        if (activeFilter) {
-            document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-                if (btn.textContent === activeFilter) {
-                    btn.classList.add('active');
-                }
-            });
+            
+            renderGames(enrichedGames);
+            buildTagFilters(enrichedGames);
+            
+        } catch (err) {
+            console.error('Failed to load games.json:', err);
+            grid.innerHTML = '<div class="error">⚠️ failed to load games.json — check console</div>';
         }
     }
-
-    // ==================== FILTER FUNCTION ====================
-    function filterByTag(tag) {
-        if (activeFilter === tag) {
-            activeFilter = null;
-            renderGames(allGames);
-        } else {
-            activeFilter = tag;
-            const filtered = allGames.filter(game => game.tags && game.tags.includes(tag));
-            renderGames(filtered);
-        }
-        
-        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-            if (btn.textContent === activeFilter) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-    }
-
-    // ==================== CLEAR FILTERS ====================
-    document.getElementById('clear-filters').onclick = function() {
-        activeFilter = null;
-        renderGames(allGames);
-        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-    };
 
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
         grid.innerHTML = '';
-
+        
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
-
-            const gameCard = document.createElement('div');
-            gameCard.className = 'game-card';
-
+            
+            // Format dates nicely
+            const createdDate = game.created !== '?' ? new Date(game.created).toLocaleDateString() : '?';
+            const updatedDate = game.updated !== '?' ? new Date(game.updated).toLocaleDateString() : '?';
+            
+            // Build tags HTML
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
@@ -513,83 +389,111 @@
                 });
                 tagsHtml += '</div>';
             }
-
-            // Build thumbnails HTML for maintainer note section
-            let thumbnailsHtml = '';
-            if (game.gameThumbnails && game.gameThumbnails.length > 0) {
-                thumbnailsHtml = '<div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">';
-                game.gameThumbnails.forEach(thumbUrl => {
-                    thumbnailsHtml += `<img src="${thumbUrl}" style="width:100px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #b0c4de;">`;
-                });
-                thumbnailsHtml += '</div>';
-            }
-
+            
             let html = `
-                <div class="game-thumb">
-                    <img src="${game.thumbnailUrl}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/120x120?text=no+image'">
-                </div>
-                <div class="game-info">
-                    <div class="game-title">
-                        <a href="${game.url}">${game.name}</a>
-                        ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
+                <div class="game-card">
+                    <div class="game-thumb">
+                        <img src="${game.thumbnailUrl || 'https://via.placeholder.com/120x120?text=no+image'}" alt="${game.name}">
                     </div>
-                    ${tagsHtml}
-                    <div class="game-stats">
-                        <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.livePlayerCount}</span></span>
-                        <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="absolute: ${game.created}">${getRelativeTime(game.created)}</span></span>
-                        <span class="stat-item"><span class="stat-label">last update:</span> <span class="stat-value" data-tooltip="absolute: ${game.lastUpdate}">${getRelativeTime(game.lastUpdate)}</span></span>
-                        <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
-                    </div>
-                    <div class="maintainer-note">
-                        <strong>✎ note:</strong> ${game.maintainerNote}
-                        ${thumbnailsHtml}
-                    </div>
-                    <div id="subgames-${index}" class="subgames">
+                    <div class="game-info">
+                        <div class="game-title">
+                            <a href="${game.gameUrl}">${game.name}</a>
+                            ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
+                        </div>
+                        ${tagsHtml}
+                        <div class="game-stats">
+                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${createdDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${updatedDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+                        </div>
+                        <div class="maintainer-note">
+                            <strong>✎ note:</strong> ${game.maintainerNote || 'No notes'}
+                        </div>
+                        <div id="subgames-${index}" class="subgames">
             `;
-
+            
             if (hasSubgames) {
                 game.subgames.forEach(sub => {
-                    const subThumb = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${sub.universeId}&size=256x256&format=Png`;
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="${subThumb}" alt="${sub.name}" onerror="this.src='https://via.placeholder.com/80x80?text=sub'">
+                                <img src="https://via.placeholder.com/80x80?text=subgame" alt="subgame">
                             </div>
                             <div class="subgame-info">
-                                <div class="subgame-title"><a href="${sub.url}">${sub.name}</a></div>
+                                <div class="subgame-title">${sub.name || 'Test Place'}</div>
                                 <div class="subgame-stats">
-                                    <span><span class="stat-label">players:</span> ${sub.players}</span>
-                                    <span data-tooltip="absolute: ${sub.lastUpdate}"><span class="stat-label">updated:</span> ${getRelativeTime(sub.lastUpdate)}</span>
-                                    <span><span class="stat-label">owner:</span> <a href="${sub.ownerUrl}" style="color:#1a2b3c;">${sub.ownerName}</a></span>
+                                    <span>${sub.note || ''}</span>
                                 </div>
                             </div>
                         </div>
                     `;
                 });
             }
-
-            html += `
-                    </div>
-                </div>
-            `;
-
-            gameCard.innerHTML = html;
-            grid.appendChild(gameCard);
+            
+            html += `</div></div></div>`;
+            grid.innerHTML += html;
         });
     }
 
+    // ==================== TAG FILTERS ====================
+    let currentGames = [];
+    
+    function buildTagFilters(games) {
+        currentGames = games;
+        const tagSet = new Set();
+        games.forEach(game => {
+            game.tags?.forEach(tag => tagSet.add(tag));
+        });
+        
+        const filterContainer = document.getElementById('tag-filters');
+        filterContainer.innerHTML = '';
+        
+        Array.from(tagSet).sort().forEach(tag => {
+            const btn = document.createElement('button');
+            btn.className = 'tag-filter-btn';
+            btn.textContent = tag;
+            btn.onclick = () => filterByTag(tag);
+            filterContainer.appendChild(btn);
+        });
+    }
+
+    function filterByTag(tag) {
+        const filtered = currentGames.filter(g => g.tags?.includes(tag));
+        renderGames(filtered);
+        
+        // Update button states
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+            if (btn.textContent === tag) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    document.getElementById('clear-filters').onclick = function() {
+        renderGames(currentGames);
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+    };
+
     // ==================== TOGGLE SUBGAMES ====================
     window.toggleSubgames = function(index) {
-        const subgamesDiv = document.getElementById(`subgames-${index}`);
+        const div = document.getElementById(`subgames-${index}`);
         const btn = event.target;
-        if (subgamesDiv.classList.contains('visible')) {
-            subgamesDiv.classList.remove('visible');
+        if (div.classList.contains('visible')) {
+            div.classList.remove('visible');
             btn.textContent = '▼ subgames';
         } else {
-            subgamesDiv.classList.add('visible');
+            div.classList.add('visible');
             btn.textContent = '▲ subgames';
         }
     };
+
+    // ==================== START ====================
+    loadGames();
 </script>
 
 </body>
