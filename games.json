@@ -1,1 +1,29 @@
-es
+{
+  "lastUpdated": "2026-03-14",
+  "games": [
+    {
+      "name": "Tungsten Garages",
+      "url": "https://www.roblox.com/games/114145425550635/Tungsten-Garages",
+      "universeId": "114145425550635",
+      "players": "alive (70–150)",
+      "quality": "polished",
+      "created": "2024-07",
+      "lastUpdate": "2026-02",
+      "ownerName": "@Magmavator",
+      "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+      "maintainerNote": "real deformation physics, active dev, community growing."
+    },
+    {
+      "name": "KEPLER 1410 B",
+      "url": "https://www.roblox.com/games/18440199762/KEPLER-1410-B",
+      "universeId": "18440199762",
+      "players": "low (5–20)",
+      "quality": "unique / rough",
+      "created": "2024-07",
+      "lastUpdate": "2025-12",
+      "ownerName": "@Magmavator",
+      "ownerUrl": "https://www.roblox.com/users/184720852/profile",
+      "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players."
+    }
+  ]
+}
