@@ -1,26 +1,21 @@
 {
-  "lastUpdated": "2026-03-14",
   "games": [
     {
-      "name": "Tungsten Garages",
-      "url": "https://www.roblox.com/games/114145425550635/Tungsten-Garages",
-      "universeId": "114145425550635",
-      "tags": ["polished", "OG", "active"],
-      "maintainerNote": "real deformation physics, active dev, community growing.",
+      "placeId": "18440199762",
+      "tags": ["OG", "tactical", "fps"],
+      "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players.",
       "subgames": [
         {
-          "name": "Tungsten Garages · Test Place",
-          "url": "https://www.roblox.com/games/1234567890/test",
-          "universeId": "1234567890"
+          "placeId": "1234567890",
+          "name": "Test Place (optional override)",
+          "note": "testing server"
         }
       ]
     },
     {
-      "name": "KEPLER 1410 B",
-      "url": "https://www.roblox.com/games/18440199762/KEPLER-1410-B",
-      "universeId": "18440199762",
-      "tags": ["unique", "rough", "tactical"],
-      "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players.",
+      "url": "https://www.roblox.com/games/114145425550635/Tungsten-Garages",
+      "tags": ["polished", "active", "vehicles"],
+      "maintainerNote": "real deformation physics, active dev, community growing.",
       "subgames": []
     }
   ]
