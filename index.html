@@ -366,56 +366,121 @@
 
 <script>
     // ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
-    const PROXY = 'https://api.allorigins.win/raw?url=';
+    // Try these in order (CORSBox is usually reliable)
+const PROXIES = [
+    'https://corsbox.vercel.app/api/cors?url=',
+    'https://api.allorigins.win/raw?url=',  // Keep as backup
+    'https://corsproxy.io/?'
+];
     const RETRY_DELAY = 1000; // 1 second between retries
     const TIMEOUT = 10000; // 10 second timeout per attempt
 
     // ==================== FETCH WITH INFINITE RETRIES ====================
     // ==================== FETCH WITH INFINITE RETRIES ====================
-async function fetchWithInfiniteRetry(url, attempt = 1) {
+// ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
+const PROXIES = [
+    'https://corsbox.vercel.app/api/cors?url=',  // CORSBox - reliable with query strings
+    'https://api.allorigins.win/raw?url=',       // AllOrigins - backup
+    'https://corsproxy.io/?',                    // corsproxy.io - backup
+    'https://proxy.cors.sh/',                     // cors.sh - backup
+    'https://cors-anywhere.herokuapp.com/'        // cors-anywhere - final backup
+];
+
+const RETRY_DELAY = 1000; // 1 second between retries
+const TIMEOUT = 10000; // 10 second timeout per attempt
+
+// ==================== FETCH WITH INFINITE RETRIES ====================
+async function fetchWithInfiniteRetry(url, attempt = 1, proxyIndex = 0) {
+    // Cycle through proxies if we've tried current one multiple times
+    const currentProxy = PROXIES[proxyIndex % PROXIES.length];
+    
+    // Double-encode the URL to preserve all special characters including ? and &
+    const encodedUrl = encodeURIComponent(url);
+    const fullProxyUrl = currentProxy + encodedUrl;
+    
+    console.log(`🌐 [${new Date().toLocaleTimeString()}] Attempt ${attempt} | Proxy ${proxyIndex + 1}/${PROXIES.length}: ${currentProxy.split('/')[2]}`);
+    console.log(`   Original: ${url.substring(0, 80)}...`);
+    console.log(`   Proxy URL: ${fullProxyUrl.substring(0, 100)}...`);
+    
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), TIMEOUT);
     
-    // Double-encode the URL to preserve query parameters
-    const encodedUrl = encodeURIComponent(url);
-    const fullProxyUrl = PROXY + encodedUrl;
-    
-    console.log(`🔄 Attempt ${attempt} for:`, url.split('?')[0]); // Log original URL
-    console.log(`   Proxy URL:`, fullProxyUrl.substring(0, 100) + '...'); // Log proxy URL (truncated)
-    
     try {
         const response = await fetch(fullProxyUrl, {
-            signal: controller.signal
+            signal: controller.signal,
+            headers: {
+                'Origin': window.location.origin,
+                'x-requested-with': 'XMLHttpRequest'
+            }
         });
         clearTimeout(timeout);
         
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            throw new Error(`HTTP ${response.status} ${response.statusText}`);
         }
         
         const text = await response.text();
         
-        if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-            throw new Error('Proxy returned HTML');
+        // Check if we got HTML instead of JSON (proxy failure)
+        if (text.trim().startsWith('<!DOCTYPE') || 
+            text.trim().startsWith('<html') || 
+            text.trim().startsWith('<?xml')) {
+            throw new Error('Proxy returned HTML - likely blocked');
         }
         
+        // Parse JSON with proper error handling
         try {
             const parsed = JSON.parse(text);
-            if (parsed.contents) {
-                return JSON.parse(parsed.contents);
+            
+            // Handle AllOrigins special format
+            if (parsed.contents && typeof parsed.contents === 'string') {
+                try {
+                    return JSON.parse(parsed.contents);
+                } catch {
+                    return parsed.contents;
+                }
             }
+            
             return parsed;
         } catch (e) {
-            throw new Error('Invalid JSON');
+            // If it's not JSON but we got a response, log it for debugging
+            console.log(`   Response preview: ${text.substring(0, 200)}`);
+            throw new Error('Invalid JSON response');
         }
         
     } catch (err) {
         clearTimeout(timeout);
         
-        console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
+        // Abort errors are common with timeouts
+        if (err.name === 'AbortError') {
+            console.log(`⏱️ Attempt ${attempt} timed out after ${TIMEOUT/1000}s`);
+        } else {
+            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}`);
+        }
         
+        // Calculate next proxy (cycle through them)
+        const nextProxyIndex = proxyIndex + 1;
+        
+        // If we've tried all proxies multiple times, log a warning but keep trying
+        if (nextProxyIndex >= PROXIES.length * 3) {
+            console.warn(`🔄 Still trying... (attempt ${attempt}, proxy ${nextProxyIndex % PROXIES.length + 1})`);
+        }
+        
+        // Wait before retrying
         await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-        return fetchWithInfiniteRetry(url, attempt + 1);
+        
+        // INFINITE RETRY - keep trying forever, cycling through proxies
+        return fetchWithInfiniteRetry(url, attempt + 1, nextProxyIndex);
+    }
+}
+
+// ==================== SAFE FETCH WRAPPER ====================
+async function safeFetch(url, fallback = null) {
+    try {
+        return await fetchWithInfiniteRetry(url);
+    } catch (err) {
+        console.error(`💥 Fatal error for ${url.split('?')[0]}:`, err);
+        return fallback;
     }
 }
 
