@@ -363,11 +363,16 @@
                 );
                 const details = detailsData.data[0];
                 
-                // 3. Get icon
+                // 3. Get icon URL - the API returns a URL we can use directly
                 const iconData = await fetchWithProxy(
                     `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`
                 );
-                const iconUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
+                
+                // Extract the actual image URL from the response
+                let iconUrl = '';
+                if (iconData.data && iconData.data[0] && iconData.data[0].thumbnails && iconData.data[0].thumbnails[0]) {
+                    iconUrl = iconData.data[0].thumbnails[0].imageUrl;
+                }
                 
                 games.push({
                     ...game,
@@ -379,9 +384,11 @@
                     ownerUrl: details.creator.type === 'Group' 
                         ? `https://www.roblox.com/groups/${details.creator.id}`
                         : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                    thumbnailUrl: iconUrl,
+                    thumbnailUrl: iconUrl, // Now contains the actual CDN URL
                     gameUrl: `https://www.roblox.com/games/${game.placeId}`
                 });
+                
+                console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon');
                 
             } catch (err) {
                 console.error(`Failed to load ${game.placeId}:`, err);
@@ -436,7 +443,7 @@
             html += `
                 <div class="game-card">
                     <div class="game-thumb">
-                        <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" alt="${game.name}">
+                        <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" alt="${game.name}" onerror="this.src='https://placehold.co/120x120/5f9ea0/white?text=No+Icon'">
                     </div>
                     <div class="game-info">
                         <div class="game-title">
@@ -523,6 +530,5 @@
     // Start
     loadGames();
 </script>
-
 </body>
 </html>
