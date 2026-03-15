@@ -3,43 +3,428 @@
     {
       "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
       "placeId": "79991553834328",
-      "tags": ["test"],
-      "maintainerNote": "test",
-      "subgames": [
-        {
-          "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
-          "placeId": "105838757260774",
-          "note": "testing server"
-        }
-      ]
-    },
-    {
-      "gameLink": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
-      "placeId": "15518504762",
-      "tags": ["test"],
-      "maintainerNote": "test",
-      "subgames": []
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "1st month of 2025"
     },
     {
       "gameLink": "https://www.roblox.com/games/6466630690/Cat-Infection-CAT-SKINS",
       "placeId": "6466630690",
-      "tags": ["test"],
-      "maintainerNote": "test",
-      "subgames": []
-    },
-    {
-      "gameLink": "https://www.roblox.com/games/94081816388778/Transfer-infection",
-      "placeId": "94081816388778",
-      "tags": ["test"],
-      "maintainerNote": "test",
-      "subgames": []
+      "tags": ["alive", "low-quality"],
+      "maintainerNote": "3rd month 2021"
     },
     {
       "gameLink": "https://www.roblox.com/games/17525496045/Infection-Facility",
       "placeId": "17525496045",
-      "tags": ["test"],
-      "maintainerNote": "test",
-      "subgames": []
+      "tags": ["alive", "low-quality"],
+      "maintainerNote": "5th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
+      "placeId": "105838757260774",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "10th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
+      "placeId": "15518504762",
+      "tags": ["barely-alive", "good-quality"],
+      "maintainerNote": "12th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6894745593/Transfur-Infection-3",
+      "placeId": "6894745593",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "6th month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/7624147869/Infection-alley",
+      "placeId": "7624147869",
+      "tags": ["alive", "low-quality"],
+      "maintainerNote": "10th month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/10679239752/Furry-Infection-game",
+      "placeId": "10679239752",
+      "tags": ["popular", "low-quality"],
+      "maintainerNote": "8th month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/106031284598035/Transfur-Infection-Reimagined",
+      "placeId": "106031284598035",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "10th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5985232436/Infectious-Smile",
+      "placeId": "5985232436",
+      "tags": ["popular", "low-quality"],
+      "maintainerNote": "11th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6104518672/Furrious-Outbreak",
+      "placeId": "6104518672",
+      "tags": ["dead", "OG", "good-quality"],
+      "maintainerNote": "12th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/10748233729/Furrious-Outbreak-Classic",
+      "placeId": "10748233729",
+      "tags": ["dead", "OG", "good-quality"],
+      "maintainerNote": "8th month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/17318778118/Transfurmation-remake",
+      "placeId": "17318778118",
+      "tags": ["dead", "good-quality"],
+      "maintainerNote": "4th month of 2024 - seems to be a replica or fan game"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6374505146/Transfur-Outburst",
+      "placeId": "6374505146",
+      "tags": ["dead", "good-quality"],
+      "maintainerNote": "2nd month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/18998666187/Transfurmation-2",
+      "placeId": "18998666187",
+      "tags": ["barely-alive", "low-quality"],
+      "maintainerNote": "8th month of 2024 - poorly made remake (original was good quality)"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/119396263459477/silly-transfur-game",
+      "placeId": "119396263459477",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "11th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/9716268675/The-Infection-Remastered",
+      "placeId": "9716268675",
+      "tags": ["barely-alive", "good-quality"],
+      "maintainerNote": "5th month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/18847801203/The-Infection-Reimagined",
+      "placeId": "18847801203",
+      "tags": ["unavailable", "in-the-works"],
+      "maintainerNote": "8th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/8827608845/Furry-Cold-Infection",
+      "placeId": "8827608845",
+      "tags": ["alive", "low-quality"],
+      "maintainerNote": "2nd month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/13902380789/Transfur-Breach-Alpha",
+      "placeId": "13902380789",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "6th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/12432097393/TIS-The-Transfeyyr",
+      "placeId": "12432097393",
+      "tags": ["alive", "unknown-quality"],
+      "maintainerNote": "2nd month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/87546301807669/DONO-BOARD-Furry-Infect-6-5",
+      "placeId": "87546301807669",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "5th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/139654708382397/ez-Oldgen-Outbreak",
+      "placeId": "139654708382397",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "10th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/17450398934/Transfur-Facility-LATE-50K-BADGE",
+      "placeId": "17450398934",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "5th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15491631439/OCTOBER-Fluffy-Infection",
+      "placeId": "15491631439",
+      "tags": ["alive", "unknown-quality"],
+      "maintainerNote": "11th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5966923567/Moonlight-Outbreak",
+      "placeId": "5966923567",
+      "tags": ["alive", "OG", "good-quality"],
+      "maintainerNote": "11th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/78803148130926/Furry-Infection",
+      "placeId": "78803148130926",
+      "tags": ["barely-alive", "unknown-quality"],
+      "maintainerNote": "8th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/9127979316/goo-animal-simulator",
+      "placeId": "9127979316",
+      "tags": ["dead", "OG", "high-quality"],
+      "maintainerNote": "3rd month of 2022 - not first/original?"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/112455523658545/goo-animal-simulator-remake",
+      "placeId": "112455523658545",
+      "tags": ["alive", "OG", "high-quality"],
+      "maintainerNote": "9th month of 2025 - fan remake/reupload"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/102607240913864/Project-Neko",
+      "placeId": "102607240913864",
+      "tags": ["barely-alive", "moderate-quality"],
+      "maintainerNote": "11th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/135006593107618/Fur-Infection-ABSORD-CRATES-SYSTEM",
+      "placeId": "135006593107618",
+      "tags": ["barely-alive", "good-quality"],
+      "maintainerNote": "1st month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/13831863192/Neko-Infection",
+      "placeId": "13831863192",
+      "tags": ["barely-alive", "ok-quality"],
+      "maintainerNote": "6th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/83258383534432/tinnitus-furricons-tycoon-v2",
+      "placeId": "83258383534432",
+      "tags": ["barely-alive", "high-quality", "OG"],
+      "maintainerNote": "7th month of 2025 - game locked to group originally, now barely alive"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5993542958/Project-Transfur",
+      "placeId": "5993542958",
+      "tags": ["alive", "unknown-quality"],
+      "maintainerNote": "11th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5987922834/Transfur-Outbreak",
+      "placeId": "5987922834",
+      "tags": ["barely-alive", "OG", "high-quality"],
+      "maintainerNote": "11th month of 2020 - many owner changes over years"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/121204547519240/Biotech-Nexus-HALLOWS-EVE-TRANSFUR-INFECTION",
+      "placeId": "121204547519240",
+      "tags": ["dead", "ok-quality"],
+      "maintainerNote": "12th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6456351776/Kaiju-Paradise",
+      "placeId": "6456351776",
+      "tags": ["popular", "OG"],
+      "maintainerNote": "2nd month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/14176262714/Unknow-furry-infection-game",
+      "placeId": "14176262714",
+      "tags": ["alive", "good-quality"],
+      "maintainerNote": "7th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6573732104/combat-overhaul-twisting-ruin",
+      "placeId": "6573732104",
+      "tags": ["alive", "good-quality"],
+      "maintainerNote": "3rd month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15312611408/Fluffy-infection-Shop-UPD",
+      "placeId": "15312611408",
+      "tags": ["barely-alive", "ok-quality"],
+      "maintainerNote": "11th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/18566967136/Facility-of-Redemption-Public-Testing",
+      "placeId": "18566967136",
+      "tags": ["alive", "good-quality"],
+      "maintainerNote": "7th month of 2024 - private for winter maintenance supposedly"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/16526868524/Contagious-Revival",
+      "placeId": "16526868524",
+      "tags": ["barely-alive", "very-high-quality"],
+      "maintainerNote": "2nd month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/106062443102422/Fur-Infection-Outbreak",
+      "placeId": "106062443102422",
+      "tags": ["popular", "good-quality"],
+      "maintainerNote": "8th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/130317993523756/HALLOWS-Hindsight-Test-Place",
+      "placeId": "130317993523756",
+      "tags": ["alive", "supreme-quality"],
+      "maintainerNote": "7th month of 2025 - Literally alternative Kaiju Paradise"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/17649920055/Sub-Infection",
+      "placeId": "17649920055",
+      "tags": ["dead", "high-quality"],
+      "maintainerNote": "5th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/18955534702/Transfur-Escape",
+      "placeId": "18955534702",
+      "tags": ["alive", "good-quality"],
+      "maintainerNote": "8th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/77104913262515/Transfur-Escape-Test-Side-game",
+      "placeId": "77104913262515",
+      "tags": ["alive", "good-quality"],
+      "maintainerNote": "side game"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5989426850/LIMITED-Candy-Cane-Transfur-Infection-2",
+      "placeId": "5989426850",
+      "tags": ["barely-alive", "OG"],
+      "maintainerNote": "11th month of 2020 - stopped in time"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/81671487601414/infection-game-mp4-0-1",
+      "placeId": "81671487601414",
+      "tags": ["barely-alive", "ok-quality"],
+      "maintainerNote": "5th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/126476488388914/Transfur-Breach",
+      "placeId": "126476488388914",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "9th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/10532261198/The-Transfurity-Outbreak-Outdated",
+      "placeId": "10532261198",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "8th month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/18877052599/newgen-outbreak-DISCONTINUED",
+      "placeId": "18877052599",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "8th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/17300916368/Transfur-Outbreak-Map-2",
+      "placeId": "17300916368",
+      "tags": ["dead", "high-quality", "OG"],
+      "maintainerNote": "4th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6002476208/Latt-Transfur-Mod-V-15",
+      "placeId": "6002476208",
+      "tags": ["dead", "high-quality"],
+      "maintainerNote": "11th month of 2020 - Latte Transfur"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6008740665/Infection-V-V1-4-2",
+      "placeId": "6008740665",
+      "tags": ["closed", "good-quality"],
+      "maintainerNote": "11th month of 2020 - very basic modelling, good scripts"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6007088245/Infection",
+      "placeId": "6007088245",
+      "tags": ["closed", "good-quality"],
+      "maintainerNote": "same game but older version"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/107980730910540/Transfur-Outbreak-Burned-Memories",
+      "placeId": "107980730910540",
+      "tags": ["dead", "unknown-quality"],
+      "maintainerNote": "9th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5958351575/The-Infectious-Overhaul",
+      "placeId": "5958351575",
+      "tags": ["unrated", "unknown-quality"],
+      "maintainerNote": "11th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/5990048380/Monster-Infection",
+      "placeId": "5990048380",
+      "tags": ["private", "unknown-quality"],
+      "maintainerNote": "11th month of 2020"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6798251421/NOT-Being-Updated-Atlas-Central",
+      "placeId": "6798251421",
+      "tags": ["private", "unknown-quality"],
+      "maintainerNote": "5th month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/9903531648/Infection-Facility",
+      "placeId": "9903531648",
+      "tags": ["unrated", "unknown-quality"],
+      "maintainerNote": "6th month of 2022"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6136608081/Sunset-Corporation-Transfeyyr",
+      "placeId": "6136608081",
+      "tags": ["private", "unknown-quality"],
+      "maintainerNote": "12th month of 2020 - old version of Transfeyyr"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15728405852/Escape-from-Changed",
+      "placeId": "15728405852",
+      "tags": ["barely-alive", "unknown-quality"],
+      "maintainerNote": "12th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/139500066197829/Escape-From-Changed-ARCHIVE-REUPLOAD",
+      "placeId": "139500066197829",
+      "tags": ["barely-alive", "unknown-quality"],
+      "maintainerNote": "2nd month of 2025 - archive reupload"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/72407903748016/Furry-Infection",
+      "placeId": "72407903748016",
+      "tags": ["barely-alive", "unknown-quality"],
+      "maintainerNote": "10th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15178727828/Werewolf-infection",
+      "placeId": "15178727828",
+      "tags": ["barely-alive", "medium-quality"],
+      "maintainerNote": "10th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/97545343806660/silly-transfur-game-2",
+      "placeId": "97545343806660",
+      "tags": ["dead", "medium-quality"],
+      "maintainerNote": "10th month of 2025"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/13431915633/Fractured-Facility-Testing-Place",
+      "placeId": "13431915633",
+      "tags": ["unrated", "unknown-quality"],
+      "maintainerNote": "5th month of 2023"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/128903563180469/Transfurmation-Recalled",
+      "placeId": "128903563180469",
+      "tags": ["dead", "medium-quality"],
+      "maintainerNote": "11th month of 2024"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/96717852874249/Untitled-Transfur-RPG",
+      "placeId": "96717852874249",
+      "tags": ["dead", "medium-quality"],
+      "maintainerNote": "9th month of 2025 - just created"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/84952056636158/City-Transfur-The-Return",
+      "placeId": "84952056636158",
+      "tags": ["dead", "medium-quality"],
+      "maintainerNote": "7th month of 2025"
     }
   ]
 }
