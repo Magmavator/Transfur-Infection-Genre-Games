@@ -92,6 +92,47 @@
             font-size: 13px;
         }
         
+        /* Sort controls */
+        .sort-bar {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+        .sort-label {
+            font-weight: 600;
+            color: #1a2b3c;
+            font-size: 13px;
+        }
+        .sort-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .sort-btn {
+            background: none;
+            border: 1px solid #cbd5e0;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #1a2b3c;
+        }
+        .sort-btn:hover {
+            background: #e8f0fe;
+            border-color: #5f9ea0;
+        }
+        .sort-btn.active {
+            background: #5f9ea0;
+            border-color: #5f9ea0;
+            color: white;
+        }
+        
         .game-grid {
             display: flex;
             flex-direction: column;
@@ -106,6 +147,11 @@
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
+        }
+        .game-card.failed {
+            opacity: 0.7;
+            background: #f8f8f8;
+            border-color: #ffaaa5;
         }
         .game-thumb {
             flex: 0 0 120px;
@@ -134,9 +180,24 @@
         .game-title a {
             color: #1a2b3c;
             text-decoration: none;
+            position: relative;
         }
         .game-title a:hover {
             color: #5f9ea0;
+        }
+        .game-title a:hover:after {
+            content: attr(href);
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: #1a2b3c;
+            color: #e8f0fe;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 10;
+            margin-bottom: 5px;
         }
         
         .game-tags {
@@ -158,6 +219,11 @@
             background: #ffd700;
             color: #1a2b3c;
             border-color: #daa520;
+        }
+        .tag.failed {
+            background: #ffdddd;
+            color: #aa0000;
+            border-color: #ff0000;
         }
         
         .expand-btn {
@@ -217,12 +283,8 @@
             font-size: 13px;
             color: #2c3e50;
         }
-        .maintainer-note strong {
-            color: #1a2b3c;
-            font-weight: 600;
-        }
         
-        /* Thumbnail gallery styles - true size, cycleable, expandable */
+        /* Thumbnail gallery styles */
         .thumbnail-section {
             margin-top: 16px;
         }
@@ -408,6 +470,21 @@
         <button class="clear-btn" id="clear-filters">clear</button>
     </div>
 
+    <!-- SORT CONTROLS -->
+    <div class="sort-bar">
+        <span class="sort-label">sort by:</span>
+        <div class="sort-options" id="sort-options">
+            <button class="sort-btn" data-sort="recent-update">most recent update</button>
+            <button class="sort-btn" data-sort="oldest-update">oldest update</button>
+            <button class="sort-btn" data-sort="recent-creation">newest game</button>
+            <button class="sort-btn" data-sort="oldest-creation">oldest game</button>
+            <button class="sort-btn" data-sort="most-players">most players</button>
+            <button class="sort-btn" data-sort="most-dead">dead games first</button>
+            <button class="sort-btn" data-sort="failed">failed fetches</button>
+            <button class="sort-btn" data-sort="default">default</button>
+        </div>
+    </div>
+
     <div id="game-grid" class="game-grid"><div class="loading">loading games...</div></div>
 
 </div>
@@ -450,13 +527,85 @@
                 document.getElementById('last-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdated}`);
             }
             
-            renderGames(data.games);
-            buildTagFilters(data.games);
+            // Store original games
+            window.originalGames = data.games;
+            window.currentGames = [...data.games];
+            
+            renderGames(window.currentGames);
+            buildTagFilters(window.currentGames);
+            setupSortButtons();
             
         } catch (err) {
             console.error('Failed to load games:', err);
             grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
         }
+    }
+
+    // ==================== SORT FUNCTIONS ====================
+    function sortGames(games, sortType) {
+        const sorted = [...games];
+        
+        // Separate failed games to keep them at bottom
+        const failedGames = sorted.filter(g => g.name === 'Failed to load');
+        const successfulGames = sorted.filter(g => g.name !== 'Failed to load');
+        
+        let sortedSuccessful = [...successfulGames];
+        
+        switch(sortType) {
+            case 'recent-update':
+                sortedSuccessful.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+                break;
+            case 'oldest-update':
+                sortedSuccessful.sort((a, b) => new Date(a.updated) - new Date(b.updated));
+                break;
+            case 'recent-creation':
+                sortedSuccessful.sort((a, b) => new Date(b.created) - new Date(a.created));
+                break;
+            case 'oldest-creation':
+                sortedSuccessful.sort((a, b) => new Date(a.created) - new Date(b.created));
+                break;
+            case 'most-players':
+                sortedSuccessful.sort((a, b) => (b.playerCount || 0) - (a.playerCount || 0));
+                break;
+            case 'most-dead':
+                sortedSuccessful.sort((a, b) => {
+                    const aDead = a.tags?.includes('dead') ? 1 : 0;
+                    const bDead = b.tags?.includes('dead') ? 1 : 0;
+                    return bDead - aDead;
+                });
+                break;
+            case 'failed':
+                // Show only failed games
+                return [...failedGames];
+            default:
+                // Keep original order
+                return games;
+        }
+        
+        // Return successful games sorted, with failed games at the bottom
+        return [...sortedSuccessful, ...failedGames];
+    }
+
+    // ==================== SETUP SORT BUTTONS ====================
+    function setupSortButtons() {
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        sortButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const sortType = e.target.dataset.sort;
+                
+                // Update active state
+                sortButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Apply sort
+                const sortedGames = sortGames(window.originalGames, sortType);
+                window.currentGames = sortedGames;
+                renderGames(sortedGames);
+                
+                // Rebuild tag filters with sorted games but keep filter state
+                buildTagFilters(sortedGames);
+            });
+        });
     }
 
     // ==================== TOGGLE GALLERY ====================
@@ -568,6 +717,7 @@
         let html = '';
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
+            const isFailed = game.name === 'Failed to load';
             
             // Format dates with relative time
             const createdRelative = getRelativeTime(game.created);
@@ -583,7 +733,12 @@
                     const tagClass = tag === 'OG' ? 'tag og' : 'tag';
                     tagsHtml += `<span class="${tagClass}">${tag}</span>`;
                 });
+                if (isFailed) {
+                    tagsHtml += `<span class="tag failed">failed to fetch</span>`;
+                }
                 tagsHtml += '</div>';
+            } else if (isFailed) {
+                tagsHtml = '<div class="game-tags"><span class="tag failed">failed to fetch</span></div>';
             }
             
             // Store thumbnail data
@@ -595,7 +750,7 @@
             const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
             
             html += `
-                <div class="game-card">
+                <div class="game-card ${isFailed ? 'failed' : ''}">
                     <div class="game-thumb">
                         <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" alt="${game.name}" onerror="this.src='https://placehold.co/120x120/5f9ea0/white?text=No+Icon'">
                     </div>
@@ -663,7 +818,8 @@
     }
 
     function filterByTag(tag) {
-        const filtered = currentGames.filter(g => g.tags?.includes(tag));
+        const filtered = window.originalGames.filter(g => g.tags?.includes(tag));
+        window.currentGames = filtered;
         renderGames(filtered);
         document.querySelectorAll('.tag-filter-btn').forEach(btn => {
             btn.classList.toggle('active', btn.textContent === tag);
@@ -671,7 +827,8 @@
     }
 
     document.getElementById('clear-filters').onclick = () => {
-        renderGames(currentGames);
+        window.currentGames = window.originalGames;
+        renderGames(window.originalGames);
         document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     };
 
