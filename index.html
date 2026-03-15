@@ -220,7 +220,6 @@
             font-weight: 600;
         }
         
-        /* Thumbnail gallery styles */
         .thumbnail-gallery {
             margin-top: 16px;
             display: flex;
@@ -333,121 +332,149 @@
 </div>
 
 <script>
-    // ==================== CONFIG ====================
-    // Automated proxy - no user interaction needed
-    const PROXY = 'https://api.allorigins.win/raw?url=';
-    
-    // Your game data (edit this!)
-    const GAMES = [
-        {
-            placeId: "18440199762",
-            tags: ["OG", "tactical", "fps"],
-            maintainerNote: "No nametags FPS — trust no one"
-        },
-        {
-            placeId: "114145425550635",
-            tags: ["polished", "vehicles", "active"],
-            maintainerNote: "Real deformation physics"
-        }
+    // ==================== NUCLEAR RELIABILITY PROXY LIST ====================
+    const PROXIES = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://proxy.cors.sh/',
+        'https://cors-anywhere.herokuapp.com/'
     ];
+    
+    let currentProxyIndex = 0;
 
-    // ==================== FETCH WITH PROXY ====================
-    async function fetchWithProxy(url) {
-        const response = await fetch(PROXY + encodeURIComponent(url));
-        const text = await response.text();
+    // ==================== FETCH WITH FALLBACK PROXIES ====================
+    async function fetchWithProxy(url, retryCount = 0) {
+        if (retryCount >= PROXIES.length * 2) {
+            throw new Error('All proxies failed');
+        }
+        
+        const proxy = PROXIES[currentProxyIndex % PROXIES.length];
+        currentProxyIndex++;
+        
         try {
-            return JSON.parse(text);
-        } catch {
-            throw new Error('Invalid JSON response');
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 8000);
+            
+            const response = await fetch(proxy + encodeURIComponent(url), {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeout);
+            const text = await response.text();
+            
+            try {
+                return JSON.parse(text);
+            } catch {
+                throw new Error('Invalid JSON response');
+            }
+        } catch (err) {
+            console.log(`Proxy ${proxy} failed, trying next...`);
+            return fetchWithProxy(url, retryCount + 1);
         }
     }
 
-    // ==================== LOAD ALL GAME DATA ====================
+    // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
-        const games = [];
-        let hasError = false;
         
-        for (const game of GAMES) {
-            try {
-                // 1. Get universeId
-                const universeData = await fetchWithProxy(
-                    `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`
-                );
-                const universeId = universeData.universeId;
-                
-                // 2. Get game details
-                const detailsData = await fetchWithProxy(
-                    `https://games.roblox.com/v1/games?universeIds=${universeId}`
-                );
-                const details = detailsData.data[0];
-                
-                // 3. Get icon URL
-                const iconData = await fetchWithProxy(
-                    `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
-                );
-                
-                // 4. Get thumbnail gallery (up to 8 images)
-                const thumbnailData = await fetchWithProxy(
-                    `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
-                );
-                
-                // Extract icon URL
-                let iconUrl = '';
-                if (iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
-                    iconUrl = iconData.data[0].imageUrl;
+        try {
+            // Load the games.json file
+            const response = await fetch('games.json');
+            const data = await response.json();
+            const GAMES = data.games;
+            
+            const games = [];
+            let hasError = false;
+            
+            for (const game of GAMES) {
+                try {
+                    // Use placeId from JSON (already provided)
+                    const placeId = game.placeId;
+                    if (!placeId) throw new Error('No placeId found');
+                    
+                    // 1. Get universeId
+                    const universeData = await fetchWithProxy(
+                        `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
+                    );
+                    const universeId = universeData.universeId;
+                    
+                    // 2. Get game details
+                    const detailsData = await fetchWithProxy(
+                        `https://games.roblox.com/v1/games?universeIds=${universeId}`
+                    );
+                    const details = detailsData.data[0];
+                    
+                    // 3. Get icon URL
+                    const iconData = await fetchWithProxy(
+                        `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
+                    );
+                    
+                    // 4. Get thumbnail gallery
+                    const thumbnailData = await fetchWithProxy(
+                        `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
+                    );
+                    
+                    // Extract icon URL
+                    let iconUrl = '';
+                    if (iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+                        iconUrl = iconData.data[0].imageUrl;
+                    }
+                    
+                    // Extract thumbnail URLs
+                    let thumbnails = [];
+                    if (thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
+                        thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
+                    }
+                    
+                    games.push({
+                        ...game,
+                        universeId,
+                        name: details.name,
+                        playerCount: details.playing,
+                        created: new Date(details.created).toLocaleDateString(),
+                        updated: new Date(details.updated).toLocaleDateString(),
+                        ownerName: details.creator.name,
+                        ownerUrl: details.creator.type === 'Group' 
+                            ? `https://www.roblox.com/groups/${details.creator.id}`
+                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                        thumbnailUrl: iconUrl,
+                        thumbnails: thumbnails,
+                        gameUrl: `https://www.roblox.com/games/${placeId}`
+                    });
+                    
+                    console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon', `${thumbnails.length} thumbnails`);
+                    
+                } catch (err) {
+                    console.error(`Failed to load game:`, game, err);
+                    hasError = true;
+                    games.push({
+                        ...game,
+                        name: 'Failed to load',
+                        playerCount: '?',
+                        created: '?',
+                        updated: '?',
+                        ownerName: '?',
+                        thumbnailUrl: '',
+                        thumbnails: [],
+                        gameUrl: '#'
+                    });
                 }
                 
-                // Extract thumbnail URLs
-                let thumbnails = [];
-                if (thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
-                    thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
-                }
-                
-                games.push({
-                    ...game,
-                    universeId,
-                    name: details.name,
-                    playerCount: details.playing,
-                    created: new Date(details.created).toLocaleDateString(),
-                    updated: new Date(details.updated).toLocaleDateString(),
-                    ownerName: details.creator.name,
-                    ownerUrl: details.creator.type === 'Group' 
-                        ? `https://www.roblox.com/groups/${details.creator.id}`
-                        : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                    thumbnailUrl: iconUrl,
-                    thumbnails: thumbnails,
-                    gameUrl: `https://www.roblox.com/games/${game.placeId}`
-                });
-                
-                console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon', `${thumbnails.length} thumbnails`);
-                
-            } catch (err) {
-                console.error(`Failed to load ${game.placeId}:`, err);
-                hasError = true;
-                games.push({
-                    ...game,
-                    name: 'Failed to load',
-                    playerCount: '?',
-                    created: '?',
-                    updated: '?',
-                    ownerName: '?',
-                    thumbnailUrl: '',
-                    thumbnails: [],
-                    gameUrl: '#'
-                });
+                // Update UI progressively
+                renderGames(games);
+                buildTagFilters(games);
             }
             
-            // Update UI progressively
-            renderGames(games);
-            buildTagFilters(games);
-        }
-        
-        if (hasError) {
-            const warning = document.createElement('div');
-            warning.className = 'warning';
-            warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
-            grid.parentNode.insertBefore(warning, grid);
+            if (hasError) {
+                const warning = document.createElement('div');
+                warning.className = 'warning';
+                warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
+                grid.parentNode.insertBefore(warning, grid);
+            }
+            
+        } catch (err) {
+            console.error('Failed to load games.json:', err);
+            grid.innerHTML = '<div class="error">⚠️ Failed to load games.json — make sure the file exists</div>';
         }
     }
 
@@ -515,7 +542,7 @@
                                 <img src="https://placehold.co/80x80/5f9ea0/white?text=Sub" alt="subgame">
                             </div>
                             <div class="subgame-info">
-                                <div class="subgame-title"><a href="${sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a></div>
+                                <div class="subgame-title"><a href="${sub.gameLink || '#'}">${sub.name || 'Subgame'}</a></div>
                                 <div class="subgame-stats">
                                     <span>${sub.note || ''}</span>
                                 </div>
