@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COMINA · game list</title>
     <style>
-        /* Keep ALL your existing CSS - it's perfect */
         * {
             margin: 0;
             padding: 0;
@@ -198,6 +197,8 @@
         .stat-value {
             font-weight: 600;
             color: #1a2b3c;
+            cursor: help;
+            border-bottom: 1px dotted #9aa9b7;
         }
         .stat-value a {
             color: #1a2b3c;
@@ -221,21 +222,51 @@
             font-weight: 600;
         }
         
+        /* Thumbnail gallery styles - true size, cycleable */
         .thumbnail-gallery {
             margin-top: 16px;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 8px;
         }
-        .thumbnail-gallery img {
-            width: calc(25% - 6px);
-            min-width: 140px;
-            flex: 1 1 auto;
-            height: 80px;
+        .thumbnail-main {
+            width: 100%;
+            background: #f0f7ff;
+            border-radius: 6px;
+            border: 1px solid #b0c4de;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .thumbnail-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #dbeafe;
+        }
+        .thumbnail-strip {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 4px 0;
+        }
+        .thumbnail-strip img {
+            width: 60px;
+            height: 60px;
             object-fit: cover;
             border-radius: 4px;
-            border: 1px solid #b0c4de;
+            border: 2px solid transparent;
+            cursor: pointer;
             background: #dbeafe;
+        }
+        .thumbnail-strip img.active {
+            border-color: #5f9ea0;
+        }
+        .thumbnail-strip img:hover {
+            opacity: 0.8;
         }
         
         .subgames {
@@ -304,6 +335,31 @@
             text-align: center;
             font-size: 14px;
         }
+        
+        /* Tooltip styles */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a2b3c;
+            color: #e8f0fe;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            z-index: 10;
+            margin-bottom: 5px;
+        }
+        [data-tooltip]:hover:before {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -328,29 +384,127 @@
 </div>
 
 <script>
-    // ==================== LOAD STATIC GAME DATA ====================
-    // NO PROXIES! NO CORS! Just a simple JSON file updated by GitHub Actions
-    // ==================== LOAD STATIC GAME DATA ====================
-async function loadGames() {
-    const grid = document.getElementById('game-grid');
-    
-    try {
-        const response = await fetch('games-data.json');
-        const data = await response.json();
+    // ==================== RELATIVE TIME HELPER ====================
+    function getRelativeTime(dateString) {
+        if (!dateString || dateString === '?') return '?';
         
-        // Update last updated display
-        if (data.lastUpdated) {
-            document.getElementById('last-updated').textContent = `(updated ${data.lastUpdated})`;
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffSec = Math.floor(diffMs / 1000);
+        const diffMin = Math.floor(diffSec / 60);
+        const diffHour = Math.floor(diffMin / 60);
+        const diffDay = Math.floor(diffHour / 24);
+        const diffMonth = Math.floor(diffDay / 30);
+        const diffYear = Math.floor(diffMonth / 12);
+
+        if (diffSec < 60) return 'just now';
+        if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+        if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
+        if (diffDay < 30) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+        if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
+        return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
+    }
+
+    // ==================== LOAD STATIC GAME DATA ====================
+    async function loadGames() {
+        const grid = document.getElementById('game-grid');
+        
+        try {
+            const response = await fetch('games-data.json');
+            const data = await response.json();
+            
+            // Update last updated display with relative time
+            if (data.lastUpdated) {
+                const relativeTime = getRelativeTime(data.lastUpdated);
+                document.getElementById('last-updated').textContent = `(updated ${relativeTime})`;
+                document.getElementById('last-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdated}`);
+            }
+            
+            renderGames(data.games);
+            buildTagFilters(data.games);
+            
+        } catch (err) {
+            console.error('Failed to load games:', err);
+            grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
+        }
+    }
+
+    // ==================== THUMBNAIL GALLERY COMPONENT ====================
+    function createThumbnailGallery(thumbnails, gameIndex) {
+        if (!thumbnails || thumbnails.length === 0) return '';
+        
+        const galleryId = `gallery-${gameIndex}`;
+        let html = `<div class="thumbnail-gallery" id="${galleryId}">`;
+        
+        // Main display image (first thumbnail)
+        html += `<div class="thumbnail-main" onclick="cycleThumbnail('${galleryId}')">`;
+        html += `<img src="${thumbnails[0]}" alt="screenshot" class="main-thumbnail">`;
+        html += `</div>`;
+        
+        // Thumbnail strip
+        if (thumbnails.length > 1) {
+            html += `<div class="thumbnail-strip">`;
+            thumbnails.forEach((url, idx) => {
+                html += `<img src="${url}" alt="thumb" class="${idx === 0 ? 'active' : ''}" onclick="setThumbnail('${galleryId}', ${idx})">`;
+            });
+            html += `</div>`;
         }
         
-        renderGames(data.games);
-        buildTagFilters(data.games);
-        
-    } catch (err) {
-        console.error('Failed to load games:', err);
-        grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
+        html += `</div>`;
+        return html;
     }
-}
+
+    // ==================== THUMBNAIL FUNCTIONS ====================
+    window.setThumbnail = function(galleryId, index) {
+        const gallery = document.getElementById(galleryId);
+        if (!gallery) return;
+        
+        const mainImg = gallery.querySelector('.main-thumbnail');
+        const thumbnails = Array.from(gallery.querySelectorAll('.thumbnail-strip img'));
+        
+        if (mainImg && thumbnails.length > 0) {
+            const thumbnailsData = window.thumbnailData?.[galleryId] || [];
+            if (thumbnailsData[index]) {
+                mainImg.src = thumbnailsData[index];
+                
+                // Update active state
+                thumbnails.forEach((thumb, i) => {
+                    if (i === index) thumb.classList.add('active');
+                    else thumb.classList.remove('active');
+                });
+            }
+        }
+    };
+
+    window.cycleThumbnail = function(galleryId) {
+        const gallery = document.getElementById(galleryId);
+        if (!gallery) return;
+        
+        const mainImg = gallery.querySelector('.main-thumbnail');
+        const thumbnails = Array.from(gallery.querySelectorAll('.thumbnail-strip img'));
+        
+        if (mainImg && thumbnails.length > 0) {
+            // Find current index
+            let currentIndex = 0;
+            thumbnails.forEach((thumb, i) => {
+                if (thumb.classList.contains('active')) currentIndex = i;
+            });
+            
+            // Cycle to next
+            const nextIndex = (currentIndex + 1) % thumbnails.length;
+            const thumbnailsData = window.thumbnailData?.[galleryId] || [];
+            if (thumbnailsData[nextIndex]) {
+                mainImg.src = thumbnailsData[nextIndex];
+                
+                // Update active state
+                thumbnails.forEach((thumb, i) => {
+                    if (i === nextIndex) thumb.classList.add('active');
+                    else thumb.classList.remove('active');
+                });
+            }
+        }
+    };
 
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
@@ -360,13 +514,18 @@ async function loadGames() {
             return;
         }
         
+        // Store thumbnail data globally
+        window.thumbnailData = {};
+        
         let html = '';
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
-            // Format dates
-            const createdDate = game.created ? new Date(game.created).toLocaleDateString() : '?';
-            const updatedDate = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
+            // Format dates with relative time
+            const createdRelative = getRelativeTime(game.created);
+            const updatedRelative = getRelativeTime(game.updated);
+            const createdAbsolute = game.created ? new Date(game.created).toLocaleDateString() : '?';
+            const updatedAbsolute = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
             
             // Build tags HTML
             let tagsHtml = '';
@@ -379,15 +538,13 @@ async function loadGames() {
                 tagsHtml += '</div>';
             }
             
-            // Build thumbnails HTML
-            let thumbnailsHtml = '';
+            // Create thumbnail gallery
+            const galleryId = `gallery-${index}`;
             if (game.thumbnails && game.thumbnails.length > 0) {
-                thumbnailsHtml = '<div class="thumbnail-gallery">';
-                game.thumbnails.slice(0, 8).forEach(url => {
-                    thumbnailsHtml += `<img src="${url}" alt="screenshot" onerror="this.style.display='none'">`;
-                });
-                thumbnailsHtml += '</div>';
+                window.thumbnailData[galleryId] = game.thumbnails;
             }
+            
+            const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
             
             html += `
                 <div class="game-card">
@@ -402,8 +559,8 @@ async function loadGames() {
                         ${tagsHtml}
                         <div class="game-stats">
                             <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${createdDate}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${updatedDate}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${createdAbsolute}">${createdRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${updatedAbsolute}">${updatedRelative}</span></span>
                             <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
                         <div class="maintainer-note">
