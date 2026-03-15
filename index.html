@@ -332,22 +332,36 @@
 </div>
 
 <script>
-    // ==================== SINGLE RELIABLE PROXY ====================
+    // ==================== SINGLE RELIABLE PROXY WITH RETRIES ====================
     const PROXY = 'https://api.allorigins.win/raw?url=';
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 2000; // 2 seconds between retries
 
-    // ==================== FETCH WITH PROXY ====================
-    async function fetchWithProxy(url) {
+    // ==================== FETCH WITH AUTO-RETRY ====================
+    async function fetchWithRetry(url, retryCount = 0) {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 10000);
+        const timeout = setTimeout(() => controller.abort(), 15000); // 15 second timeout
         
         try {
+            console.log(`🔄 Attempt ${retryCount + 1}/${MAX_RETRIES} for:`, url.split('?')[0]);
+            
             const response = await fetch(PROXY + encodeURIComponent(url), {
                 signal: controller.signal
             });
             clearTimeout(timeout);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
             const text = await response.text();
             
-            // AllOrigins returns the data in a "contents" field
+            // Check if we got HTML instead of JSON (proxy failure)
+            if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+                throw new Error('Proxy returned HTML instead of JSON');
+            }
+            
+            // Parse JSON
             try {
                 const parsed = JSON.parse(text);
                 // If it's wrapped in AllOrigins format, extract contents
@@ -355,19 +369,28 @@
                     return JSON.parse(parsed.contents);
                 }
                 return parsed;
-            } catch {
-                return text;
+            } catch (e) {
+                throw new Error('Invalid JSON response');
             }
+            
         } catch (err) {
             clearTimeout(timeout);
-            throw err;
+            
+            if (retryCount < MAX_RETRIES - 1) {
+                console.log(`⚠️ Attempt ${retryCount + 1} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
+                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+                return fetchWithRetry(url, retryCount + 1);
+            } else {
+                console.error(`❌ All ${MAX_RETRIES} attempts failed for:`, url);
+                throw err;
+            }
         }
     }
 
     // ==================== SAFE FETCH WITH FALLBACK ====================
     async function safeFetch(url, fallback = null) {
         try {
-            return await fetchWithProxy(url);
+            return await fetchWithRetry(url);
         } catch (err) {
             console.warn(`Fetch failed for ${url}:`, err);
             return fallback;
@@ -393,32 +416,35 @@
                     const placeId = game.placeId;
                     if (!placeId) throw new Error('No placeId found');
                     
-                    // 1. Get universeId
+                    // Show which game we're loading
+                    console.log(`📦 Loading game: ${game.gameLink || placeId}`);
+                    
+                    // 1. Get universeId with retries
                     const universeData = await safeFetch(
                         `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
                     );
                     
                     if (!universeData || !universeData.universeId) {
-                        throw new Error('Failed to get universeId');
+                        throw new Error('Failed to get universeId after retries');
                     }
                     const universeId = universeData.universeId;
                     
-                    // 2. Get game details
+                    // 2. Get game details with retries
                     const detailsData = await safeFetch(
                         `https://games.roblox.com/v1/games?universeIds=${universeId}`
                     );
                     
                     if (!detailsData || !detailsData.data || !detailsData.data[0]) {
-                        throw new Error('Failed to get game details');
+                        throw new Error('Failed to get game details after retries');
                     }
                     const details = detailsData.data[0];
                     
-                    // 3. Get icon URL
+                    // 3. Get icon URL with retries
                     const iconData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
                     );
                     
-                    // 4. Get thumbnail gallery
+                    // 4. Get thumbnail gallery with retries
                     const thumbnailData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
                     );
@@ -454,7 +480,7 @@
                     console.log(`✅ Loaded: ${details.name || placeId}`);
                     
                 } catch (err) {
-                    console.error(`Failed to load game:`, game, err);
+                    console.error(`❌ Failed to load game after all retries:`, game, err);
                     hasError = true;
                     games.push({
                         ...game,
@@ -477,7 +503,7 @@
             if (hasError) {
                 const warning = document.createElement('div');
                 warning.className = 'warning';
-                warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
+                warning.innerHTML = '⚠️ Some games failed to load. The proxy is retrying automatically — if they don\'t appear, refresh the page.';
                 grid.parentNode.insertBefore(warning, grid);
             }
             
