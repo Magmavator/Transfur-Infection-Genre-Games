@@ -1,19 +1,22 @@
 {
   "games": [
     {
-      "placeId": "18440199762",
+      "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
+      "placeId": "79991553834328",
       "tags": ["OG", "tactical", "fps"],
       "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players.",
       "subgames": [
         {
-          "placeId": "1234567890",
+          "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
+          "placeId": "105838757260774",
           "name": "Test Place",
           "note": "testing server"
         }
       ]
     },
     {
-      "placeId": "114145425550635",
+      "gameLink": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
+      "placeId": "15518504762",
       "tags": ["polished", "active", "vehicles"],
       "maintainerNote": "real deformation physics, active dev, community growing.",
       "subgames": []
