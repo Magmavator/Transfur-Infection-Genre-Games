@@ -424,102 +424,115 @@
     }
 
     // ==================== LOAD SINGLE GAME ====================
-    async function loadSingleGame(game, gamesArray, index, statusDiv) {
-        try {
-            const placeId = game.placeId;
-            if (!placeId) throw new Error('No placeId found');
-            
-            console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
-            
-            // Update status message
-            if (statusDiv) {
-                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (will keep retrying if needed)`;
-            }
-            
-            // 1. Get universeId
-            const universeData = await safeFetch(
-                `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
-            );
-            
-            if (!universeData || !universeData.universeId) {
-                throw new Error('Failed to get universeId');
-            }
-            const universeId = universeData.universeId;
-            
-            // 2. Get game details
-            const detailsData = await safeFetch(
-                `https://games.roblox.com/v1/games?universeIds=${universeId}`
-            );
-            
-            if (!detailsData || !detailsData.data || !detailsData.data[0]) {
-                throw new Error('Failed to get game details');
-            }
-            const details = detailsData.data[0];
-            
-            // 3. Get icon URL
-            const iconData = await safeFetch(
-                `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
-            );
-            
-            // 4. Get thumbnail gallery
-            const thumbnailData = await safeFetch(
-                `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
-            );
-            
-            // Extract icon URL
-            let iconUrl = '';
-            if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
-                iconUrl = iconData.data[0].imageUrl;
-            }
-            
-            // Extract thumbnail URLs
-            let thumbnails = [];
-            if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
-                thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
-            }
-            
-            // Create enriched game object
-            const enrichedGame = {
-                ...game,
-                universeId,
-                name: details.name || 'Unknown',
-                playerCount: details.playing || 0,
-                created: details.created ? new Date(details.created).toLocaleDateString() : '?',
-                updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
-                ownerName: details.creator ? details.creator.name : '?',
-                ownerUrl: details.creator ? (details.creator.type === 'Group' 
-                    ? `https://www.roblox.com/groups/${details.creator.id}`
-                    : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
-                thumbnailUrl: iconUrl,
-                thumbnails: thumbnails,
-                gameUrl: `https://www.roblox.com/games/${placeId}`
-            };
-            
-            // Add to array at correct index
-            gamesArray[index] = enrichedGame;
-            
-            console.log(`✅ Loaded game ${index + 1}: ${details.name || placeId}`);
-            
-        } catch (err) {
-            console.error(`❌ Failed to load game ${index + 1}:`, game, err);
-            gamesArray[index] = {
-                ...game,
-                name: 'Failed to load',
-                playerCount: '?',
-                created: '?',
-                updated: '?',
-                ownerName: '?',
-                thumbnailUrl: '',
-                thumbnails: [],
-                gameUrl: game.gameLink || '#'
-            };
+    // ==================== LOAD SINGLE GAME ====================
+async function loadSingleGame(game, gamesArray, index, statusDiv) {
+    try {
+        const placeId = game.placeId;
+        if (!placeId) throw new Error('No placeId found');
+        
+        console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
+        
+        if (statusDiv) {
+            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching universe ID)`;
         }
         
-        // After each game (success or fail), re-render ALL current games
-        // This shows progress as games load
-        renderGames(gamesArray.filter(g => g)); // Filter out empty slots
-        buildTagFilters(gamesArray.filter(g => g));
+        // 1. Get universeId - this is working!
+        const universeData = await safeFetch(
+            `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
+        );
+        
+        if (!universeData || !universeData.universeId) {
+            throw new Error('Failed to get universeId');
+        }
+        const universeId = universeData.universeId;
+        
+        console.log(`✅ Got universeId ${universeId} for game ${index + 1}`);
+        
+        if (statusDiv) {
+            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching details)`;
+        }
+        
+        // 2. Get game details - ensure URL is properly constructed
+        const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
+        console.log(`📡 Fetching details: ${detailsUrl}`);
+        const detailsData = await safeFetch(detailsUrl);
+        
+        if (!detailsData || !detailsData.data || !detailsData.data[0]) {
+            throw new Error('Failed to get game details');
+        }
+        const details = detailsData.data[0];
+        
+        if (statusDiv) {
+            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching icon)`;
+        }
+        
+        // 3. Get icon URL - ensure full URL with parameters
+        const iconUrl_full = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
+        console.log(`📡 Fetching icon: ${iconUrl_full}`);
+        const iconData = await safeFetch(iconUrl_full);
+        
+        // 4. Get thumbnail gallery
+        if (statusDiv) {
+            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching thumbnails)`;
+        }
+        
+        const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
+        console.log(`📡 Fetching thumbnails: ${thumbUrl}`);
+        const thumbnailData = await safeFetch(thumbUrl);
+        
+        // Extract icon URL
+        let iconUrl = '';
+        if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+            iconUrl = iconData.data[0].imageUrl;
+        }
+        
+        // Extract thumbnail URLs
+        let thumbnails = [];
+        if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
+            thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
+        }
+        
+        // Create enriched game object
+        const enrichedGame = {
+            ...game,
+            universeId,
+            name: details.name || 'Unknown',
+            playerCount: details.playing || 0,
+            created: details.created ? new Date(details.created).toLocaleDateString() : '?',
+            updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
+            ownerName: details.creator ? details.creator.name : '?',
+            ownerUrl: details.creator ? (details.creator.type === 'Group' 
+                ? `https://www.roblox.com/groups/${details.creator.id}`
+                : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
+            thumbnailUrl: iconUrl,
+            thumbnails: thumbnails,
+            gameUrl: `https://www.roblox.com/games/${placeId}`
+        };
+        
+        gamesArray[index] = enrichedGame;
+        
+        console.log(`✅ Loaded game ${index + 1}: ${details.name || placeId}`);
+        
+    } catch (err) {
+        console.error(`❌ Failed to load game ${index + 1}:`, game, err);
+        gamesArray[index] = {
+            ...game,
+            name: 'Failed to load',
+            playerCount: '?',
+            created: '?',
+            updated: '?',
+            ownerName: '?',
+            thumbnailUrl: '',
+            thumbnails: [],
+            gameUrl: game.gameLink || '#'
+        };
     }
+    
+    // After each game, re-render ALL current games
+    const validGames = gamesArray.filter(g => g);
+    renderGames(validGames);
+    buildTagFilters(validGames);
+}
 
     // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
