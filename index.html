@@ -344,79 +344,81 @@
     }
 
     // ==================== LOAD ALL GAME DATA ====================
-    async function loadGames() {
-        const grid = document.getElementById('game-grid');
-        const games = [];
-        let hasError = false;
-        
-        for (const game of GAMES) {
-            try {
-                // 1. Get universeId
-                const universeData = await fetchWithProxy(
-                    `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`
-                );
-                const universeId = universeData.universeId;
-                
-                // 2. Get game details
-                const detailsData = await fetchWithProxy(
-                    `https://games.roblox.com/v1/games?universeIds=${universeId}`
-                );
-                const details = detailsData.data[0];
-                
-                // 3. Get icon URL - the API returns a URL we can use directly
-                const iconData = await fetchWithProxy(
-                    `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`
-                );
-                
-                // Extract the actual image URL from the response
-                let iconUrl = '';
-                if (iconData.data && iconData.data[0] && iconData.data[0].thumbnails && iconData.data[0].thumbnails[0]) {
-                    iconUrl = iconData.data[0].thumbnails[0].imageUrl;
-                }
-                
-                games.push({
-                    ...game,
-                    name: details.name,
-                    playerCount: details.playing,
-                    created: new Date(details.created).toLocaleDateString(),
-                    updated: new Date(details.updated).toLocaleDateString(),
-                    ownerName: details.creator.name,
-                    ownerUrl: details.creator.type === 'Group' 
-                        ? `https://www.roblox.com/groups/${details.creator.id}`
-                        : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                    thumbnailUrl: iconUrl, // Now contains the actual CDN URL
-                    gameUrl: `https://www.roblox.com/games/${game.placeId}`
-                });
-                
-                console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon');
-                
-            } catch (err) {
-                console.error(`Failed to load ${game.placeId}:`, err);
-                hasError = true;
-                games.push({
-                    ...game,
-                    name: 'Failed to load',
-                    playerCount: '?',
-                    created: '?',
-                    updated: '?',
-                    ownerName: '?',
-                    thumbnailUrl: '',
-                    gameUrl: '#'
-                });
+    // ==================== LOAD ALL GAME DATA ====================
+async function loadGames() {
+    const grid = document.getElementById('game-grid');
+    const games = [];
+    let hasError = false;
+    
+    for (const game of GAMES) {
+        try {
+            // 1. Get universeId
+            const universeData = await fetchWithProxy(
+                `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`
+            );
+            const universeId = universeData.universeId;
+            
+            // 2. Get game details
+            const detailsData = await fetchWithProxy(
+                `https://games.roblox.com/v1/games?universeIds=${universeId}`
+            );
+            const details = detailsData.data[0];
+            
+            // 3. Get icon URL - FIXED: the API returns imageUrl directly in the data object
+            const iconData = await fetchWithProxy(
+                `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
+            );
+            
+            // Extract the actual image URL from the response
+            let iconUrl = '';
+            if (iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+                iconUrl = iconData.data[0].imageUrl;
+                console.log(`Icon URL for ${details.name}:`, iconUrl); // Debug log
             }
             
-            // Update UI progressively
-            renderGames(games);
-            buildTagFilters(games);
+            games.push({
+                ...game,
+                name: details.name,
+                playerCount: details.playing,
+                created: new Date(details.created).toLocaleDateString(),
+                updated: new Date(details.updated).toLocaleDateString(),
+                ownerName: details.creator.name,
+                ownerUrl: details.creator.type === 'Group' 
+                    ? `https://www.roblox.com/groups/${details.creator.id}`
+                    : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                thumbnailUrl: iconUrl,
+                gameUrl: `https://www.roblox.com/games/${game.placeId}`
+            });
+            
+            console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon');
+            
+        } catch (err) {
+            console.error(`Failed to load ${game.placeId}:`, err);
+            hasError = true;
+            games.push({
+                ...game,
+                name: 'Failed to load',
+                playerCount: '?',
+                created: '?',
+                updated: '?',
+                ownerName: '?',
+                thumbnailUrl: '',
+                gameUrl: '#'
+            });
         }
         
-        if (hasError) {
-            const warning = document.createElement('div');
-            warning.className = 'warning';
-            warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
-            grid.parentNode.insertBefore(warning, grid);
-        }
+        // Update UI progressively
+        renderGames(games);
+        buildTagFilters(games);
     }
+    
+    if (hasError) {
+        const warning = document.createElement('div');
+        warning.className = 'warning';
+        warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
+        grid.parentNode.insertBefore(warning, grid);
+    }
+}
 
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
