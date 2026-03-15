@@ -371,47 +371,53 @@
     const TIMEOUT = 10000; // 10 second timeout per attempt
 
     // ==================== FETCH WITH INFINITE RETRIES ====================
-    async function fetchWithInfiniteRetry(url, attempt = 1) {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), TIMEOUT);
+    // ==================== FETCH WITH INFINITE RETRIES ====================
+async function fetchWithInfiniteRetry(url, attempt = 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT);
+    
+    // Double-encode the URL to preserve query parameters
+    const encodedUrl = encodeURIComponent(url);
+    const fullProxyUrl = PROXY + encodedUrl;
+    
+    console.log(`🔄 Attempt ${attempt} for:`, url.split('?')[0]); // Log original URL
+    console.log(`   Proxy URL:`, fullProxyUrl.substring(0, 100) + '...'); // Log proxy URL (truncated)
+    
+    try {
+        const response = await fetch(fullProxyUrl, {
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const text = await response.text();
+        
+        if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+            throw new Error('Proxy returned HTML');
+        }
         
         try {
-            console.log(`🔄 Attempt ${attempt} for:`, url.split('?')[0]);
-            
-            const response = await fetch(PROXY + encodeURIComponent(url), {
-                signal: controller.signal
-            });
-            clearTimeout(timeout);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+            const parsed = JSON.parse(text);
+            if (parsed.contents) {
+                return JSON.parse(parsed.contents);
             }
-            
-            const text = await response.text();
-            
-            if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-                throw new Error('Proxy returned HTML');
-            }
-            
-            try {
-                const parsed = JSON.parse(text);
-                if (parsed.contents) {
-                    return JSON.parse(parsed.contents);
-                }
-                return parsed;
-            } catch (e) {
-                throw new Error('Invalid JSON');
-            }
-            
-        } catch (err) {
-            clearTimeout(timeout);
-            
-            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
-            
-            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-            return fetchWithInfiniteRetry(url, attempt + 1);
+            return parsed;
+        } catch (e) {
+            throw new Error('Invalid JSON');
         }
+        
+    } catch (err) {
+        clearTimeout(timeout);
+        
+        console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
+        
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        return fetchWithInfiniteRetry(url, attempt + 1);
     }
+}
 
     // ==================== SAFE FETCH WITH INFINITE RETRIES ====================
     async function safeFetch(url, fallback = null) {
