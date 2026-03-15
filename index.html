@@ -332,18 +332,19 @@
 </div>
 
 <script>
-    // ==================== SINGLE RELIABLE PROXY WITH RETRIES ====================
+    // ==================== NUCLEAR PROXY ====================
+    // This will retry FOREVER until it gets data. No surrender.
     const PROXY = 'https://api.allorigins.win/raw?url=';
-    const MAX_RETRIES = 5;
-    const RETRY_DELAY = 2000; // 2 seconds between retries
+    const RETRY_DELAY = 1000; // 1 second between retries
+    const TIMEOUT = 5000; // 5 second timeout (shorter)
 
-    // ==================== FETCH WITH AUTO-RETRY ====================
-    async function fetchWithRetry(url, retryCount = 0) {
+    // ==================== FETCH WITH INFINITE RETRIES ====================
+    async function fetchWithInfiniteRetry(url, attempt = 1) {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+        const timeout = setTimeout(() => controller.abort(), TIMEOUT);
         
         try {
-            console.log(`🔄 Attempt ${retryCount + 1}/${MAX_RETRIES} for:`, url.split('?')[0]);
+            console.log(`🔄 Attempt ${attempt} for:`, url.split('?')[0]);
             
             const response = await fetch(PROXY + encodeURIComponent(url), {
                 signal: controller.signal
@@ -358,48 +359,50 @@
             
             // Check if we got HTML instead of JSON (proxy failure)
             if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-                throw new Error('Proxy returned HTML instead of JSON');
+                throw new Error('Proxy returned HTML');
             }
             
             // Parse JSON
+            let data;
             try {
-                const parsed = JSON.parse(text);
-                // If it's wrapped in AllOrigins format, extract contents
-                if (parsed.contents) {
-                    return JSON.parse(parsed.contents);
-                }
-                return parsed;
+                data = JSON.parse(text);
             } catch (e) {
-                throw new Error('Invalid JSON response');
+                throw new Error('Invalid JSON');
             }
+            
+            // If it's wrapped in AllOrigins format, extract contents
+            if (data && data.contents) {
+                try {
+                    return JSON.parse(data.contents);
+                } catch (e) {
+                    return data.contents; // Return as-is if not JSON
+                }
+            }
+            
+            return data;
             
         } catch (err) {
             clearTimeout(timeout);
+            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
             
-            if (retryCount < MAX_RETRIES - 1) {
-                console.log(`⚠️ Attempt ${retryCount + 1} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
-                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-                return fetchWithRetry(url, retryCount + 1);
-            } else {
-                console.error(`❌ All ${MAX_RETRIES} attempts failed for:`, url);
-                throw err;
-            }
-        }
-    }
-
-    // ==================== SAFE FETCH WITH FALLBACK ====================
-    async function safeFetch(url, fallback = null) {
-        try {
-            return await fetchWithRetry(url);
-        } catch (err) {
-            console.warn(`Fetch failed for ${url}:`, err);
-            return fallback;
+            // Wait a bit, then try again FOREVER
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            return fetchWithInfiniteRetry(url, attempt + 1);
         }
     }
 
     // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
+        
+        // Update loading message to show nuclear mode
+        grid.innerHTML = `
+            <div class="loading">
+                <p>⏳ NUCLEAR MODE ACTIVATED</p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">Will retry forever until data loads. This may take a while...</p>
+                <p style="font-size: 11px; color: #888; margin-top: 20px;" id="retry-status">Connecting...</p>
+            </div>
+        `;
         
         try {
             // Load the games.json file
@@ -411,51 +414,49 @@
             let hasError = false;
             
             for (const game of GAMES) {
+                // Update status
+                document.getElementById('retry-status')?.innerHTML = `Loading: ${game.gameLink || game.placeId}...`;
+                
                 try {
-                    // Use placeId from JSON
                     const placeId = game.placeId;
                     if (!placeId) throw new Error('No placeId found');
                     
-                    // Show which game we're loading
-                    console.log(`📦 Loading game: ${game.gameLink || placeId}`);
-                    
-                    // 1. Get universeId with retries
-                    const universeData = await safeFetch(
+                    // 1. Get universeId (will retry forever)
+                    const universeData = await fetchWithInfiniteRetry(
                         `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
                     );
                     
                     if (!universeData || !universeData.universeId) {
-                        throw new Error('Failed to get universeId after retries');
+                        throw new Error('Invalid universe response');
                     }
                     const universeId = universeData.universeId;
                     
-                    // 2. Get game details with retries
-                    const detailsData = await safeFetch(
+                    // 2. Get game details (will retry forever)
+                    const detailsData = await fetchWithInfiniteRetry(
                         `https://games.roblox.com/v1/games?universeIds=${universeId}`
                     );
                     
                     if (!detailsData || !detailsData.data || !detailsData.data[0]) {
-                        throw new Error('Failed to get game details after retries');
+                        throw new Error('Invalid details response');
                     }
                     const details = detailsData.data[0];
                     
-                    // 3. Get icon URL with retries
-                    const iconData = await safeFetch(
+                    // 3. Get icon URL (will retry forever)
+                    const iconData = await fetchWithInfiniteRetry(
                         `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
                     );
                     
-                    // 4. Get thumbnail gallery with retries
-                    const thumbnailData = await safeFetch(
+                    // 4. Get thumbnail gallery (will retry forever)
+                    const thumbnailData = await fetchWithInfiniteRetry(
                         `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
                     );
                     
-                    // Extract icon URL safely
+                    // Extract data safely
                     let iconUrl = '';
                     if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
                         iconUrl = iconData.data[0].imageUrl;
                     }
                     
-                    // Extract thumbnail URLs safely
                     let thumbnails = [];
                     if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
                         thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
@@ -480,7 +481,7 @@
                     console.log(`✅ Loaded: ${details.name || placeId}`);
                     
                 } catch (err) {
-                    console.error(`❌ Failed to load game after all retries:`, game, err);
+                    console.error(`❌ Failed to load game after INFINITE retries (should never happen):`, game, err);
                     hasError = true;
                     games.push({
                         ...game,
@@ -498,12 +499,15 @@
                 // Update UI progressively
                 renderGames(games);
                 buildTagFilters(games);
+                
+                // Update status
+                document.getElementById('retry-status')?.innerHTML = `Loaded ${games.length}/${GAMES.length} games`;
             }
             
             if (hasError) {
                 const warning = document.createElement('div');
                 warning.className = 'warning';
-                warning.innerHTML = '⚠️ Some games failed to load. The proxy is retrying automatically — if they don\'t appear, refresh the page.';
+                warning.innerHTML = '⚠️ Some games had issues loading, but we tried our best.';
                 grid.parentNode.insertBefore(warning, grid);
             }
             
@@ -517,7 +521,6 @@
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
-            grid.innerHTML = '<div class="loading">loading games...</div>';
             return;
         }
         
