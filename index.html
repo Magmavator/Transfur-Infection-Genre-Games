@@ -365,17 +365,20 @@
 </div>
 
 <script>
-    // ==================== ALLORIGINS PROXY WITH LONG TIMEOUT ====================
+    // ==================== FLOOD CONFIG ====================
     const PROXY = 'https://api.allorigins.win/raw?url=';
-    const TIMEOUT = 30000; // 30 second timeout
-    const MAX_RETRIES_PER_GAME = 5; // Maximum retries per game before giving up
+    const TIMEOUT = 15000; // 15 second timeout
+    const MAX_WAVES = 3; // Number of retry waves
+    const PARALLEL_REQUESTS = 3; // Send 3 requests at once
 
-    // ==================== FETCH WITH TIMEOUT ====================
-    async function fetchWithTimeout(url) {
+    // ==================== SINGLE FETCH ====================
+    async function singleFetch(url, gameIndex, waveNum, reqNum) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), TIMEOUT);
         
         try {
+            console.log(`🌊 Game ${gameIndex + 1} [Wave ${waveNum}/${MAX_WAVES} Req ${reqNum + 1}/${PARALLEL_REQUESTS}]: ${url.split('?')[0]}`);
+            
             const response = await fetch(PROXY + encodeURIComponent(url), {
                 signal: controller.signal
             });
@@ -402,7 +405,7 @@
                 }
                 return parsed;
             } catch (e) {
-                throw new Error('Invalid JSON response');
+                throw new Error('Invalid JSON');
             }
             
         } catch (err) {
@@ -411,19 +414,30 @@
         }
     }
 
-    // ==================== SAFE FETCH WITH PER-GAME RETRIES ====================
-    async function fetchWithRetry(url, gameIndex, retryCount = 0) {
+    // ==================== FLOOD FETCH ====================
+    async function floodFetch(url, gameIndex, waveNum = 1) {
+        console.log(`🚀 Game ${gameIndex + 1}: Starting wave ${waveNum}/${MAX_WAVES} with ${PARALLEL_REQUESTS} parallel requests`);
+        
+        // Create an array of promises
+        const promises = [];
+        for (let i = 0; i < PARALLEL_REQUESTS; i++) {
+            promises.push(singleFetch(url, gameIndex, waveNum, i));
+        }
+        
+        // Race them - first one to succeed wins
         try {
-            console.log(`📡 Game ${gameIndex + 1}: Fetching ${url.split('?')[0]} (attempt ${retryCount + 1}/${MAX_RETRIES_PER_GAME})`);
-            return await fetchWithTimeout(url);
+            const result = await Promise.race(promises);
+            console.log(`✅ Game ${gameIndex + 1}: Wave ${waveNum} successful`);
+            return result;
         } catch (err) {
-            if (retryCount < MAX_RETRIES_PER_GAME - 1) {
-                console.log(`⚠️ Game ${gameIndex + 1}: Attempt ${retryCount + 1} failed, retrying in 2s...`);
+            console.log(`⚠️ Game ${gameIndex + 1}: All ${PARALLEL_REQUESTS} requests in wave ${waveNum} failed`);
+            
+            if (waveNum < MAX_WAVES) {
+                console.log(`🔄 Game ${gameIndex + 1}: Starting wave ${waveNum + 1} in 2s...`);
                 await new Promise(resolve => setTimeout(resolve, 2000));
-                return fetchWithRetry(url, gameIndex, retryCount + 1);
+                return floodFetch(url, gameIndex, waveNum + 1);
             } else {
-                console.error(`❌ Game ${gameIndex + 1}: All ${MAX_RETRIES_PER_GAME} attempts failed for ${url.split('?')[0]}`);
-                throw err;
+                throw new Error(`All ${MAX_WAVES} waves failed`);
             }
         }
     }
@@ -437,11 +451,11 @@
             console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
             
             if (statusDiv) {
-                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching universe ID)`;
+                statusDiv.innerHTML = `🔄 Game ${index + 1}: Fetching universe ID...`;
             }
             
-            // 1. Get universeId with per-game retries
-            const universeData = await fetchWithRetry(
+            // 1. Get universeId with flood fetch
+            const universeData = await floodFetch(
                 `https://apis.roblox.com/universes/v1/places/${placeId}/universe`,
                 index
             );
@@ -454,12 +468,12 @@
             console.log(`✅ Game ${index + 1}: Got universeId ${universeId}`);
             
             if (statusDiv) {
-                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching details)`;
+                statusDiv.innerHTML = `🔄 Game ${index + 1}: Fetching details...`;
             }
             
-            // 2. Get game details with per-game retries
+            // 2. Get game details
             const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-            const detailsData = await fetchWithRetry(detailsUrl, index);
+            const detailsData = await floodFetch(detailsUrl, index);
             
             if (!detailsData || !detailsData.data || !detailsData.data[0]) {
                 throw new Error('Failed to get game details');
@@ -467,20 +481,20 @@
             const details = detailsData.data[0];
             
             if (statusDiv) {
-                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching icon)`;
+                statusDiv.innerHTML = `🔄 Game ${index + 1}: Fetching icon...`;
             }
             
-            // 3. Get icon URL with per-game retries
+            // 3. Get icon URL
             const iconUrl_full = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
-            const iconData = await fetchWithRetry(iconUrl_full, index);
+            const iconData = await floodFetch(iconUrl_full, index);
             
-            // 4. Get thumbnail gallery with per-game retries
+            // 4. Get thumbnail gallery
             if (statusDiv) {
-                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching thumbnails)`;
+                statusDiv.innerHTML = `🔄 Game ${index + 1}: Fetching thumbnails...`;
             }
             
             const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
-            const thumbnailData = await fetchWithRetry(thumbUrl, index);
+            const thumbnailData = await floodFetch(thumbUrl, index);
             
             // Extract icon URL
             let iconUrl = '';
@@ -513,10 +527,10 @@
             
             gamesArray[index] = enrichedGame;
             
-            console.log(`✅ Game ${index + 1} loaded successfully: ${details.name || placeId}`);
+            console.log(`✅ Game ${index + 1} loaded: ${details.name || placeId}`);
             
         } catch (err) {
-            console.error(`❌ Game ${index + 1} failed permanently after ${MAX_RETRIES_PER_GAME} attempts:`, game, err);
+            console.error(`❌ Game ${index + 1} failed after ${MAX_WAVES} waves:`, game, err);
             gamesArray[index] = {
                 ...game,
                 name: 'Failed to load',
@@ -530,7 +544,7 @@
             };
         }
         
-        // After each game (success or fail), re-render ALL current games
+        // After each game, re-render
         const validGames = gamesArray.filter(g => g);
         renderGames(validGames);
         buildTagFilters(validGames);
@@ -541,34 +555,29 @@
         const grid = document.getElementById('game-grid');
         
         try {
-            // Load the games.json file
             const response = await fetch('games.json');
             const data = await response.json();
             const GAMES = data.games;
             
-            // Create an array with empty slots (will be filled as games load)
             const games = new Array(GAMES.length);
             let hasError = false;
             
-            // Show status message
             const statusDiv = document.createElement('div');
             statusDiv.className = 'warning';
-            statusDiv.innerHTML = `🔄 Loading 0/${GAMES.length} games... (each game has ${MAX_RETRIES_PER_GAME} retry attempts)`;
+            statusDiv.innerHTML = `🚀 Loading 0/${GAMES.length} games with flood mode (${PARALLEL_REQUESTS}x per wave, ${MAX_WAVES} waves)`;
             grid.parentNode.insertBefore(statusDiv, grid);
             
-            // Start all games loading in parallel (they will complete independently)
             const loadPromises = GAMES.map((game, index) => 
                 loadSingleGame(game, games, index, statusDiv)
                     .catch(err => {
-                        console.error(`Game ${index + 1} failed completely:`, err);
+                        console.error(`Game ${index + 1} failed:`, err);
                         hasError = true;
                     })
             );
             
-            // Update status periodically
             const statusInterval = setInterval(() => {
                 const loadedCount = games.filter(g => g).length;
-                statusDiv.innerHTML = `🔄 Loading ${loadedCount}/${GAMES.length} games... (${MAX_RETRIES_PER_GAME} retry attempts per game)`;
+                statusDiv.innerHTML = `🚀 Loading ${loadedCount}/${GAMES.length} games... (flood mode active)`;
                 
                 if (loadedCount === GAMES.length) {
                     clearInterval(statusInterval);
@@ -577,18 +586,17 @@
                     if (hasError) {
                         const warning = document.createElement('div');
                         warning.className = 'warning';
-                        warning.innerHTML = '⚠️ Some games failed to load after multiple retries.';
+                        warning.innerHTML = '⚠️ Some games failed to load.';
                         grid.parentNode.insertBefore(warning, grid);
                     }
                 }
             }, 500);
             
-            // Wait for all games to complete (but UI updates already happening)
             await Promise.allSettled(loadPromises);
             
         } catch (err) {
             console.error('Failed to load games.json:', err);
-            grid.innerHTML = '<div class="error">⚠️ Failed to load games.json — make sure the file exists</div>';
+            grid.innerHTML = '<div class="error">⚠️ Failed to load games.json</div>';
         }
     }
 
@@ -618,7 +626,7 @@
             if (game.thumbnails && game.thumbnails.length > 0) {
                 thumbnailsHtml = '<div class="thumbnail-gallery">';
                 game.thumbnails.slice(0, 8).forEach(url => {
-                    thumbnailsHtml += `<img src="${url}" alt="game screenshot" onerror="this.style.display='none'">`;
+                    thumbnailsHtml += `<img src="${url}" alt="screenshot" onerror="this.style.display='none'">`;
                 });
                 thumbnailsHtml += '</div>';
             }
