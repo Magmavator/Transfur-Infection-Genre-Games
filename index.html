@@ -925,7 +925,9 @@ window.toggleSubgames = function(index) {
     const div = document.getElementById(`subgames-${index}`);
     const btn = event.target;
     div.classList.toggle('visible');
-    btn.textContent = div.classList.contains('visible') ? `▲ subgames (${div.children.length})` : `▼ subgames (${div.children.length})`;
+    // Get the actual subgame count from the button's data attribute or from the game object
+    const count = btn.textContent.match(/\d+/)?.[0] || '0';
+    btn.textContent = div.classList.contains('visible') ? `▲ subgames (${count})` : `▼ subgames (${count})`;
 };
     // Start
     loadGames();
