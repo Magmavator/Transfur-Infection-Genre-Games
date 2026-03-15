@@ -366,244 +366,221 @@
 
 <script>
     // ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
-    // Try these in order (CORSBox is usually reliable)
-const PROXIES = [
-    'https://corsbox.vercel.app/api/cors?url=',
-    'https://api.allorigins.win/raw?url=',  // Keep as backup
-    'https://corsproxy.io/?'
-];
+    const PROXIES = [
+        'https://corsbox.vercel.app/api/cors?url=',  // CORSBox - reliable with query strings
+        'https://api.allorigins.win/raw?url=',       // AllOrigins - backup
+        'https://corsproxy.io/?',                    // corsproxy.io - backup
+        'https://proxy.cors.sh/',                     // cors.sh - backup
+        'https://cors-anywhere.herokuapp.com/'        // cors-anywhere - final backup
+    ];
+
     const RETRY_DELAY = 1000; // 1 second between retries
     const TIMEOUT = 10000; // 10 second timeout per attempt
 
     // ==================== FETCH WITH INFINITE RETRIES ====================
-    // ==================== FETCH WITH INFINITE RETRIES ====================
-// ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
-const PROXIES = [
-    'https://corsbox.vercel.app/api/cors?url=',  // CORSBox - reliable with query strings
-    'https://api.allorigins.win/raw?url=',       // AllOrigins - backup
-    'https://corsproxy.io/?',                    // corsproxy.io - backup
-    'https://proxy.cors.sh/',                     // cors.sh - backup
-    'https://cors-anywhere.herokuapp.com/'        // cors-anywhere - final backup
-];
-
-const RETRY_DELAY = 1000; // 1 second between retries
-const TIMEOUT = 10000; // 10 second timeout per attempt
-
-// ==================== FETCH WITH INFINITE RETRIES ====================
-async function fetchWithInfiniteRetry(url, attempt = 1, proxyIndex = 0) {
-    // Cycle through proxies if we've tried current one multiple times
-    const currentProxy = PROXIES[proxyIndex % PROXIES.length];
-    
-    // Double-encode the URL to preserve all special characters including ? and &
-    const encodedUrl = encodeURIComponent(url);
-    const fullProxyUrl = currentProxy + encodedUrl;
-    
-    console.log(`🌐 [${new Date().toLocaleTimeString()}] Attempt ${attempt} | Proxy ${proxyIndex + 1}/${PROXIES.length}: ${currentProxy.split('/')[2]}`);
-    console.log(`   Original: ${url.substring(0, 80)}...`);
-    console.log(`   Proxy URL: ${fullProxyUrl.substring(0, 100)}...`);
-    
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), TIMEOUT);
-    
-    try {
-        const response = await fetch(fullProxyUrl, {
-            signal: controller.signal,
-            headers: {
-                'Origin': window.location.origin,
-                'x-requested-with': 'XMLHttpRequest'
-            }
-        });
-        clearTimeout(timeout);
+    async function fetchWithInfiniteRetry(url, attempt = 1, proxyIndex = 0) {
+        // Cycle through proxies if we've tried current one multiple times
+        const currentProxy = PROXIES[proxyIndex % PROXIES.length];
         
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status} ${response.statusText}`);
-        }
+        // Double-encode the URL to preserve all special characters including ? and &
+        const encodedUrl = encodeURIComponent(url);
+        const fullProxyUrl = currentProxy + encodedUrl;
         
-        const text = await response.text();
+        console.log(`🌐 [${new Date().toLocaleTimeString()}] Attempt ${attempt} | Proxy ${proxyIndex + 1}/${PROXIES.length}: ${currentProxy.split('/')[2]}`);
+        console.log(`   Original: ${url.substring(0, 80)}...`);
+        console.log(`   Proxy URL: ${fullProxyUrl.substring(0, 100)}...`);
         
-        // Check if we got HTML instead of JSON (proxy failure)
-        if (text.trim().startsWith('<!DOCTYPE') || 
-            text.trim().startsWith('<html') || 
-            text.trim().startsWith('<?xml')) {
-            throw new Error('Proxy returned HTML - likely blocked');
-        }
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), TIMEOUT);
         
-        // Parse JSON with proper error handling
         try {
-            const parsed = JSON.parse(text);
-            
-            // Handle AllOrigins special format
-            if (parsed.contents && typeof parsed.contents === 'string') {
-                try {
-                    return JSON.parse(parsed.contents);
-                } catch {
-                    return parsed.contents;
+            const response = await fetch(fullProxyUrl, {
+                signal: controller.signal,
+                headers: {
+                    'Origin': window.location.origin,
+                    'x-requested-with': 'XMLHttpRequest'
                 }
+            });
+            clearTimeout(timeout);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`);
             }
             
-            return parsed;
-        } catch (e) {
-            // If it's not JSON but we got a response, log it for debugging
-            console.log(`   Response preview: ${text.substring(0, 200)}`);
-            throw new Error('Invalid JSON response');
+            const text = await response.text();
+            
+            // Check if we got HTML instead of JSON (proxy failure)
+            if (text.trim().startsWith('<!DOCTYPE') || 
+                text.trim().startsWith('<html') || 
+                text.trim().startsWith('<?xml')) {
+                throw new Error('Proxy returned HTML - likely blocked');
+            }
+            
+            // Parse JSON with proper error handling
+            try {
+                const parsed = JSON.parse(text);
+                
+                // Handle AllOrigins special format
+                if (parsed.contents && typeof parsed.contents === 'string') {
+                    try {
+                        return JSON.parse(parsed.contents);
+                    } catch {
+                        return parsed.contents;
+                    }
+                }
+                
+                return parsed;
+            } catch (e) {
+                // If it's not JSON but we got a response, log it for debugging
+                console.log(`   Response preview: ${text.substring(0, 200)}`);
+                throw new Error('Invalid JSON response');
+            }
+            
+        } catch (err) {
+            clearTimeout(timeout);
+            
+            // Abort errors are common with timeouts
+            if (err.name === 'AbortError') {
+                console.log(`⏱️ Attempt ${attempt} timed out after ${TIMEOUT/1000}s`);
+            } else {
+                console.log(`⚠️ Attempt ${attempt} failed: ${err.message}`);
+            }
+            
+            // Calculate next proxy (cycle through them)
+            const nextProxyIndex = proxyIndex + 1;
+            
+            // If we've tried all proxies multiple times, log a warning but keep trying
+            if (nextProxyIndex >= PROXIES.length * 3) {
+                console.warn(`🔄 Still trying... (attempt ${attempt}, proxy ${nextProxyIndex % PROXIES.length + 1})`);
+            }
+            
+            // Wait before retrying
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            
+            // INFINITE RETRY - keep trying forever, cycling through proxies
+            return fetchWithInfiniteRetry(url, attempt + 1, nextProxyIndex);
         }
-        
-    } catch (err) {
-        clearTimeout(timeout);
-        
-        // Abort errors are common with timeouts
-        if (err.name === 'AbortError') {
-            console.log(`⏱️ Attempt ${attempt} timed out after ${TIMEOUT/1000}s`);
-        } else {
-            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}`);
-        }
-        
-        // Calculate next proxy (cycle through them)
-        const nextProxyIndex = proxyIndex + 1;
-        
-        // If we've tried all proxies multiple times, log a warning but keep trying
-        if (nextProxyIndex >= PROXIES.length * 3) {
-            console.warn(`🔄 Still trying... (attempt ${attempt}, proxy ${nextProxyIndex % PROXIES.length + 1})`);
-        }
-        
-        // Wait before retrying
-        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-        
-        // INFINITE RETRY - keep trying forever, cycling through proxies
-        return fetchWithInfiniteRetry(url, attempt + 1, nextProxyIndex);
     }
-}
 
-// ==================== SAFE FETCH WRAPPER ====================
-async function safeFetch(url, fallback = null) {
-    try {
-        return await fetchWithInfiniteRetry(url);
-    } catch (err) {
-        console.error(`💥 Fatal error for ${url.split('?')[0]}:`, err);
-        return fallback;
-    }
-}
-
-    // ==================== SAFE FETCH WITH INFINITE RETRIES ====================
+    // ==================== SAFE FETCH WRAPPER ====================
     async function safeFetch(url, fallback = null) {
         try {
             return await fetchWithInfiniteRetry(url);
         } catch (err) {
-            console.error(`Fatal error for ${url}:`, err);
+            console.error(`💥 Fatal error for ${url.split('?')[0]}:`, err);
             return fallback;
         }
     }
 
     // ==================== LOAD SINGLE GAME ====================
-    // ==================== LOAD SINGLE GAME ====================
-async function loadSingleGame(game, gamesArray, index, statusDiv) {
-    try {
-        const placeId = game.placeId;
-        if (!placeId) throw new Error('No placeId found');
-        
-        console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
-        
-        if (statusDiv) {
-            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching universe ID)`;
+    async function loadSingleGame(game, gamesArray, index, statusDiv) {
+        try {
+            const placeId = game.placeId;
+            if (!placeId) throw new Error('No placeId found');
+            
+            console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
+            
+            if (statusDiv) {
+                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching universe ID)`;
+            }
+            
+            // 1. Get universeId - this is working!
+            const universeData = await safeFetch(
+                `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
+            );
+            
+            if (!universeData || !universeData.universeId) {
+                throw new Error('Failed to get universeId');
+            }
+            const universeId = universeData.universeId;
+            
+            console.log(`✅ Got universeId ${universeId} for game ${index + 1}`);
+            
+            if (statusDiv) {
+                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching details)`;
+            }
+            
+            // 2. Get game details - ensure URL is properly constructed
+            const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
+            console.log(`📡 Fetching details: ${detailsUrl}`);
+            const detailsData = await safeFetch(detailsUrl);
+            
+            if (!detailsData || !detailsData.data || !detailsData.data[0]) {
+                throw new Error('Failed to get game details');
+            }
+            const details = detailsData.data[0];
+            
+            if (statusDiv) {
+                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching icon)`;
+            }
+            
+            // 3. Get icon URL - ensure full URL with parameters
+            const iconUrl_full = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
+            console.log(`📡 Fetching icon: ${iconUrl_full}`);
+            const iconData = await safeFetch(iconUrl_full);
+            
+            // 4. Get thumbnail gallery
+            if (statusDiv) {
+                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching thumbnails)`;
+            }
+            
+            const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
+            console.log(`📡 Fetching thumbnails: ${thumbUrl}`);
+            const thumbnailData = await safeFetch(thumbUrl);
+            
+            // Extract icon URL
+            let iconUrl = '';
+            if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+                iconUrl = iconData.data[0].imageUrl;
+            }
+            
+            // Extract thumbnail URLs
+            let thumbnails = [];
+            if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
+                thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
+            }
+            
+            // Create enriched game object
+            const enrichedGame = {
+                ...game,
+                universeId,
+                name: details.name || 'Unknown',
+                playerCount: details.playing || 0,
+                created: details.created ? new Date(details.created).toLocaleDateString() : '?',
+                updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
+                ownerName: details.creator ? details.creator.name : '?',
+                ownerUrl: details.creator ? (details.creator.type === 'Group' 
+                    ? `https://www.roblox.com/groups/${details.creator.id}`
+                    : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
+                thumbnailUrl: iconUrl,
+                thumbnails: thumbnails,
+                gameUrl: `https://www.roblox.com/games/${placeId}`
+            };
+            
+            gamesArray[index] = enrichedGame;
+            
+            console.log(`✅ Loaded game ${index + 1}: ${details.name || placeId}`);
+            
+        } catch (err) {
+            console.error(`❌ Failed to load game ${index + 1}:`, game, err);
+            gamesArray[index] = {
+                ...game,
+                name: 'Failed to load',
+                playerCount: '?',
+                created: '?',
+                updated: '?',
+                ownerName: '?',
+                thumbnailUrl: '',
+                thumbnails: [],
+                gameUrl: game.gameLink || '#'
+            };
         }
         
-        // 1. Get universeId - this is working!
-        const universeData = await safeFetch(
-            `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
-        );
-        
-        if (!universeData || !universeData.universeId) {
-            throw new Error('Failed to get universeId');
-        }
-        const universeId = universeData.universeId;
-        
-        console.log(`✅ Got universeId ${universeId} for game ${index + 1}`);
-        
-        if (statusDiv) {
-            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching details)`;
-        }
-        
-        // 2. Get game details - ensure URL is properly constructed
-        const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-        console.log(`📡 Fetching details: ${detailsUrl}`);
-        const detailsData = await safeFetch(detailsUrl);
-        
-        if (!detailsData || !detailsData.data || !detailsData.data[0]) {
-            throw new Error('Failed to get game details');
-        }
-        const details = detailsData.data[0];
-        
-        if (statusDiv) {
-            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching icon)`;
-        }
-        
-        // 3. Get icon URL - ensure full URL with parameters
-        const iconUrl_full = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
-        console.log(`📡 Fetching icon: ${iconUrl_full}`);
-        const iconData = await safeFetch(iconUrl_full);
-        
-        // 4. Get thumbnail gallery
-        if (statusDiv) {
-            statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (fetching thumbnails)`;
-        }
-        
-        const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
-        console.log(`📡 Fetching thumbnails: ${thumbUrl}`);
-        const thumbnailData = await safeFetch(thumbUrl);
-        
-        // Extract icon URL
-        let iconUrl = '';
-        if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
-            iconUrl = iconData.data[0].imageUrl;
-        }
-        
-        // Extract thumbnail URLs
-        let thumbnails = [];
-        if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
-            thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
-        }
-        
-        // Create enriched game object
-        const enrichedGame = {
-            ...game,
-            universeId,
-            name: details.name || 'Unknown',
-            playerCount: details.playing || 0,
-            created: details.created ? new Date(details.created).toLocaleDateString() : '?',
-            updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
-            ownerName: details.creator ? details.creator.name : '?',
-            ownerUrl: details.creator ? (details.creator.type === 'Group' 
-                ? `https://www.roblox.com/groups/${details.creator.id}`
-                : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
-            thumbnailUrl: iconUrl,
-            thumbnails: thumbnails,
-            gameUrl: `https://www.roblox.com/games/${placeId}`
-        };
-        
-        gamesArray[index] = enrichedGame;
-        
-        console.log(`✅ Loaded game ${index + 1}: ${details.name || placeId}`);
-        
-    } catch (err) {
-        console.error(`❌ Failed to load game ${index + 1}:`, game, err);
-        gamesArray[index] = {
-            ...game,
-            name: 'Failed to load',
-            playerCount: '?',
-            created: '?',
-            updated: '?',
-            ownerName: '?',
-            thumbnailUrl: '',
-            thumbnails: [],
-            gameUrl: game.gameLink || '#'
-        };
+        // After each game, re-render ALL current games
+        const validGames = gamesArray.filter(g => g);
+        renderGames(validGames);
+        buildTagFilters(validGames);
     }
-    
-    // After each game, re-render ALL current games
-    const validGames = gamesArray.filter(g => g);
-    renderGames(validGames);
-    buildTagFilters(validGames);
-}
 
     // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
