@@ -367,8 +367,8 @@
 <script>
     // ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
     const PROXY = 'https://api.allorigins.win/raw?url=';
-    const RETRY_DELAY = 1000;
-    const TIMEOUT = 10000;
+    const RETRY_DELAY = 1000; // 1 second between retries
+    const TIMEOUT = 10000; // 10 second timeout per attempt
 
     // ==================== FETCH WITH INFINITE RETRIES ====================
     async function fetchWithInfiniteRetry(url, attempt = 1) {
@@ -376,21 +376,28 @@
         const timeout = setTimeout(() => controller.abort(), TIMEOUT);
         
         try {
+            console.log(`🔄 Attempt ${attempt} for:`, url.split('?')[0]);
+            
             const response = await fetch(PROXY + encodeURIComponent(url), {
                 signal: controller.signal
             });
             clearTimeout(timeout);
             
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const text = await response.text();
+            
             if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
                 throw new Error('Proxy returned HTML');
             }
             
             try {
                 const parsed = JSON.parse(text);
-                if (parsed.contents) return JSON.parse(parsed.contents);
+                if (parsed.contents) {
+                    return JSON.parse(parsed.contents);
+                }
                 return parsed;
             } catch (e) {
                 throw new Error('Invalid JSON');
@@ -398,223 +405,264 @@
             
         } catch (err) {
             clearTimeout(timeout);
-            console.log(`⚠️ Attempt ${attempt} failed, retrying in ${RETRY_DELAY/1000}s...`);
+            
+            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
+            
             await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
             return fetchWithInfiniteRetry(url, attempt + 1);
         }
     }
 
-    // ==================== LOAD GAMES ====================
+    // ==================== SAFE FETCH WITH INFINITE RETRIES ====================
+    async function safeFetch(url, fallback = null) {
+        try {
+            return await fetchWithInfiniteRetry(url);
+        } catch (err) {
+            console.error(`Fatal error for ${url}:`, err);
+            return fallback;
+        }
+    }
+
+    // ==================== LOAD SINGLE GAME ====================
+    async function loadSingleGame(game, gamesArray, index, statusDiv) {
+        try {
+            const placeId = game.placeId;
+            if (!placeId) throw new Error('No placeId found');
+            
+            console.log(`📦 Loading game ${index + 1}: ${game.gameLink || placeId}`);
+            
+            // Update status message
+            if (statusDiv) {
+                statusDiv.innerHTML = `🔄 Loading game ${index + 1}... (will keep retrying if needed)`;
+            }
+            
+            // 1. Get universeId
+            const universeData = await safeFetch(
+                `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
+            );
+            
+            if (!universeData || !universeData.universeId) {
+                throw new Error('Failed to get universeId');
+            }
+            const universeId = universeData.universeId;
+            
+            // 2. Get game details
+            const detailsData = await safeFetch(
+                `https://games.roblox.com/v1/games?universeIds=${universeId}`
+            );
+            
+            if (!detailsData || !detailsData.data || !detailsData.data[0]) {
+                throw new Error('Failed to get game details');
+            }
+            const details = detailsData.data[0];
+            
+            // 3. Get icon URL
+            const iconData = await safeFetch(
+                `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
+            );
+            
+            // 4. Get thumbnail gallery
+            const thumbnailData = await safeFetch(
+                `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
+            );
+            
+            // Extract icon URL
+            let iconUrl = '';
+            if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+                iconUrl = iconData.data[0].imageUrl;
+            }
+            
+            // Extract thumbnail URLs
+            let thumbnails = [];
+            if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
+                thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
+            }
+            
+            // Create enriched game object
+            const enrichedGame = {
+                ...game,
+                universeId,
+                name: details.name || 'Unknown',
+                playerCount: details.playing || 0,
+                created: details.created ? new Date(details.created).toLocaleDateString() : '?',
+                updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
+                ownerName: details.creator ? details.creator.name : '?',
+                ownerUrl: details.creator ? (details.creator.type === 'Group' 
+                    ? `https://www.roblox.com/groups/${details.creator.id}`
+                    : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
+                thumbnailUrl: iconUrl,
+                thumbnails: thumbnails,
+                gameUrl: `https://www.roblox.com/games/${placeId}`
+            };
+            
+            // Add to array at correct index
+            gamesArray[index] = enrichedGame;
+            
+            console.log(`✅ Loaded game ${index + 1}: ${details.name || placeId}`);
+            
+        } catch (err) {
+            console.error(`❌ Failed to load game ${index + 1}:`, game, err);
+            gamesArray[index] = {
+                ...game,
+                name: 'Failed to load',
+                playerCount: '?',
+                created: '?',
+                updated: '?',
+                ownerName: '?',
+                thumbnailUrl: '',
+                thumbnails: [],
+                gameUrl: game.gameLink || '#'
+            };
+        }
+        
+        // After each game (success or fail), re-render ALL current games
+        // This shows progress as games load
+        renderGames(gamesArray.filter(g => g)); // Filter out empty slots
+        buildTagFilters(gamesArray.filter(g => g));
+    }
+
+    // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
         try {
-            // Load games.json
+            // Load the games.json file
             const response = await fetch('games.json');
             const data = await response.json();
             const GAMES = data.games;
             
+            // Create an array with empty slots (will be filled as games load)
+            const games = new Array(GAMES.length);
+            let hasError = false;
+            
             // Show status message
             const statusDiv = document.createElement('div');
             statusDiv.className = 'warning';
-            statusDiv.id = 'loading-status';
-            statusDiv.innerHTML = '🔄 Loading games independently — each game will appear as it loads.';
+            statusDiv.innerHTML = `🔄 Loading 0/${GAMES.length} games... (each game loads independently)`;
             grid.parentNode.insertBefore(statusDiv, grid);
             
-            // Clear grid and add placeholders
-            grid.innerHTML = '';
+            // Start all games loading in parallel (they will complete independently)
+            const loadPromises = GAMES.map((game, index) => 
+                loadSingleGame(game, games, index, statusDiv)
+                    .catch(err => {
+                        console.error(`Game ${index + 1} failed completely:`, err);
+                        hasError = true;
+                    })
+            );
             
-            // Add a placeholder for each game
-            for (let i = 0; i < GAMES.length; i++) {
-                const placeholder = document.createElement('div');
-                placeholder.className = 'loading-placeholder';
-                placeholder.id = `placeholder-${i}`;
-                placeholder.innerHTML = `
-                    <div class="thumb">⏳</div>
-                    <div class="info">
-                        <div class="title"></div>
-                        <div class="stats"></div>
-                    </div>
-                `;
-                grid.appendChild(placeholder);
-            }
-            
-            // Load all games in parallel
-            const promises = GAMES.map(async (game, index) => {
-                try {
-                    const placeId = game.placeId;
-                    if (!placeId) throw new Error('No placeId');
+            // Update status periodically
+            const statusInterval = setInterval(() => {
+                const loadedCount = games.filter(g => g).length;
+                statusDiv.innerHTML = `🔄 Loading ${loadedCount}/${GAMES.length} games... (each game loads independently)`;
+                
+                if (loadedCount === GAMES.length) {
+                    clearInterval(statusInterval);
+                    statusDiv.remove();
                     
-                    // 1. Get universeId
-                    const universeData = await fetchWithInfiniteRetry(
-                        `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
-                    );
-                    const universeId = universeData.universeId;
-                    
-                    // 2. Get game details
-                    const detailsData = await fetchWithInfiniteRetry(
-                        `https://games.roblox.com/v1/games?universeIds=${universeId}`
-                    );
-                    const details = detailsData.data[0];
-                    
-                    // 3. Get icon
-                    const iconData = await fetchWithInfiniteRetry(
-                        `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
-                    );
-                    
-                    // 4. Get thumbnails
-                    const thumbnailData = await fetchWithInfiniteRetry(
-                        `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
-                    );
-                    
-                    const iconUrl = iconData?.data?.[0]?.imageUrl || '';
-                    const thumbnails = thumbnailData?.data?.[0]?.thumbnails?.map(t => t.imageUrl) || [];
-                    
-                    // Create game HTML
-                    const gameHtml = renderGame({
-                        ...game,
-                        name: details.name,
-                        playerCount: details.playing,
-                        created: new Date(details.created).toLocaleDateString(),
-                        updated: new Date(details.updated).toLocaleDateString(),
-                        ownerName: details.creator.name,
-                        ownerUrl: details.creator.type === 'Group' 
-                            ? `https://www.roblox.com/groups/${details.creator.id}`
-                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                        thumbnailUrl: iconUrl,
-                        thumbnails: thumbnails,
-                        gameUrl: `https://www.roblox.com/games/${placeId}`
-                    }, index);
-                    
-                    // Replace placeholder with actual game
-                    const placeholder = document.getElementById(`placeholder-${index}`);
-                    if (placeholder) {
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = gameHtml;
-                        placeholder.replaceWith(tempDiv.firstChild);
-                    }
-                    
-                    // Update tag filters
-                    updateTagFilters();
-                    
-                } catch (err) {
-                    console.error(`Game ${index + 1} failed:`, err);
-                    // Replace with error card
-                    const errorHtml = renderError(game, index);
-                    const placeholder = document.getElementById(`placeholder-${index}`);
-                    if (placeholder) {
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = errorHtml;
-                        placeholder.replaceWith(tempDiv.firstChild);
+                    if (hasError) {
+                        const warning = document.createElement('div');
+                        warning.className = 'warning';
+                        warning.innerHTML = '⚠️ Some games failed to load.';
+                        grid.parentNode.insertBefore(warning, grid);
                     }
                 }
-            });
+            }, 500);
             
-            await Promise.allSettled(promises);
-            
-            // Remove status message
-            const status = document.getElementById('loading-status');
-            if (status) status.remove();
+            // Wait for all games to complete (but UI updates already happening)
+            await Promise.allSettled(loadPromises);
             
         } catch (err) {
-            console.error('Failed:', err);
-            grid.innerHTML = '<div class="error">⚠️ Failed to load games.json</div>';
+            console.error('Failed to load games.json:', err);
+            grid.innerHTML = '<div class="error">⚠️ Failed to load games.json — make sure the file exists</div>';
         }
     }
 
-    // ==================== RENDER GAME ====================
-    function renderGame(game, index) {
-        const hasSubgames = game.subgames && game.subgames.length > 0;
-        
-        let tagsHtml = '';
-        if (game.tags && game.tags.length > 0) {
-            tagsHtml = '<div class="game-tags">';
-            game.tags.forEach(tag => {
-                const tagClass = tag === 'OG' ? 'tag og' : 'tag';
-                tagsHtml += `<span class="${tagClass}">${tag}</span>`;
-            });
-            tagsHtml += '</div>';
+    // ==================== RENDER GAMES ====================
+    function renderGames(games) {
+        const grid = document.getElementById('game-grid');
+        if (!games.length) {
+            grid.innerHTML = '<div class="loading">loading games...</div>';
+            return;
         }
         
-        let thumbnailsHtml = '';
-        if (game.thumbnails && game.thumbnails.length > 0) {
-            thumbnailsHtml = '<div class="thumbnail-gallery">';
-            game.thumbnails.slice(0, 8).forEach(url => {
-                thumbnailsHtml += `<img src="${url}" alt="screenshot" onerror="this.style.display='none'">`;
-            });
-            thumbnailsHtml += '</div>';
-        }
-        
-        return `
-            <div class="game-card" data-tags="${game.tags?.join(',') || ''}">
-                <div class="game-thumb">
-                    <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" 
-                         alt="${game.name}" 
-                         onerror="this.src='https://placehold.co/120x120/5f9ea0/white?text=No+Icon'">
-                </div>
-                <div class="game-info">
-                    <div class="game-title">
-                        <a href="${game.gameUrl}">${game.name}</a>
-                        ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
+        let html = '';
+        games.forEach((game, index) => {
+            const hasSubgames = game.subgames && game.subgames.length > 0;
+            
+            let tagsHtml = '';
+            if (game.tags && game.tags.length > 0) {
+                tagsHtml = '<div class="game-tags">';
+                game.tags.forEach(tag => {
+                    const tagClass = tag === 'OG' ? 'tag og' : 'tag';
+                    tagsHtml += `<span class="${tagClass}">${tag}</span>`;
+                });
+                tagsHtml += '</div>';
+            }
+            
+            let thumbnailsHtml = '';
+            if (game.thumbnails && game.thumbnails.length > 0) {
+                thumbnailsHtml = '<div class="thumbnail-gallery">';
+                game.thumbnails.slice(0, 8).forEach(url => {
+                    thumbnailsHtml += `<img src="${url}" alt="game screenshot" onerror="this.style.display='none'">`;
+                });
+                thumbnailsHtml += '</div>';
+            }
+            
+            html += `
+                <div class="game-card">
+                    <div class="game-thumb">
+                        <img src="${game.thumbnailUrl || 'https://placehold.co/120x120/5f9ea0/white?text=Game'}" alt="${game.name}" onerror="this.src='https://placehold.co/120x120/5f9ea0/white?text=No+Icon'">
                     </div>
-                    ${tagsHtml}
-                    <div class="game-stats">
-                        <span class="stat-item"><span class="stat-label">players:</span> ${game.playerCount}</span>
-                        <span class="stat-item"><span class="stat-label">created:</span> ${game.created}</span>
-                        <span class="stat-item"><span class="stat-label">updated:</span> ${game.updated}</span>
-                        <span class="stat-item"><span class="stat-label">owner:</span> <a href="${game.ownerUrl}">${game.ownerName}</a></span>
-                    </div>
-                    <div class="maintainer-note">
-                        <strong>✎ note:</strong> ${game.maintainerNote}
-                    </div>
-                    ${thumbnailsHtml}
-                    <div id="subgames-${index}" class="subgames">
-                        ${hasSubgames ? game.subgames.map(sub => `
-                            <div class="subgame-card">
-                                <div class="subgame-thumb">
-                                    <img src="https://placehold.co/80x80/5f9ea0/white?text=Sub" alt="subgame">
-                                </div>
-                                <div class="subgame-info">
-                                    <div class="subgame-title"><a href="${sub.gameLink || '#'}">${sub.name || 'Subgame'}</a></div>
-                                    <div class="subgame-stats">${sub.note || ''}</div>
+                    <div class="game-info">
+                        <div class="game-title">
+                            <a href="${game.gameUrl}">${game.name}</a>
+                            ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
+                        </div>
+                        ${tagsHtml}
+                        <div class="game-stats">
+                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${game.updated}</span></span>
+                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+                        </div>
+                        <div class="maintainer-note">
+                            <strong>✎ note:</strong> ${game.maintainerNote}
+                        </div>
+                        ${thumbnailsHtml}
+                        <div id="subgames-${index}" class="subgames">
+            `;
+            
+            if (hasSubgames) {
+                game.subgames.forEach(sub => {
+                    html += `
+                        <div class="subgame-card">
+                            <div class="subgame-thumb">
+                                <img src="https://placehold.co/80x80/5f9ea0/white?text=Sub" alt="subgame">
+                            </div>
+                            <div class="subgame-info">
+                                <div class="subgame-title"><a href="${sub.gameLink || '#'}">${sub.name || 'Subgame'}</a></div>
+                                <div class="subgame-stats">
+                                    <span>${sub.note || ''}</span>
                                 </div>
                             </div>
-                        `).join('') : ''}
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    // ==================== RENDER ERROR ====================
-    function renderError(game, index) {
-        return `
-            <div class="game-card" style="opacity:0.7">
-                <div class="game-thumb">
-                    <img src="https://placehold.co/120x120/c00/white?text=Error" alt="error">
-                </div>
-                <div class="game-info">
-                    <div class="game-title">Failed to load</div>
-                    <div class="game-stats">
-                        <span class="stat-item">⚠️ Could not fetch game data</span>
-                    </div>
-                    <div class="maintainer-note">
-                        <strong>✎ note:</strong> ${game.maintainerNote || 'No notes'}
-                    </div>
-                </div>
-            </div>
-        `;
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `</div></div></div>`;
+        });
+        
+        grid.innerHTML = html;
     }
 
     // ==================== TAG FILTERS ====================
-    function updateTagFilters() {
-        const games = document.querySelectorAll('.game-card');
+    let currentGames = [];
+    
+    function buildTagFilters(games) {
+        currentGames = games;
         const tagSet = new Set();
-        
-        games.forEach(game => {
-            const tags = game.dataset.tags?.split(',') || [];
-            tags.forEach(tag => tagSet.add(tag));
-        });
+        games.forEach(game => game.tags?.forEach(tag => tagSet.add(tag)));
         
         const filterContainer = document.getElementById('tag-filters');
         filterContainer.innerHTML = '';
@@ -629,19 +677,16 @@
     }
 
     function filterByTag(tag) {
-        document.querySelectorAll('.game-card').forEach(card => {
-            const tags = card.dataset.tags?.split(',') || [];
-            card.style.display = tags.includes(tag) ? 'flex' : 'none';
-        });
-        
+        const filtered = currentGames.filter(g => g.tags?.includes(tag));
+        renderGames(filtered);
         document.querySelectorAll('.tag-filter-btn').forEach(btn => {
             btn.classList.toggle('active', btn.textContent === tag);
         });
     }
 
     document.getElementById('clear-filters').onclick = () => {
-        document.querySelectorAll('.game-card').forEach(c => c.style.display = 'flex');
-        document.querySelectorAll('.tag-filter-btn').forEach(b => b.classList.remove('active'));
+        renderGames(currentGames);
+        document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     };
 
     window.toggleSubgames = function(index) {
