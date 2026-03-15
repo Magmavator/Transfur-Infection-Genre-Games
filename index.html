@@ -330,27 +330,27 @@
 <script>
     // ==================== LOAD STATIC GAME DATA ====================
     // NO PROXIES! NO CORS! Just a simple JSON file updated by GitHub Actions
-    async function loadGames() {
-        const grid = document.getElementById('game-grid');
+    // ==================== LOAD STATIC GAME DATA ====================
+async function loadGames() {
+    const grid = document.getElementById('game-grid');
+    
+    try {
+        const response = await fetch('games-data.json');
+        const data = await response.json();
         
-        try {
-            const response = await fetch('games-data.json');
-            const data = await response.json();
-            
-            // Update last updated display
-            if (data.lastUpdated) {
-                document.getElementById('last-updated').textContent = `(updated ${data.lastUpdated})`;
-            }
-            
-            const games = data.games || [];
-            renderGames(games);
-            buildTagFilters(games);
-            
-        } catch (err) {
-            console.error('Failed to load games:', err);
-            grid.innerHTML = '<div class="error">⚠️ Failed to load games — try refreshing</div>';
+        // Update last updated display
+        if (data.lastUpdated) {
+            document.getElementById('last-updated').textContent = `(updated ${data.lastUpdated})`;
         }
+        
+        renderGames(data.games);
+        buildTagFilters(data.games);
+        
+    } catch (err) {
+        console.error('Failed to load games:', err);
+        grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
     }
+}
 
     // ==================== RENDER GAMES ====================
     function renderGames(games) {
