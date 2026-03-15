@@ -76,10 +76,12 @@ jobs:
               console.log(`  ✅ Universe ID: ${universeId}`);
               
               const details = await fetchGameDetails(universeId);
-              console.log(`  ✅ Game: ${details.name}`);
+              console.log(`  ✅ Game: ${details.name} (${details.playing} players)`);
               
               const iconUrl = await fetchIcon(universeId);
               const thumbnails = await fetchThumbnails(universeId);
+              
+              console.log(`  ✅ Got ${thumbnails.length} fresh thumbnails`);
               
               return {
                 ...game,
@@ -119,6 +121,7 @@ jobs:
             for (let i = 0; i < gamesData.games.length; i++) {
               const result = await processGame(gamesData.games[i], i);
               enrichedGames.push(result);
+              // Small delay to avoid rate limits
               await new Promise(resolve => setTimeout(resolve, 500));
             }
             
@@ -145,9 +148,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add games-data.json
-          if ! git diff --quiet && ! git diff --staged --quiet; then
-            git commit -m "Update game data [skip ci]"
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
-          else
-            echo "No changes to commit"
-          fi
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update game data [skip ci]"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
