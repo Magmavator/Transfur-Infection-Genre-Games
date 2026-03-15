@@ -3,8 +3,8 @@
     {
       "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
       "placeId": "79991553834328",
-      "tags": ["OG", "tactical", "fps"],
-      "maintainerNote": "hardcore FFA, no nametags, trust no one — needs more players.",
+      "tags": ["test"],
+      "maintainerNote": "test",
       "subgames": [
         {
           "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
@@ -17,9 +17,30 @@
     {
       "gameLink": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
       "placeId": "15518504762",
-      "tags": ["polished", "active", "vehicles"],
-      "maintainerNote": "real deformation physics, active dev, community growing.",
+      "tags": ["test"],
+      "maintainerNote": "test",
       "subgames": []
-    }
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6466630690/Cat-Infection-CAT-SKINS",
+      "placeId": "6466630690",
+      "tags": ["test"],
+      "maintainerNote": "test",
+      "subgames": []
+    },
+        {
+      "gameLink": "https://www.roblox.com/games/94081816388778/Transfer-infection",
+      "placeId": "94081816388778",
+      "tags": ["test"],
+      "maintainerNote": "test",
+      "subgames": []
+    },
+        {
+      "gameLink": "https://www.roblox.com/games/17525496045/Infection-Facility",
+      "placeId": "17525496045",
+      "tags": ["test"],
+      "maintainerNote": "test",
+      "subgames": []
+    },
   ]
 }
