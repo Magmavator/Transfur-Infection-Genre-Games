@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-03-15",
-  "lastUpdatedFull": "2026-03-15T13:28:44.790Z",
+  "lastUpdatedFull": "2026-03-15T13:32:33.849Z",
   "games": [
     {
       "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
@@ -58,7 +58,7 @@
       "subgames": [],
       "universeId": 2414164590,
       "name": "Cat Infection [CAT SKINS]",
-      "playerCount": 73,
+      "playerCount": 87,
       "created": "2021-03-02T19:06:49.21Z",
       "updated": "2024-12-30T17:41:03.947Z",
       "ownerName": "SHIBA FORCE",
@@ -83,7 +83,7 @@
       "subgames": [],
       "universeId": 7894860220,
       "name": "Transfer infection",
-      "playerCount": 15,
+      "playerCount": 17,
       "created": "2025-06-12T02:10:23.21Z",
       "updated": "2026-03-14T11:01:42.6131698Z",
       "ownerName": "Mellokgamer1",
@@ -108,13 +108,16 @@
       "subgames": [],
       "universeId": 5998732669,
       "name": "Infection Facility",
-      "playerCount": 37,
+      "playerCount": 41,
       "created": "2024-05-18T00:13:49.773Z",
       "updated": "2026-02-24T22:57:48.7Z",
       "ownerName": "SillyCat games",
       "ownerUrl": "https://www.roblox.com/groups/33573878",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-07356d23dc2631975d8ff15337d34042/256/256/Image/Png/noFilter",
-      "thumbnails": [],
+      "thumbnails": [
+        "https://tr.rbxcdn.com/180DAY-e504606713ad812647e8bd191f19072e/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-bdb89666fb22285e1c776073f17e0d63/768/432/Image/Png/noFilter"
+      ],
       "gameUrl": "https://www.roblox.com/games/17525496045"
     }
   ]
