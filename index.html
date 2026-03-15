@@ -222,12 +222,41 @@
             font-weight: 600;
         }
         
-        /* Thumbnail gallery styles - true size, cycleable */
-        .thumbnail-gallery {
+        /* Thumbnail gallery styles - true size, cycleable, expandable */
+        .thumbnail-section {
             margin-top: 16px;
+        }
+        .gallery-header {
             display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .gallery-toggle {
+            background: none;
+            border: 1px solid #5f9ea0;
+            color: #5f9ea0;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .gallery-toggle:hover {
+            background: #5f9ea0;
+            color: white;
+        }
+        .thumbnail-count {
+            font-size: 12px;
+            color: #666;
+        }
+        .thumbnail-gallery {
+            display: none;
             flex-direction: column;
             gap: 8px;
+        }
+        .thumbnail-gallery.expanded {
+            display: flex;
         }
         .thumbnail-main {
             width: 100%;
@@ -430,12 +459,31 @@
         }
     }
 
+    // ==================== TOGGLE GALLERY ====================
+    window.toggleGallery = function(galleryId) {
+        const gallery = document.getElementById(galleryId);
+        const btn = document.querySelector(`[onclick="toggleGallery('${galleryId}')"]`);
+        if (gallery && btn) {
+            gallery.classList.toggle('expanded');
+            btn.textContent = gallery.classList.contains('expanded') ? '▼ hide gallery' : '▶ show gallery';
+        }
+    };
+
     // ==================== THUMBNAIL GALLERY COMPONENT ====================
     function createThumbnailGallery(thumbnails, gameIndex) {
         if (!thumbnails || thumbnails.length === 0) return '';
         
         const galleryId = `gallery-${gameIndex}`;
-        let html = `<div class="thumbnail-gallery" id="${galleryId}">`;
+        let html = `<div class="thumbnail-section">`;
+        
+        // Header with toggle button and count
+        html += `<div class="gallery-header">`;
+        html += `<button class="gallery-toggle" onclick="toggleGallery('${galleryId}')">▶ show gallery</button>`;
+        html += `<span class="thumbnail-count">${thumbnails.length} screenshot${thumbnails.length > 1 ? 's' : ''}</span>`;
+        html += `</div>`;
+        
+        // Gallery container
+        html += `<div class="thumbnail-gallery" id="${galleryId}">`;
         
         // Main display image (first thumbnail)
         html += `<div class="thumbnail-main" onclick="cycleThumbnail('${galleryId}')">`;
@@ -451,7 +499,7 @@
             html += `</div>`;
         }
         
-        html += `</div>`;
+        html += `</div></div>`;
         return html;
     }
 
@@ -538,7 +586,7 @@
                 tagsHtml += '</div>';
             }
             
-            // Create thumbnail gallery
+            // Store thumbnail data
             const galleryId = `gallery-${index}`;
             if (game.thumbnails && game.thumbnails.length > 0) {
                 window.thumbnailData[galleryId] = game.thumbnails;
