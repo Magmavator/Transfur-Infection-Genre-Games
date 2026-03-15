@@ -275,10 +275,15 @@
             padding: 40px;
         }
         .error { color: #c00; }
-        .last-updated {
-            font-size: 12px;
-            color: #8aa0b0;
-            margin-left: 10px;
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -286,11 +291,10 @@
 <div class="container">
 
     <div class="topbar">
-        <span>📅 COMINA GAME LIST <span id="last-updated" class="last-updated"></span></span>
+        <span>📅 COMINA GAME LIST</span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
-            <a href="https://github.com/Magmavator/Transfur-Infection-Genre-Games">github</a>
         </div>
     </div>
 
@@ -300,32 +304,110 @@
         <button class="clear-btn" id="clear-filters">clear</button>
     </div>
 
-    <div id="game-grid" class="game-grid"><div class="loading">loading games...</div></div>
+    <div id="game-grid" class="game-grid">
+        <div class="loading">
+            <p>⏳ Loading game data...</p>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">This may take 10-30 seconds depending on proxy speed</p>
+        </div>
+    </div>
 
 </div>
 
 <script>
-    // ==================== LOAD STATIC GAME DATA ====================
-    // No proxies! No CORS! Just a simple JSON file updated daily by GitHub Actions
+    // ==================== CONFIG ====================
+    // Automated proxy - no user interaction needed
+    const PROXY = 'https://api.allorigins.win/raw?url=';
+    
+    // Your game data (edit this!)
+    const GAMES = [
+        {
+            placeId: "18440199762",
+            tags: ["OG", "tactical", "fps"],
+            maintainerNote: "No nametags FPS — trust no one"
+        },
+        {
+            placeId: "114145425550635",
+            tags: ["polished", "vehicles", "active"],
+            maintainerNote: "Real deformation physics"
+        }
+    ];
+
+    // ==================== FETCH WITH PROXY ====================
+    async function fetchWithProxy(url) {
+        const response = await fetch(PROXY + encodeURIComponent(url));
+        const text = await response.text();
+        try {
+            return JSON.parse(text);
+        } catch {
+            throw new Error('Invalid JSON response');
+        }
+    }
+
+    // ==================== LOAD ALL GAME DATA ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
+        const games = [];
+        let hasError = false;
         
-        try {
-            const response = await fetch('games-data.json');
-            const data = await response.json();
-            
-            // Update last updated display
-            if (data.lastUpdated) {
-                document.getElementById('last-updated').textContent = `(updated ${data.lastUpdated})`;
+        for (const game of GAMES) {
+            try {
+                // 1. Get universeId
+                const universeData = await fetchWithProxy(
+                    `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`
+                );
+                const universeId = universeData.universeId;
+                
+                // 2. Get game details
+                const detailsData = await fetchWithProxy(
+                    `https://games.roblox.com/v1/games?universeIds=${universeId}`
+                );
+                const details = detailsData.data[0];
+                
+                // 3. Get icon
+                const iconData = await fetchWithProxy(
+                    `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png`
+                );
+                const iconUrl = iconData.data?.[0]?.thumbnails?.[0]?.imageUrl || '';
+                
+                games.push({
+                    ...game,
+                    name: details.name,
+                    playerCount: details.playing,
+                    created: new Date(details.created).toLocaleDateString(),
+                    updated: new Date(details.updated).toLocaleDateString(),
+                    ownerName: details.creator.name,
+                    ownerUrl: details.creator.type === 'Group' 
+                        ? `https://www.roblox.com/groups/${details.creator.id}`
+                        : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                    thumbnailUrl: iconUrl,
+                    gameUrl: `https://www.roblox.com/games/${game.placeId}`
+                });
+                
+            } catch (err) {
+                console.error(`Failed to load ${game.placeId}:`, err);
+                hasError = true;
+                games.push({
+                    ...game,
+                    name: 'Failed to load',
+                    playerCount: '?',
+                    created: '?',
+                    updated: '?',
+                    ownerName: '?',
+                    thumbnailUrl: '',
+                    gameUrl: '#'
+                });
             }
             
-            const games = data.games || [];
+            // Update UI progressively
             renderGames(games);
             buildTagFilters(games);
-            
-        } catch (err) {
-            console.error('Failed to load games:', err);
-            grid.innerHTML = '<div class="error">⚠️ failed to load games — try refreshing</div>';
+        }
+        
+        if (hasError) {
+            const warning = document.createElement('div');
+            warning.className = 'warning';
+            warning.innerHTML = '⚠️ Some games failed to load. The proxy might be slow — try refreshing in a few seconds.';
+            grid.parentNode.insertBefore(warning, grid);
         }
     }
 
@@ -333,7 +415,7 @@
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
-            grid.innerHTML = '<div class="loading">no games found</div>';
+            grid.innerHTML = '<div class="loading">loading games...</div>';
             return;
         }
         
@@ -341,11 +423,6 @@
         games.forEach((game, index) => {
             const hasSubgames = game.subgames && game.subgames.length > 0;
             
-            // Format dates
-            const createdDate = game.created ? new Date(game.created).toLocaleDateString() : '?';
-            const updatedDate = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
-            
-            // Build tags HTML
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
@@ -368,13 +445,13 @@
                         </div>
                         ${tagsHtml}
                         <div class="game-stats">
-                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount ?? '?'}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${createdDate}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${updatedDate}</span></span>
-                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl || '#'}">${game.ownerName || '?'}</a></span></span>
+                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value">${game.created}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value">${game.updated}</span></span>
+                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
                         <div class="maintainer-note">
-                            <strong>✎ note:</strong> ${game.maintainerNote || game.note || 'No notes'}
+                            <strong>✎ note:</strong> ${game.maintainerNote}
                         </div>
                         <div id="subgames-${index}" class="subgames">
             `;
@@ -384,7 +461,7 @@
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="${sub.thumbnailUrl || 'https://placehold.co/80x80/5f9ea0/white?text=Sub'}" alt="subgame">
+                                <img src="https://placehold.co/80x80/5f9ea0/white?text=Sub" alt="subgame">
                             </div>
                             <div class="subgame-info">
                                 <div class="subgame-title"><a href="${sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a></div>
