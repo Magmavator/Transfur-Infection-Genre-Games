@@ -361,10 +361,15 @@
             opacity: 0.8;
         }
         
+        /* Subgames styles - FIXED */
         .subgames {
             margin-top: 16px;
             padding-left: 20px;
             border-left: 3px solid #5f9ea0;
+            display: none; /* Hidden by default */
+        }
+        .subgames.visible {
+            display: block; /* Shown when toggled */
         }
         .subgame-card {
             background: #f5faff;
@@ -821,49 +826,48 @@
                         ${thumbnailsHtml}
             `;
             
-            // Add subgames if they exist
             // Add subgames toggle button if subgames exist
-if (game.subgames && game.subgames.length > 0) {
-    html += `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames (${game.subgames.length})</button>`;
-    html += `<div id="subgames-${index}" class="subgames">`;
-    game.subgames.forEach((sub, subIndex) => {
-        // Format subgame dates
-        const subCreatedRelative = getRelativeTime(sub.created);
-        const subUpdatedRelative = getRelativeTime(sub.updated);
-        const subCreatedAbsolute = sub.created ? new Date(sub.created).toLocaleDateString() : '?';
-        const subUpdatedAbsolute = sub.updated ? new Date(sub.updated).toLocaleDateString() : '?';
-        
-        // Store subgame thumbnail data
-        const subGalleryId = `subgallery-${index}-${subIndex}`;
-        if (sub.thumbnails && sub.thumbnails.length > 0) {
-            window.thumbnailData[subGalleryId] = sub.thumbnails;
-        }
-        
-        const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
-        
-        html += `
-            <div class="subgame-card">
-                <div class="subgame-thumb">
-                    <img src="${sub.thumbnailUrl || 'https://placehold.co/100x100/5f9ea0/white?text=Sub'}" alt="${sub.name}" onerror="this.src='https://placehold.co/100x100/5f9ea0/white?text=No+Icon'">
-                </div>
-                <div class="subgame-info">
-                    <div class="subgame-title">
-                        <a href="${sub.gameUrl || sub.gameLink || '#'}">${sub.name || 'Subgame'}</a>
-                    </div>
-                    <div class="subgame-stats">
-                        <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
-                        <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
-                        <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
-                        <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
-                    </div>
-                    ${sub.note ? `<div class="subgame-note"><strong>✎ note:</strong> ${sub.note}</div>` : ''}
-                    ${subThumbnailsHtml}
-                </div>
-            </div>
-        `;
-    });
-    html += `</div>`;
-}
+            if (game.subgames && game.subgames.length > 0) {
+                html += `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames (${game.subgames.length})</button>`;
+                html += `<div id="subgames-${index}" class="subgames">`;
+                game.subgames.forEach((sub, subIndex) => {
+                    // Format subgame dates
+                    const subCreatedRelative = getRelativeTime(sub.created);
+                    const subUpdatedRelative = getRelativeTime(sub.updated);
+                    const subCreatedAbsolute = sub.created ? new Date(sub.created).toLocaleDateString() : '?';
+                    const subUpdatedAbsolute = sub.updated ? new Date(sub.updated).toLocaleDateString() : '?';
+                    
+                    // Store subgame thumbnail data
+                    const subGalleryId = `subgallery-${index}-${subIndex}`;
+                    if (sub.thumbnails && sub.thumbnails.length > 0) {
+                        window.thumbnailData[subGalleryId] = sub.thumbnails;
+                    }
+                    
+                    const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
+                    
+                    html += `
+                        <div class="subgame-card">
+                            <div class="subgame-thumb">
+                                <img src="${sub.thumbnailUrl || 'https://placehold.co/100x100/5f9ea0/white?text=Sub'}" alt="${sub.name}" onerror="this.src='https://placehold.co/100x100/5f9ea0/white?text=No+Icon'">
+                            </div>
+                            <div class="subgame-info">
+                                <div class="subgame-title">
+                                    <a href="${sub.gameUrl || sub.gameLink || '#'}">${sub.name || 'Subgame'}</a>
+                                </div>
+                                <div class="subgame-stats">
+                                    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
+                                    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
+                                </div>
+                                ${sub.note ? `<div class="subgame-note"><strong>✎ note:</strong> ${sub.note}</div>` : ''}
+                                ${subThumbnailsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
             
             html += `</div></div>`;
         });
@@ -921,14 +925,22 @@ if (game.subgames && game.subgames.length > 0) {
         
         applyFiltersAndSort();
     };
-window.toggleSubgames = function(index) {
-    const div = document.getElementById(`subgames-${index}`);
-    const btn = event.target;
-    div.classList.toggle('visible');
-    // Get the actual subgame count from the button's data attribute or from the game object
-    const count = btn.textContent.match(/\d+/)?.[0] || '0';
-    btn.textContent = div.classList.contains('visible') ? `▲ subgames (${count})` : `▼ subgames (${count})`;
-};
+
+    // ==================== TOGGLE SUBGAMES ====================
+    window.toggleSubgames = function(index) {
+        const div = document.getElementById(`subgames-${index}`);
+        const btn = event.target;
+        div.classList.toggle('visible');
+        
+        // Get the count from the button text
+        const match = btn.textContent.match(/\d+/);
+        const count = match ? match[0] : '0';
+        
+        btn.textContent = div.classList.contains('visible') 
+            ? `▲ subgames (${count})` 
+            : `▼ subgames (${count})`;
+    };
+
     // Start
     loadGames();
 </script>
