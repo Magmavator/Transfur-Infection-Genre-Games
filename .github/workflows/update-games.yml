@@ -18,8 +18,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,117 +27,149 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch@2
       
-      - name: Create fetch script
+      - name: Create fresh fetch script
         run: |
           cat > fetch-games.js << 'EOF'
           const fs = require('fs');
           const fetch = require('node-fetch');
           
-          const gamesData = JSON.parse(fs.readFileSync('games.json', 'utf8'));
-          
-          async function fetchUniverseId(placeId) {
-            const url = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
-            const response = await fetch(url);
-            const data = await response.json();
-            return data.universeId;
-          }
-          
-          async function fetchGameDetails(universeId) {
-            const url = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            return data.data[0];
-          }
-          
-          async function fetchIcon(universeId) {
-            const url = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
-            const response = await fetch(url);
-            const data = await response.json();
-            return data.data?.[0]?.imageUrl || '';
-          }
-          
-          async function fetchThumbnails(universeId) {
-            const url = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
-            const response = await fetch(url);
-            const data = await response.json();
-            if (data.data && data.data[0] && data.data[0].thumbnails) {
-              return data.data[0].thumbnails.map(t => t.imageUrl);
-            }
-            return [];
-          }
-          
-          async function processGame(game, index) {
-            console.log(`[${index + 1}] Processing: ${game.gameLink || game.placeId}`);
-            
-            try {
-              const universeId = await fetchUniverseId(game.placeId);
-              console.log(`  ✅ Universe ID: ${universeId}`);
-              
-              const details = await fetchGameDetails(universeId);
-              console.log(`  ✅ Game: ${details.name} (${details.playing} players)`);
-              
-              const iconUrl = await fetchIcon(universeId);
-              const thumbnails = await fetchThumbnails(universeId);
-              
-              console.log(`  ✅ Got ${thumbnails.length} fresh thumbnails`);
-              
-              return {
-                ...game,
-                universeId,
-                name: details.name,
-                playerCount: details.playing,
-                created: details.created,
-                updated: details.updated,
-                ownerName: details.creator.name,
-                ownerUrl: details.creator.type === 'Group' 
-                  ? `https://www.roblox.com/groups/${details.creator.id}`
-                  : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                thumbnailUrl: iconUrl,
-                thumbnails: thumbnails,
-                gameUrl: `https://www.roblox.com/games/${game.placeId}`
-              };
-            } catch (err) {
-              console.error(`  ❌ Failed: ${err.message}`);
-              return {
-                ...game,
-                name: 'Failed to load',
-                playerCount: '?',
-                created: '?',
-                updated: '?',
-                ownerName: '?',
-                thumbnailUrl: '',
-                thumbnails: [],
-                gameUrl: game.gameLink || '#'
-              };
-            }
-          }
-          
           async function main() {
-            console.log(`📦 Processing ${gamesData.games.length} games...`);
+            console.log('📂 Reading games.json...');
+            const gamesData = JSON.parse(fs.readFileSync('games.json', 'utf8'));
+            console.log(`📦 Found ${gamesData.games.length} games to process`);
             
             const enrichedGames = [];
+            
             for (let i = 0; i < gamesData.games.length; i++) {
-              const result = await processGame(gamesData.games[i], i);
-              enrichedGames.push(result);
-              // Small delay to avoid rate limits
-              await new Promise(resolve => setTimeout(resolve, 500));
+              const game = gamesData.games[i];
+              console.log(`\n[${i + 1}/${gamesData.games.length}] Processing: ${game.gameLink || game.placeId}`);
+              
+              try {
+                // 1. Get universeId
+                const universeUrl = `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`;
+                console.log(`  🔍 Fetching universe ID...`);
+                const universeRes = await fetch(universeUrl);
+                const universeData = await universeRes.json();
+                
+                if (!universeData.universeId) {
+                  throw new Error('No universeId in response');
+                }
+                const universeId = universeData.universeId;
+                console.log(`  ✅ Universe ID: ${universeId}`);
+                
+                // 2. Get game details
+                const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
+                console.log(`  🔍 Fetching game details...`);
+                const detailsRes = await fetch(detailsUrl);
+                const detailsData = await detailsRes.json();
+                
+                if (!detailsData.data || !detailsData.data[0]) {
+                  throw new Error('No game details in response');
+                }
+                const details = detailsData.data[0];
+                console.log(`  ✅ Game: ${details.name} (${details.playing} players)`);
+                
+                // 3. Get icon
+                const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
+                console.log(`  🔍 Fetching icon...`);
+                const iconRes = await fetch(iconUrl);
+                const iconData = await iconRes.json();
+                const icon = iconData.data?.[0]?.imageUrl || '';
+                console.log(`  ✅ Icon: ${icon ? 'found' : 'not found'}`);
+                
+                // 4. Get thumbnails
+                const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
+                console.log(`  🔍 Fetching thumbnails...`);
+                const thumbRes = await fetch(thumbUrl);
+                const thumbData = await thumbRes.json();
+                
+                let thumbnails = [];
+                if (thumbData.data && thumbData.data[0] && thumbData.data[0].thumbnails) {
+                  thumbnails = thumbData.data[0].thumbnails.map(t => t.imageUrl);
+                }
+                console.log(`  ✅ Found ${thumbnails.length} thumbnails`);
+                
+                // Build enriched game object
+                enrichedGames.push({
+                  ...game,
+                  universeId,
+                  name: details.name,
+                  playerCount: details.playing,
+                  created: details.created,
+                  updated: details.updated,
+                  ownerName: details.creator.name,
+                  ownerUrl: details.creator.type === 'Group' 
+                    ? `https://www.roblox.com/groups/${details.creator.id}`
+                    : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                  thumbnailUrl: icon,
+                  thumbnails: thumbnails,
+                  gameUrl: `https://www.roblox.com/games/${game.placeId}`
+                });
+                
+                console.log(`  ✅ Game ${i + 1} complete`);
+                
+              } catch (err) {
+                console.error(`  ❌ Failed: ${err.message}`);
+                enrichedGames.push({
+                  ...game,
+                  name: 'Failed to load',
+                  playerCount: '?',
+                  created: '?',
+                  updated: '?',
+                  ownerName: '?',
+                  thumbnailUrl: '',
+                  thumbnails: [],
+                  gameUrl: game.gameLink || '#'
+                });
+              }
+              
+              // Delay to avoid rate limiting
+              if (i < gamesData.games.length - 1) {
+                console.log('  ⏱️ Waiting 1 second...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+              }
             }
             
+            // Create output object
             const output = {
               lastUpdated: new Date().toISOString().split('T')[0],
               lastUpdatedFull: new Date().toISOString(),
               games: enrichedGames
             };
             
+            // Write file
+            console.log('\n📝 Writing games-data.json...');
             fs.writeFileSync('games-data.json', JSON.stringify(output, null, 2));
-            console.log(`✅ Saved ${enrichedGames.length} games to games-data.json`);
+            
+            // Verify file was written
+            const stats = fs.statSync('games-data.json');
+            console.log(`✅ File created: ${stats.size} bytes`);
+            console.log(`✅ Contains ${enrichedGames.length} games`);
+            
+            // Log first game's thumbnail count as verification
+            if (enrichedGames[0] && enrichedGames[0].thumbnails) {
+              console.log(`✅ First game has ${enrichedGames[0].thumbnails.length} thumbnails`);
+            }
           }
           
-          main().catch(console.error);
+          main().catch(err => {
+            console.error('❌ Fatal error:', err);
+            process.exit(1);
+          });
           EOF
       
       - name: Run fetch script
         run: node fetch-games.js
+      
+      - name: Verify file was created
+        run: |
+          if [ -f games-data.json ]; then
+            echo "✅ games-data.json exists"
+            ls -la games-data.json
+          else
+            echo "❌ games-data.json was not created!"
+            exit 1
+          fi
       
       - name: Commit and push changes
         env:
@@ -148,5 +178,11 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add games-data.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update game data [skip ci]"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update game data [skip ci]"
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+            echo "✅ Changes pushed"
+          fi
