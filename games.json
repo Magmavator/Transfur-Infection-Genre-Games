@@ -9,7 +9,6 @@
         {
           "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
           "placeId": "105838757260774",
-          "name": "Test Place",
           "note": "testing server"
         }
       ]
@@ -28,19 +27,19 @@
       "maintainerNote": "test",
       "subgames": []
     },
-        {
+    {
       "gameLink": "https://www.roblox.com/games/94081816388778/Transfer-infection",
       "placeId": "94081816388778",
       "tags": ["test"],
       "maintainerNote": "test",
       "subgames": []
     },
-        {
+    {
       "gameLink": "https://www.roblox.com/games/17525496045/Infection-Facility",
       "placeId": "17525496045",
       "tags": ["test"],
       "maintainerNote": "test",
       "subgames": []
-    },
+    }
   ]
 }
