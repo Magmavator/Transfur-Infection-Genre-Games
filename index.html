@@ -332,44 +332,45 @@
 </div>
 
 <script>
-    // ==================== NUCLEAR RELIABILITY PROXY LIST ====================
-    const PROXIES = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://proxy.cors.sh/',
-        'https://cors-anywhere.herokuapp.com/'
-    ];
-    
-    let currentProxyIndex = 0;
+    // ==================== SINGLE RELIABLE PROXY ====================
+    const PROXY = 'https://api.allorigins.win/raw?url=';
 
-    // ==================== FETCH WITH FALLBACK PROXIES ====================
-    async function fetchWithProxy(url, retryCount = 0) {
-        if (retryCount >= PROXIES.length * 2) {
-            throw new Error('All proxies failed');
-        }
-        
-        const proxy = PROXIES[currentProxyIndex % PROXIES.length];
-        currentProxyIndex++;
+    // ==================== FETCH WITH PROXY ====================
+    async function fetchWithProxy(url) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
         
         try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 8000);
-            
-            const response = await fetch(proxy + encodeURIComponent(url), {
+            const response = await fetch(PROXY + encodeURIComponent(url), {
                 signal: controller.signal
             });
-            
             clearTimeout(timeout);
             const text = await response.text();
             
+            // AllOrigins returns the data in a "contents" field
             try {
-                return JSON.parse(text);
+                const parsed = JSON.parse(text);
+                // If it's wrapped in AllOrigins format, extract contents
+                if (parsed.contents) {
+                    return JSON.parse(parsed.contents);
+                }
+                return parsed;
             } catch {
-                throw new Error('Invalid JSON response');
+                return text;
             }
         } catch (err) {
-            console.log(`Proxy ${proxy} failed, trying next...`);
-            return fetchWithProxy(url, retryCount + 1);
+            clearTimeout(timeout);
+            throw err;
+        }
+    }
+
+    // ==================== SAFE FETCH WITH FALLBACK ====================
+    async function safeFetch(url, fallback = null) {
+        try {
+            return await fetchWithProxy(url);
+        } catch (err) {
+            console.warn(`Fetch failed for ${url}:`, err);
+            return fallback;
         }
     }
 
@@ -388,61 +389,69 @@
             
             for (const game of GAMES) {
                 try {
-                    // Use placeId from JSON (already provided)
+                    // Use placeId from JSON
                     const placeId = game.placeId;
                     if (!placeId) throw new Error('No placeId found');
                     
                     // 1. Get universeId
-                    const universeData = await fetchWithProxy(
+                    const universeData = await safeFetch(
                         `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
                     );
+                    
+                    if (!universeData || !universeData.universeId) {
+                        throw new Error('Failed to get universeId');
+                    }
                     const universeId = universeData.universeId;
                     
                     // 2. Get game details
-                    const detailsData = await fetchWithProxy(
+                    const detailsData = await safeFetch(
                         `https://games.roblox.com/v1/games?universeIds=${universeId}`
                     );
+                    
+                    if (!detailsData || !detailsData.data || !detailsData.data[0]) {
+                        throw new Error('Failed to get game details');
+                    }
                     const details = detailsData.data[0];
                     
                     // 3. Get icon URL
-                    const iconData = await fetchWithProxy(
+                    const iconData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
                     );
                     
                     // 4. Get thumbnail gallery
-                    const thumbnailData = await fetchWithProxy(
+                    const thumbnailData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
                     );
                     
-                    // Extract icon URL
+                    // Extract icon URL safely
                     let iconUrl = '';
-                    if (iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
+                    if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
                         iconUrl = iconData.data[0].imageUrl;
                     }
                     
-                    // Extract thumbnail URLs
+                    // Extract thumbnail URLs safely
                     let thumbnails = [];
-                    if (thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
+                    if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
                         thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
                     }
                     
                     games.push({
                         ...game,
                         universeId,
-                        name: details.name,
-                        playerCount: details.playing,
-                        created: new Date(details.created).toLocaleDateString(),
-                        updated: new Date(details.updated).toLocaleDateString(),
-                        ownerName: details.creator.name,
-                        ownerUrl: details.creator.type === 'Group' 
+                        name: details.name || 'Unknown',
+                        playerCount: details.playing || 0,
+                        created: details.created ? new Date(details.created).toLocaleDateString() : '?',
+                        updated: details.updated ? new Date(details.updated).toLocaleDateString() : '?',
+                        ownerName: details.creator ? details.creator.name : '?',
+                        ownerUrl: details.creator ? (details.creator.type === 'Group' 
                             ? `https://www.roblox.com/groups/${details.creator.id}`
-                            : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                            : `https://www.roblox.com/users/${details.creator.id}/profile`) : '#',
                         thumbnailUrl: iconUrl,
                         thumbnails: thumbnails,
                         gameUrl: `https://www.roblox.com/games/${placeId}`
                     });
                     
-                    console.log(`✅ Loaded: ${details.name}`, iconUrl ? 'with icon' : 'no icon', `${thumbnails.length} thumbnails`);
+                    console.log(`✅ Loaded: ${details.name || placeId}`);
                     
                 } catch (err) {
                     console.error(`Failed to load game:`, game, err);
@@ -456,7 +465,7 @@
                         ownerName: '?',
                         thumbnailUrl: '',
                         thumbnails: [],
-                        gameUrl: '#'
+                        gameUrl: game.gameLink || '#'
                     });
                 }
                 
