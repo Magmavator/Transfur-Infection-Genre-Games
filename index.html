@@ -332,11 +332,10 @@
 </div>
 
 <script>
-    // ==================== NUCLEAR PROXY ====================
-    // This will retry FOREVER until it gets data. No surrender.
+    // ==================== NUCLEAR PROXY WITH INFINITE RETRIES ====================
     const PROXY = 'https://api.allorigins.win/raw?url=';
-    const RETRY_DELAY = 1000; // 1 second between retries
-    const TIMEOUT = 5000; // 5 second timeout (shorter)
+    const RETRY_DELAY = 1000; // 1 second between retries (shorter)
+    const TIMEOUT = 10000; // 10 second timeout per attempt
 
     // ==================== FETCH WITH INFINITE RETRIES ====================
     async function fetchWithInfiniteRetry(url, attempt = 1) {
@@ -363,46 +362,45 @@
             }
             
             // Parse JSON
-            let data;
             try {
-                data = JSON.parse(text);
+                const parsed = JSON.parse(text);
+                // If it's wrapped in AllOrigins format, extract contents
+                if (parsed.contents) {
+                    return JSON.parse(parsed.contents);
+                }
+                return parsed;
             } catch (e) {
                 throw new Error('Invalid JSON');
             }
             
-            // If it's wrapped in AllOrigins format, extract contents
-            if (data && data.contents) {
-                try {
-                    return JSON.parse(data.contents);
-                } catch (e) {
-                    return data.contents; // Return as-is if not JSON
-                }
-            }
-            
-            return data;
-            
         } catch (err) {
             clearTimeout(timeout);
-            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s...`);
             
-            // Wait a bit, then try again FOREVER
+            // Log the failure but keep trying forever
+            console.log(`⚠️ Attempt ${attempt} failed: ${err.message}. Retrying in ${RETRY_DELAY/1000}s... (will keep trying)`);
+            
+            // Wait before retrying
             await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            
+            // INFINITE RETRY - call itself again with incremented attempt
             return fetchWithInfiniteRetry(url, attempt + 1);
+        }
+    }
+
+    // ==================== SAFE FETCH WITH INFINITE RETRIES ====================
+    async function safeFetch(url, fallback = null) {
+        try {
+            return await fetchWithInfiniteRetry(url);
+        } catch (err) {
+            // This should theoretically never happen with infinite retries
+            console.error(`Fatal error for ${url}:`, err);
+            return fallback;
         }
     }
 
     // ==================== LOAD GAMES.JSON ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
-        
-        // Update loading message to show nuclear mode
-        grid.innerHTML = `
-            <div class="loading">
-                <p>⏳ NUCLEAR MODE ACTIVATED</p>
-                <p style="font-size: 12px; color: #666; margin-top: 10px;">Will retry forever until data loads. This may take a while...</p>
-                <p style="font-size: 11px; color: #888; margin-top: 20px;" id="retry-status">Connecting...</p>
-            </div>
-        `;
         
         try {
             // Load the games.json file
@@ -413,50 +411,57 @@
             const games = [];
             let hasError = false;
             
+            // Show a message that we're using nuclear retry mode
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'warning';
+            statusDiv.innerHTML = '🔄 Nuclear retry mode active — will keep trying until data loads. This may take a while but it WILL load eventually.';
+            grid.parentNode.insertBefore(statusDiv, grid);
+            
             for (const game of GAMES) {
-                // Update status
-                document.getElementById('retry-status')?.innerHTML = `Loading: ${game.gameLink || game.placeId}...`;
-                
                 try {
+                    // Use placeId from JSON
                     const placeId = game.placeId;
                     if (!placeId) throw new Error('No placeId found');
                     
-                    // 1. Get universeId (will retry forever)
-                    const universeData = await fetchWithInfiniteRetry(
+                    console.log(`📦 Loading game: ${game.gameLink || placeId} (infinite retries enabled)`);
+                    
+                    // 1. Get universeId with infinite retries
+                    const universeData = await safeFetch(
                         `https://apis.roblox.com/universes/v1/places/${placeId}/universe`
                     );
                     
                     if (!universeData || !universeData.universeId) {
-                        throw new Error('Invalid universe response');
+                        throw new Error('Failed to get universeId');
                     }
                     const universeId = universeData.universeId;
                     
-                    // 2. Get game details (will retry forever)
-                    const detailsData = await fetchWithInfiniteRetry(
+                    // 2. Get game details with infinite retries
+                    const detailsData = await safeFetch(
                         `https://games.roblox.com/v1/games?universeIds=${universeId}`
                     );
                     
                     if (!detailsData || !detailsData.data || !detailsData.data[0]) {
-                        throw new Error('Invalid details response');
+                        throw new Error('Failed to get game details');
                     }
                     const details = detailsData.data[0];
                     
-                    // 3. Get icon URL (will retry forever)
-                    const iconData = await fetchWithInfiniteRetry(
+                    // 3. Get icon URL with infinite retries
+                    const iconData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`
                     );
                     
-                    // 4. Get thumbnail gallery (will retry forever)
-                    const thumbnailData = await fetchWithInfiniteRetry(
+                    // 4. Get thumbnail gallery with infinite retries
+                    const thumbnailData = await safeFetch(
                         `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`
                     );
                     
-                    // Extract data safely
+                    // Extract icon URL safely
                     let iconUrl = '';
                     if (iconData && iconData.data && iconData.data[0] && iconData.data[0].imageUrl) {
                         iconUrl = iconData.data[0].imageUrl;
                     }
                     
+                    // Extract thumbnail URLs safely
                     let thumbnails = [];
                     if (thumbnailData && thumbnailData.data && thumbnailData.data[0] && thumbnailData.data[0].thumbnails) {
                         thumbnails = thumbnailData.data[0].thumbnails.map(t => t.imageUrl);
@@ -481,7 +486,7 @@
                     console.log(`✅ Loaded: ${details.name || placeId}`);
                     
                 } catch (err) {
-                    console.error(`❌ Failed to load game after INFINITE retries (should never happen):`, game, err);
+                    console.error(`❌ Failed to load game after infinite retries (should not happen):`, game, err);
                     hasError = true;
                     games.push({
                         ...game,
@@ -499,15 +504,15 @@
                 // Update UI progressively
                 renderGames(games);
                 buildTagFilters(games);
-                
-                // Update status
-                document.getElementById('retry-status')?.innerHTML = `Loaded ${games.length}/${GAMES.length} games`;
             }
+            
+            // Remove the status message once loading is complete
+            if (statusDiv) statusDiv.remove();
             
             if (hasError) {
                 const warning = document.createElement('div');
                 warning.className = 'warning';
-                warning.innerHTML = '⚠️ Some games had issues loading, but we tried our best.';
+                warning.innerHTML = '⚠️ Some games failed to load.';
                 grid.parentNode.insertBefore(warning, grid);
             }
             
@@ -521,6 +526,7 @@
     function renderGames(games) {
         const grid = document.getElementById('game-grid');
         if (!games.length) {
+            grid.innerHTML = '<div class="loading">loading games...</div>';
             return;
         }
         
