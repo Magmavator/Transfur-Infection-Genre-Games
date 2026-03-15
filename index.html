@@ -133,38 +133,6 @@
             color: white;
         }
         
-        /* Failed games toggle */
-        .failed-toggle-bar {
-            background: white;
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            border: 1px solid #ffaaa5;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 12px;
-        }
-        .failed-toggle-btn {
-            background: #ffdddd;
-            border: 1px solid #ff0000;
-            color: #aa0000;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .failed-toggle-btn.active {
-            background: #ff0000;
-            color: white;
-            border-color: #aa0000;
-        }
-        .failed-count {
-            font-size: 12px;
-            color: #666;
-        }
-        
         .game-grid {
             display: flex;
             flex-direction: column;
@@ -267,6 +235,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: 500;
+            margin-bottom: 10px;
         }
         .expand-btn:hover {
             background: #5f9ea0;
@@ -393,42 +362,39 @@
         }
         
         .subgames {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed #cbd5e0;
-            display: none;
-        }
-        .subgames.visible {
-            display: block;
+            margin-top: 16px;
+            padding-left: 20px;
+            border-left: 3px solid #5f9ea0;
         }
         .subgame-card {
             background: #f5faff;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
             border: 1px solid #d4e0ec;
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 16px;
         }
         .subgame-thumb {
-            flex: 0 0 80px;
+            flex: 0 0 100px;
         }
         .subgame-thumb img {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 4px;
+            border-radius: 6px;
             background: #dbeafe;
             border: 1px solid #b0c4de;
         }
         .subgame-info {
             flex: 1;
+            min-width: 250px;
         }
         .subgame-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .subgame-title a {
             color: #1a2b3c;
@@ -438,11 +404,26 @@
             color: #5f9ea0;
         }
         .subgame-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            font-size: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px 12px;
+            background: #e8f2fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 13px;
+            border-left: 3px solid #5f9ea0;
         }
+        .subgame-note {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #f0f7ff;
+            border-left: 3px solid #5f9ea0;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+        
         .loading, .error {
             text-align: center;
             padding: 40px;
@@ -506,13 +487,6 @@
         <button class="clear-btn" id="clear-filters">clear</button>
     </div>
 
-    <!-- FAILED GAMES TOGGLE -->
-    <div class="failed-toggle-bar" id="failed-toggle-bar">
-        <span class="sort-label">failed games:</span>
-        <button class="failed-toggle-btn" id="failed-toggle-btn">hide failed games</button>
-        <span class="failed-count" id="failed-count">loading...</span>
-    </div>
-
     <!-- SORT CONTROLS -->
     <div class="sort-bar">
         <span class="sort-label">sort by:</span>
@@ -523,7 +497,6 @@
             <button class="sort-btn" data-sort="recent-creation">newest game</button>
             <button class="sort-btn" data-sort="oldest-creation">oldest game</button>
             <button class="sort-btn" data-sort="most-players">most players</button>
-            <button class="sort-btn" data-sort="dead-first">dead games first</button>
             <button class="sort-btn" data-sort="failed-only">show only failed</button>
         </div>
     </div>
@@ -558,7 +531,6 @@
     // ==================== GLOBAL STATE ====================
     let originalGames = [];
     let currentGames = [];
-    let showFailedGames = true;
     let currentSort = 'default';
     let currentTagFilter = null;
 
@@ -580,19 +552,11 @@
             // Store original games
             originalGames = data.games;
             
-            // Update failed count
-            const failedCount = originalGames.filter(g => g.name === 'Failed to load').length;
-            document.getElementById('failed-count').textContent = `${failedCount} failed games`;
-            
-            // Initial render (failed games hidden by default)
-            showFailedGames = false;
-            document.getElementById('failed-toggle-btn').textContent = 'show failed games';
             currentGames = filterAndSortGames();
             
             renderGames(currentGames);
             buildTagFilters(originalGames);
             setupSortButtons();
-            setupFailedToggle();
             
         } catch (err) {
             console.error('Failed to load games:', err);
@@ -653,13 +617,6 @@
                     return bPlayers - aPlayers;
                 });
                 break;
-            case 'dead-first':
-                sortedSuccessful.sort((a, b) => {
-                    const aDead = a.tags?.includes('dead') ? 1 : 0;
-                    const bDead = b.tags?.includes('dead') ? 1 : 0;
-                    return bDead - aDead;
-                });
-                break;
             case 'failed-only':
                 return failedGames; // Return only failed games
             default:
@@ -668,9 +625,9 @@
                 break;
         }
         
-        // If showing failed games, add them at the end
-        if (showFailedGames) {
-            return [...sortedSuccessful, ...failedGames];
+        // Failed games are ALWAYS hidden unless specifically filtered
+        if (currentSort === 'failed-only') {
+            return failedGames;
         } else {
             return sortedSuccessful;
         }
@@ -696,33 +653,9 @@
                 // Set current sort
                 currentSort = sortType;
                 
-                // If sort is 'failed-only', auto-hide failed toggle
-                if (sortType === 'failed-only') {
-                    showFailedGames = true; // Show failed games since we're filtering for them
-                    document.getElementById('failed-toggle-btn').textContent = 'hide failed games';
-                }
-                
                 // Apply filters and sort
                 applyFiltersAndSort();
             });
-        });
-    }
-
-    // ==================== SETUP FAILED TOGGLE ====================
-    function setupFailedToggle() {
-        const toggleBtn = document.getElementById('failed-toggle-btn');
-        toggleBtn.addEventListener('click', () => {
-            showFailedGames = !showFailedGames;
-            toggleBtn.textContent = showFailedGames ? 'hide failed games' : 'show failed games';
-            
-            // If we're in 'failed-only' sort mode, turn it off
-            if (currentSort === 'failed-only') {
-                currentSort = 'default';
-                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-                document.querySelector('[data-sort="default"]').classList.add('active');
-            }
-            
-            applyFiltersAndSort();
         });
     }
 
@@ -737,10 +670,10 @@
     };
 
     // ==================== THUMBNAIL GALLERY COMPONENT ====================
-    function createThumbnailGallery(thumbnails, gameIndex) {
+    function createThumbnailGallery(thumbnails, gameIndex, isSubgame = false, subIndex = null) {
         if (!thumbnails || thumbnails.length === 0) return '';
         
-        const galleryId = `gallery-${gameIndex}`;
+        const galleryId = isSubgame ? `subgallery-${gameIndex}-${subIndex}` : `gallery-${gameIndex}`;
         let html = `<div class="thumbnail-section">`;
         
         // Header with toggle button and count
@@ -834,7 +767,6 @@
         
         let html = '';
         games.forEach((game, index) => {
-            const hasSubgames = game.subgames && game.subgames.length > 0;
             const isFailed = game.name === 'Failed to load';
             
             // Format dates with relative time
@@ -875,7 +807,6 @@
                     <div class="game-info">
                         <div class="game-title">
                             <a href="${game.gameUrl}">${game.name}</a>
-                            ${hasSubgames ? `<button class="expand-btn" onclick="toggleSubgames(${index})">▼ subgames</button>` : ''}
                         </div>
                         ${tagsHtml}
                         <div class="game-stats">
@@ -888,28 +819,51 @@
                             <strong>✎ note:</strong> ${game.maintainerNote}
                         </div>
                         ${thumbnailsHtml}
-                        <div id="subgames-${index}" class="subgames">
             `;
             
-            if (hasSubgames) {
-                game.subgames.forEach(sub => {
+            // Add subgames if they exist
+            if (game.subgames && game.subgames.length > 0) {
+                html += `<div class="subgames">`;
+                game.subgames.forEach((sub, subIndex) => {
+                    // Format subgame dates
+                    const subCreatedRelative = getRelativeTime(sub.created);
+                    const subUpdatedRelative = getRelativeTime(sub.updated);
+                    const subCreatedAbsolute = sub.created ? new Date(sub.created).toLocaleDateString() : '?';
+                    const subUpdatedAbsolute = sub.updated ? new Date(sub.updated).toLocaleDateString() : '?';
+                    
+                    // Store subgame thumbnail data
+                    const subGalleryId = `subgallery-${index}-${subIndex}`;
+                    if (sub.thumbnails && sub.thumbnails.length > 0) {
+                        window.thumbnailData[subGalleryId] = sub.thumbnails;
+                    }
+                    
+                    const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
+                    
                     html += `
                         <div class="subgame-card">
                             <div class="subgame-thumb">
-                                <img src="https://placehold.co/80x80/5f9ea0/white?text=Sub" alt="subgame">
+                                <img src="${sub.thumbnailUrl || 'https://placehold.co/100x100/5f9ea0/white?text=Sub'}" alt="${sub.name}" onerror="this.src='https://placehold.co/100x100/5f9ea0/white?text=No+Icon'">
                             </div>
                             <div class="subgame-info">
-                                <div class="subgame-title"><a href="${sub.gameLink || '#'}">${sub.name || 'Subgame'}</a></div>
-                                <div class="subgame-stats">
-                                    <span>${sub.note || ''}</span>
+                                <div class="subgame-title">
+                                    <a href="${sub.gameUrl || sub.gameLink || '#'}">${sub.name || 'Subgame'}</a>
                                 </div>
+                                <div class="subgame-stats">
+                                    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
+                                    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
+                                </div>
+                                ${sub.note ? `<div class="subgame-note"><strong>✎ note:</strong> ${sub.note}</div>` : ''}
+                                ${subThumbnailsHtml}
                             </div>
                         </div>
                     `;
                 });
+                html += `</div>`;
             }
             
-            html += `</div></div></div>`;
+            html += `</div></div>`;
         });
         
         grid.innerHTML = html;
@@ -958,21 +912,12 @@
     document.getElementById('clear-filters').onclick = () => {
         currentTagFilter = null;
         currentSort = 'default';
-        showFailedGames = false;
         
         document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
         document.querySelector('[data-sort="default"]').classList.add('active');
-        document.getElementById('failed-toggle-btn').textContent = 'show failed games';
         
         applyFiltersAndSort();
-    };
-
-    window.toggleSubgames = function(index) {
-        const div = document.getElementById(`subgames-${index}`);
-        const btn = event.target;
-        div.classList.toggle('visible');
-        btn.textContent = div.classList.contains('visible') ? '▲ subgames' : '▼ subgames';
     };
 
     // Start
