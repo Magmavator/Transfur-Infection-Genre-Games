@@ -489,7 +489,7 @@
 <div class="container">
 
     <div class="topbar">
-        <span>📅 COMINA GAME LIST <span id="last-updated"></span> | ⚙️ Data: <span id="data-updated"></span></span>
+        <span>📅 GAME LIST <span id="data-updated"></span></span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
@@ -558,18 +558,15 @@
             const data = await response.json();
             
             // Update last updated display with relative time
-           if (data.lastUpdated) {
-    const relativeTime = getRelativeTime(data.lastUpdated);
-    document.getElementById('last-updated').textContent = `(updated ${relativeTime})`;
-    document.getElementById('last-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdated}`);
+         if (data.lastUpdated) {
+    // Parse the date from games-data.json
+    const dataDate = new Date(data.lastUpdated);
+    const dataUpdatedAbsolute = dataDate.toLocaleDateString() + ' ' + dataDate.toLocaleTimeString();
+    const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
+    
+    document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute}`);
 }
-
-// Add data file timestamp
-const now = new Date();
-const dataUpdatedRelative = getRelativeTime(now.toISOString());
-const dataUpdatedAbsolute = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-document.getElementById('data-updated').textContent = `(${dataUpdatedRelative})`;
-document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute}`);
             
             // Store original games
             originalGames = data.games;
