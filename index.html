@@ -581,18 +581,22 @@ function getRelativeTime(dateString) {
             const data = await response.json();
             
             // Update last updated display with relative time
-        if (data.lastUpdated) {
-    // Parse the date from games-data.json (which is in UTC)
-    const dataDate = new Date(data.lastUpdated);
-    
-    // Create a UTC-based string for the tooltip
-    const dataUpdatedAbsolute = dataDate.toUTCString();
-    
-    // Get relative time using UTC to avoid timezone confusion
-    const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
+     if (data.lastUpdatedFull) {
+    // Use the full timestamp with time
+    const dataDate = new Date(data.lastUpdatedFull);
+    const dataUpdatedRelative = getRelativeTime(data.lastUpdatedFull);
+    const dataUpdatedAbsolute = dataDate.toUTCString(); // Shows full UTC time
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
     document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute}`);
+} else if (data.lastUpdated) {
+    // Fallback to just date if full timestamp isn't available
+    const dataDate = new Date(data.lastUpdated);
+    const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
+    const dataUpdatedAbsolute = dataDate.toUTCString();
+    
+    document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute} (approx)`);
 }
             
             // Store original games
