@@ -819,11 +819,11 @@ function getRelativeTime(dateString) {
         games.forEach((game, index) => {
             const isFailed = game.name === 'Failed to load';
             
-            // Format dates with relative time
-            const createdRelative = getRelativeTime(game.created);
-            const updatedRelative = getRelativeTime(game.updated);
-            const createdAbsolute = game.created ? new Date(game.created).toLocaleDateString() : '?';
-            const updatedAbsolute = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
+// Format dates with relative time and full timestamp
+const createdRelative = getRelativeTime(game.created);
+const updatedRelative = getRelativeTime(game.updated);
+const createdAbsolute = game.created ? new Date(game.created).toUTCString() : '?';
+const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?';
             
             // Build tags HTML
             let tagsHtml = '';
