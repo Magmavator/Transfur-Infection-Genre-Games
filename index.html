@@ -567,7 +567,7 @@ function getRelativeTime(dateString) {
     const dataUpdatedAbsolute = dataDate.toUTCString(); // Shows full UTC time
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdatedFull}`);
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdatedFull).toLocaleString()}`);
 } else if (data.lastUpdated) {
     // Fallback to just date if full timestamp isn't available
     const dataDate = new Date(data.lastUpdated);
@@ -575,7 +575,7 @@ function getRelativeTime(dateString) {
     const dataUpdatedAbsolute = dataDate.toUTCString();
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdatedFull}`);
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdatedFull).toLocaleString()}`);
 }
             
             // Store original games
@@ -840,8 +840,8 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                         ${tagsHtml}
                         <div class="game-stats">
                             <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${game.created}">${createdRelative}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${game.updated}">${updatedRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${new Date(game.created).toLocaleString()}">${createdRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
                             <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
                         <div class="maintainer-note">
