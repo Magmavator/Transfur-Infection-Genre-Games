@@ -512,6 +512,7 @@
             <button class="sort-btn" data-sort="recent-creation">newest game</button>
             <button class="sort-btn" data-sort="oldest-creation">oldest game</button>
             <button class="sort-btn" data-sort="most-players">most players</button>
+            <button class="sort-btn" data-sort="most-dead">most dead</button>
             <button class="sort-btn" data-sort="failed-only">show only failed</button>
         </div>
     </div>
@@ -646,6 +647,13 @@ function getRelativeTime(dateString) {
                     return bPlayers - aPlayers;
                 });
                 break;
+            case 'most-dead':
+    sortedSuccessful.sort((a, b) => {
+        const aPlayers = typeof a.playerCount === 'number' ? a.playerCount : 0;
+        const bPlayers = typeof b.playerCount === 'number' ? b.playerCount : 0;
+        return aPlayers - bPlayers; // Ascending order (lowest players first = most dead)
+    });
+    break;
             case 'failed-only':
                 return failedGames; // Return only failed games
             default:
