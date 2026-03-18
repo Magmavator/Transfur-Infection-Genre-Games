@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-03-18",
-  "lastUpdatedFull": "2026-03-18T13:45:07.811Z",
+  "lastUpdatedFull": "2026-03-18T19:15:22.632Z",
   "games": [
     {
       "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
@@ -22,7 +22,8 @@
         "https://tr.rbxcdn.com/180DAY-957e66e912fd058c99439c7538483937/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-a49ae4b1dcb95efc9120013d4ee7b619/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/79991553834328"
+      "gameUrl": "https://www.roblox.com/games/79991553834328",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6466630690/Cat-Infection-CAT-SKINS",
@@ -33,7 +34,7 @@
       "maintainerNote": "3rd month 2021",
       "universeId": 2414164590,
       "name": "Cat Infection [CAT SKINS]",
-      "playerCount": 57,
+      "playerCount": 58,
       "created": "2021-03-02T19:06:49.21Z",
       "updated": "2024-12-30T17:41:03.947Z",
       "ownerName": "SHIBA FORCE",
@@ -46,7 +47,8 @@
         "https://tr.rbxcdn.com/180DAY-fbbdfb85463ccb3212ab0c5c3a9ab341/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-609fd2f5c18370c467f745bea004dd5a/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6466630690"
+      "gameUrl": "https://www.roblox.com/games/6466630690",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/17525496045/Infection-Facility",
@@ -57,7 +59,7 @@
       "maintainerNote": "5th month of 2024",
       "universeId": 5998732669,
       "name": "Infection Facility",
-      "playerCount": 26,
+      "playerCount": 39,
       "created": "2024-05-18T00:13:49.773Z",
       "updated": "2026-02-24T22:57:48.7Z",
       "ownerName": "SillyCat games",
@@ -67,7 +69,8 @@
         "https://tr.rbxcdn.com/180DAY-e504606713ad812647e8bd191f19072e/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-bdb89666fb22285e1c776073f17e0d63/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/17525496045"
+      "gameUrl": "https://www.roblox.com/games/17525496045",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
@@ -83,7 +86,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2"
+      "gameUrl": "https://www.roblox.com/games/105838757260774/Latex-Transfur-V1-ALPHA-V-1-2",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
@@ -99,7 +103,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a"
+      "gameUrl": "https://www.roblox.com/games/15518504762/Project-Redux-Alpha-0-2-3a",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6894745593/Transfur-Infection-3",
@@ -110,7 +115,7 @@
       "maintainerNote": "6th month of 2021",
       "universeId": 2631819430,
       "name": "Transfur Infection 3",
-      "playerCount": 0,
+      "playerCount": 1,
       "created": "2021-06-01T11:51:01.93Z",
       "updated": "2025-12-15T22:19:47.757Z",
       "ownerName": "UnstableLabs",
@@ -121,7 +126,8 @@
         "https://tr.rbxcdn.com/180DAY-6ed7f03908dd5dd7bb544e5bd3382605/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-3a703ba13ac3a57c21bca4c4ebaade69/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6894745593"
+      "gameUrl": "https://www.roblox.com/games/6894745593",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/7624147869/Infection-alley",
@@ -132,7 +138,7 @@
       "maintainerNote": "10th month of 2021",
       "universeId": 2961881754,
       "name": "Infection alley",
-      "playerCount": 11,
+      "playerCount": 3,
       "created": "2021-10-02T11:10:24.457Z",
       "updated": "2026-02-19T20:22:08.907Z",
       "ownerName": "Gl1tchprodigy",
@@ -142,7 +148,8 @@
         "https://tr.rbxcdn.com/180DAY-3955664dc16d48ec5a44b53e807967a1/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-1b886234281c70d98d8bb82e70f5550f/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/7624147869"
+      "gameUrl": "https://www.roblox.com/games/7624147869",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/10679239752/Furry-Infection-game",
@@ -153,7 +160,7 @@
       "maintainerNote": "8th month of 2022",
       "universeId": 3869462497,
       "name": "Furry Infection game [Furinfection]",
-      "playerCount": 1802,
+      "playerCount": 1566,
       "created": "2022-08-22T09:17:18.667Z",
       "updated": "2026-03-07T17:33:12.066Z",
       "ownerName": "Kiwi Games.",
@@ -166,7 +173,8 @@
         "https://tr.rbxcdn.com/180DAY-4fd79e759a5ec7352829d2402d91f6de/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-f9da5e1e83d2f90b3eaf1352a6793be2/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/10679239752"
+      "gameUrl": "https://www.roblox.com/games/10679239752",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/106031284598035/Transfur-Infection-Reimagined",
@@ -186,7 +194,8 @@
       "thumbnails": [
         "https://t6.rbxcdn.com/180DAY-22ffc3da9aa08e9c1981bf697e274021"
       ],
-      "gameUrl": "https://www.roblox.com/games/106031284598035"
+      "gameUrl": "https://www.roblox.com/games/106031284598035",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/5985232436/Infectious-Smile",
@@ -197,7 +206,7 @@
       "maintainerNote": "11th month of 2020",
       "universeId": 2157872230,
       "name": "Infectious Smile",
-      "playerCount": 2461,
+      "playerCount": 2432,
       "created": "2020-11-21T21:30:08.547Z",
       "updated": "2026-03-15T21:26:36.298Z",
       "ownerName": "laughablehaha",
@@ -206,7 +215,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-792578a0730d4dcf6dbac9fd15de33e0/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5985232436"
+      "gameUrl": "https://www.roblox.com/games/5985232436",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6104518672/Furrious-Outbreak",
@@ -228,7 +238,8 @@
         "https://tr.rbxcdn.com/180DAY-85ef11ab6be511eb1aba5f586c0bbb7f/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-02929da6451ef04aa2e63cfcb35d1d91/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6104518672"
+      "gameUrl": "https://www.roblox.com/games/6104518672",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/10748233729/Furrious-Outbreak-Classic",
@@ -249,7 +260,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-02929da6451ef04aa2e63cfcb35d1d91/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/10748233729"
+      "gameUrl": "https://www.roblox.com/games/10748233729",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/17318778118/Transfurmation-remake",
@@ -273,7 +285,8 @@
         "https://tr.rbxcdn.com/180DAY-8f8cf29563e55e7637e25e35ec8e63bf/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-182ea1b75b0c1ed46b50f002e655ca95/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/17318778118"
+      "gameUrl": "https://www.roblox.com/games/17318778118",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6374505146/Transfur-Outburst",
@@ -295,7 +308,8 @@
         "https://tr.rbxcdn.com/180DAY-74da282f4f9c682fc1fd28c37791cecd/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-836eb0e1b00dfbbb809c55bb8bc07022/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6374505146"
+      "gameUrl": "https://www.roblox.com/games/6374505146",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/18998666187/Transfurmation-2",
@@ -316,7 +330,8 @@
         "https://tr.rbxcdn.com/180DAY-fb8057c3ceebb3d68b5788cc1ede746f/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-78267d472b27c09bede62d092d72bd1e/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/18998666187"
+      "gameUrl": "https://www.roblox.com/games/18998666187",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/119396263459477/silly-transfur-game",
@@ -337,7 +352,8 @@
         "https://tr.rbxcdn.com/180DAY-3f9b5e6ca160704ee5b43def70bd301c/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-45f63dc785db3ec3a14371694a56a6ee/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/119396263459477"
+      "gameUrl": "https://www.roblox.com/games/119396263459477",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/9716268675/The-Infection-Remastered",
@@ -348,7 +364,7 @@
       "maintainerNote": "5th month of 2022",
       "universeId": 3604379511,
       "name": "(Deprecated) The Infection: Remastered",
-      "playerCount": 3,
+      "playerCount": 8,
       "created": "2022-05-24T18:00:22.05Z",
       "updated": "2026-03-15T13:36:08.347Z",
       "ownerName": "Project Yuro",
@@ -359,7 +375,8 @@
         "https://tr.rbxcdn.com/180DAY-3f62c158658227a4e4c496f32c87cd57/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-8aa156b5beff86de0ab52851516d82ed/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/9716268675"
+      "gameUrl": "https://www.roblox.com/games/9716268675",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/18847801203/The-Infection-Reimagined",
@@ -373,7 +390,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/18847801203/The-Infection-Reimagined"
+      "gameUrl": "https://www.roblox.com/games/18847801203/The-Infection-Reimagined",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/8827608845/Furry-Cold-Infection",
@@ -384,7 +402,7 @@
       "maintainerNote": "2nd month of 2022",
       "universeId": 3343734528,
       "name": "Furry Cold Infection 🥶🦊",
-      "playerCount": 21,
+      "playerCount": 16,
       "created": "2022-02-14T20:38:02.997Z",
       "updated": "2026-01-28T17:25:46.022Z",
       "ownerName": "Wolf Donut",
@@ -396,7 +414,8 @@
         "https://tr.rbxcdn.com/180DAY-937f26c6a4a4e560ead315165663582a/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-2393027e7a8eb5fdda672c6e4ca8af1b/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/8827608845"
+      "gameUrl": "https://www.roblox.com/games/8827608845",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/13902380789/Transfur-Breach-Alpha",
@@ -422,7 +441,8 @@
         "https://tr.rbxcdn.com/180DAY-ddd3b826709429aa2832239b3d1ffe51/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-d5f6956e3914d10d0c59d214083dd163/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/13902380789"
+      "gameUrl": "https://www.roblox.com/games/13902380789",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/12432097393/TIS-The-Transfeyyr",
@@ -435,12 +455,20 @@
         {
           "gameLink": "https://www.roblox.com/games/6136608081/Sunset-Corporation-Transfeyyr",
           "placeId": "6136608081",
-          "note": "old version of Transfeyyr"
+          "note": "old version of Transfeyyr",
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/6136608081/Sunset-Corporation-Transfeyyr"
         }
       ],
       "universeId": 4372883077,
       "name": "TIS: The Transfeyyr",
-      "playerCount": 85,
+      "playerCount": 64,
       "created": "2023-02-09T17:34:04.243Z",
       "updated": "2026-03-07T14:57:29.841Z",
       "ownerName": "The Infectious Studio.",
@@ -471,7 +499,8 @@
         "https://tr.rbxcdn.com/180DAY-577c771cc5f9499b7f9e197d543181dc/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-20c14fcd3a48a398bca5ccf32dd90f2f/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/87546301807669"
+      "gameUrl": "https://www.roblox.com/games/87546301807669",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/139654708382397/ez-Oldgen-Outbreak",
@@ -493,7 +522,8 @@
         "https://tr.rbxcdn.com/180DAY-152838176d347419008199a47bd53c7b/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-0d190a085c86c547ed29e73927a05b44/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/139654708382397"
+      "gameUrl": "https://www.roblox.com/games/139654708382397",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/17450398934/Transfur-Facility-LATE-50K-BADGE",
@@ -513,7 +543,8 @@
       "thumbnails": [
         "https://t6.rbxcdn.com/180DAY-3de571ed1175636497776c44426b9765"
       ],
-      "gameUrl": "https://www.roblox.com/games/17450398934"
+      "gameUrl": "https://www.roblox.com/games/17450398934",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/15491631439/OCTOBER-Fluffy-Infection",
@@ -524,7 +555,7 @@
       "maintainerNote": "11th month of 2023",
       "universeId": 5345991188,
       "name": "Fluffy Infection",
-      "playerCount": 12,
+      "playerCount": 20,
       "created": "2023-11-28T22:57:35.79Z",
       "updated": "2026-03-15T11:02:48.505Z",
       "ownerName": "5navv",
@@ -539,7 +570,8 @@
         "https://tr.rbxcdn.com/180DAY-84ab1e16cac8bf6f526a41139ddcf00d/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-618ac302d2993b4efee2366bc543807c/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/15491631439"
+      "gameUrl": "https://www.roblox.com/games/15491631439",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/5966923567/Moonlight-Outbreak",
@@ -551,7 +583,7 @@
       "maintainerNote": "11th month of 2020",
       "universeId": 2148320849,
       "name": "Moonlight Outbreak",
-      "playerCount": 8,
+      "playerCount": 31,
       "created": "2020-11-17T13:32:31.4Z",
       "updated": "2026-02-25T16:14:14.175Z",
       "ownerName": "Bloxigogo",
@@ -561,7 +593,8 @@
         "https://tr.rbxcdn.com/180DAY-592a252e27c12cbec1007f77525893dd/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-df020271724eec9774609347cb34cebe/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5966923567"
+      "gameUrl": "https://www.roblox.com/games/5966923567",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/78803148130926/Furry-Infection",
@@ -572,7 +605,7 @@
       "maintainerNote": "8th month of 2025",
       "universeId": 8396683494,
       "name": "Furry Infection ☣️ [READ DESC]",
-      "playerCount": 5,
+      "playerCount": 12,
       "created": "2025-08-10T06:44:29.86Z",
       "updated": "2026-03-17T18:22:40.0338379Z",
       "ownerName": "(terrible) GAMES, THE FIRST",
@@ -581,7 +614,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-dedfddd45807763ef0bc1fc432556b75/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/78803148130926"
+      "gameUrl": "https://www.roblox.com/games/78803148130926",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/9127979316/goo-animal-simulator",
@@ -603,7 +637,8 @@
         "https://tr.rbxcdn.com/180DAY-37047760f5a2487f85197c72ba890742/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-08cec20563c6fcd87785eb734d2d80d7/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/9127979316"
+      "gameUrl": "https://www.roblox.com/games/9127979316",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/112455523658545/goo-animal-simulator-remake",
@@ -615,7 +650,7 @@
       "maintainerNote": "9th month of 2025 - fan remake/reupload",
       "universeId": 8833620058,
       "name": "goo animal simulator: remake",
-      "playerCount": 3,
+      "playerCount": 11,
       "created": "2025-09-29T19:13:42.12Z",
       "updated": "2026-02-17T07:12:18.956Z",
       "ownerName": "jahde2",
@@ -631,7 +666,8 @@
         "https://tr.rbxcdn.com/180DAY-c722f6dbd03f8baf38cad5e9aea4a4e0/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-4b2101a9434e25f81c30a9503c25ec09/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/112455523658545"
+      "gameUrl": "https://www.roblox.com/games/112455523658545",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/102607240913864/Project-Neko",
@@ -642,16 +678,17 @@
       "maintainerNote": "11th month of 2024",
       "universeId": 6776657819,
       "name": "[FLOOD & BOOMBOX] Project Neko [ALPHA]",
-      "playerCount": 57,
+      "playerCount": 41,
       "created": "2024-11-09T14:09:49.5Z",
-      "updated": "2026-03-18T13:08:09.8201929Z",
+      "updated": "2026-03-18T14:36:45.8562949Z",
       "ownerName": "Superbullet Studios",
       "ownerUrl": "https://www.roblox.com/groups/35186787",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-7df04ef95c39aebe85062ed40b29bb01/256/256/Image/Png/noFilter",
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-f0fc4bfb44f9acc34456b4d8c6db77d3/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/102607240913864"
+      "gameUrl": "https://www.roblox.com/games/102607240913864",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/135006593107618/Fur-Infection-ABSORD-CRATES-SYSTEM",
@@ -662,9 +699,9 @@
       "maintainerNote": "1st month of 2025",
       "universeId": 7071048537,
       "name": "Fur Infection ABSORD [UPDATE]",
-      "playerCount": 20,
+      "playerCount": 31,
       "created": "2025-01-11T13:28:52.203Z",
-      "updated": "2026-03-18T11:49:44.7329517Z",
+      "updated": "2026-03-18T13:53:22.8974336Z",
       "ownerName": "Ruslan_voeniy",
       "ownerUrl": "https://www.roblox.com/users/1309264466/profile",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-53ad588a810984919a831417f58715b7/256/256/Image/Png/noFilter",
@@ -678,7 +715,8 @@
         "https://tr.rbxcdn.com/180DAY-217df9dcd10a628b813aa4f7a70b73c9/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-43d6ac2ff23c33bc65ae60f07e092b1d/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/135006593107618"
+      "gameUrl": "https://www.roblox.com/games/135006593107618",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/13831863192/Neko-Infection",
@@ -689,7 +727,7 @@
       "maintainerNote": "6th month of 2023",
       "universeId": 4796726263,
       "name": "Neko Infection",
-      "playerCount": 23,
+      "playerCount": 29,
       "created": "2023-06-22T20:49:30.073Z",
       "updated": "2026-02-21T12:43:51.317Z",
       "ownerName": "Notula Studio",
@@ -700,7 +738,8 @@
         "https://tr.rbxcdn.com/180DAY-785894692dac38b268ae41535380ae01/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-0763a9138c50e31a4f3b3a78bbf8e727/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/13831863192"
+      "gameUrl": "https://www.roblox.com/games/13831863192",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/83258383534432/transfur-outbreak-revisited",
@@ -714,12 +753,42 @@
         {
           "gameLink": "https://www.roblox.com/games/83258383534432/tinnitus-furricons-tycoon-v2",
           "placeId": "83258383534432",
-          "note": "same game, name change"
+          "note": "same game, name change",
+          "universeId": 8298533972,
+          "name": "[discontinued] Transfur Outbreak: Revisited",
+          "playerCount": 0,
+          "created": "2025-07-30T11:02:31.387Z",
+          "updated": "2026-02-21T06:50:07.739Z",
+          "ownerName": "reenvisioned group yes yes",
+          "ownerUrl": "https://www.roblox.com/groups/769465870",
+          "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-bbe734b6cfa4a069d03d01d94fb09e12/256/256/Image/Png/noFilter",
+          "thumbnails": [
+            "https://tr.rbxcdn.com/180DAY-c03b630e51226f4200ff524a7b3dabad/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-f7ef107300b1e3784b07244e438fd55e/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-9b2d0090b7ac054fa30c8ea12e8724aa/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-db67aa604d728d79a0ea9ec5c15686a4/768/432/Image/Png/noFilter"
+          ],
+          "gameUrl": "https://www.roblox.com/games/83258383534432"
         },
         {
           "gameLink": "https://www.roblox.com/games/83258383534432/2021-ish-transfur-outbreak",
           "placeId": "83258383534432",
-          "note": "same game, name change"
+          "note": "same game, name change",
+          "universeId": 8298533972,
+          "name": "[discontinued] Transfur Outbreak: Revisited",
+          "playerCount": 0,
+          "created": "2025-07-30T11:02:31.387Z",
+          "updated": "2026-02-21T06:50:07.739Z",
+          "ownerName": "reenvisioned group yes yes",
+          "ownerUrl": "https://www.roblox.com/groups/769465870",
+          "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-bbe734b6cfa4a069d03d01d94fb09e12/256/256/Image/Png/noFilter",
+          "thumbnails": [
+            "https://tr.rbxcdn.com/180DAY-c03b630e51226f4200ff524a7b3dabad/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-f7ef107300b1e3784b07244e438fd55e/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-9b2d0090b7ac054fa30c8ea12e8724aa/768/432/Image/Png/noFilter",
+            "https://tr.rbxcdn.com/180DAY-db67aa604d728d79a0ea9ec5c15686a4/768/432/Image/Png/noFilter"
+          ],
+          "gameUrl": "https://www.roblox.com/games/83258383534432"
         }
       ],
       "universeId": 8298533972,
@@ -747,7 +816,7 @@
       "maintainerNote": "11th month of 2020",
       "universeId": 2162087722,
       "name": "Project Fur",
-      "playerCount": 29,
+      "playerCount": 22,
       "created": "2020-11-23T19:01:54.617Z",
       "updated": "2026-03-03T18:13:03.197Z",
       "ownerName": "Intended Chaos",
@@ -759,7 +828,8 @@
         "https://tr.rbxcdn.com/180DAY-7b3f6523aa01cd9c45aaeb0065c79009/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-b7a606a9e78fa044f017703ae998ae70/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5993542958"
+      "gameUrl": "https://www.roblox.com/games/5993542958",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/5987922834/Transfur-Outbreak",
@@ -771,7 +841,7 @@
       "maintainerNote": "11th month of 2020 - many owner changes over years",
       "universeId": 2159264015,
       "name": "Transfur Outbreak",
-      "playerCount": 21,
+      "playerCount": 28,
       "created": "2020-11-22T12:34:40.47Z",
       "updated": "2026-03-09T00:52:59.934Z",
       "ownerName": "glungus empire",
@@ -781,7 +851,8 @@
         "https://tr.rbxcdn.com/180DAY-cc77c4d67ad329e382472344e0e34820/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-c0f8579e8c882fa746af0729c7d9bce3/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5987922834"
+      "gameUrl": "https://www.roblox.com/games/5987922834",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/121204547519240/Biotech-Nexus-HALLOWS-EVE-TRANSFUR-INFECTION",
@@ -803,7 +874,8 @@
         "https://tr.rbxcdn.com/180DAY-393a91fc2459297412f4e54063541ffc/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-02e31cfdd2f6a7ad1fdb643ce99a85f4/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/121204547519240"
+      "gameUrl": "https://www.roblox.com/games/121204547519240",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6456351776/Kaiju-Paradise",
@@ -814,7 +886,7 @@
       "maintainerNote": "2nd month of 2021",
       "universeId": 2408700413,
       "name": "[❄️] Kaiju Paradise",
-      "playerCount": 421,
+      "playerCount": 472,
       "created": "2021-02-28T10:30:25.16Z",
       "updated": "2026-03-12T03:49:00.063Z",
       "ownerName": "LAMINAX CO.",
@@ -826,7 +898,8 @@
         "https://tr.rbxcdn.com/180DAY-0299f10e61828bc600e6e06aee67789a/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-09d0b925c03043bff5ada0f02c01c800/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6456351776"
+      "gameUrl": "https://www.roblox.com/games/6456351776",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/14176262714/Unknow-furry-infection-game",
@@ -837,7 +910,7 @@
       "maintainerNote": "7th month of 2023",
       "universeId": 4906523382,
       "name": "Unknow furry infection game",
-      "playerCount": 89,
+      "playerCount": 79,
       "created": "2023-07-24T10:46:02.15Z",
       "updated": "2026-03-17T23:29:56.8990324Z",
       "ownerName": "177unneh",
@@ -853,7 +926,8 @@
         "https://tr.rbxcdn.com/180DAY-a91c46e111abdabd2adccad3d83f0f14/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-76556948cfe257c8b1f55ed510cbb050/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/14176262714"
+      "gameUrl": "https://www.roblox.com/games/14176262714",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6573732104/combat-overhaul-twisting-ruin",
@@ -864,7 +938,7 @@
       "maintainerNote": "3rd month of 2021",
       "universeId": 2471596693,
       "name": "(winter) twisting ruin",
-      "playerCount": 40,
+      "playerCount": 41,
       "created": "2021-03-27T03:06:23.757Z",
       "updated": "2026-01-07T21:55:10.797Z",
       "ownerName": "sun_thedeadlylazer",
@@ -876,7 +950,8 @@
         "https://tr.rbxcdn.com/180DAY-f7275185a1df404d88a9847f35a1a464/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-03668a00605454d107f003f647301f71/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/6573732104"
+      "gameUrl": "https://www.roblox.com/games/6573732104",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/15312611408/Fluffy-infection-Shop-UPD",
@@ -887,7 +962,7 @@
       "maintainerNote": "11th month of 2023",
       "universeId": 5281230212,
       "name": "Project : Fur Infection",
-      "playerCount": 2,
+      "playerCount": 4,
       "created": "2023-11-10T08:10:12.75Z",
       "updated": "2026-03-18T12:10:43.7359792Z",
       "ownerName": "tazarikys",
@@ -898,7 +973,8 @@
         "https://tr.rbxcdn.com/180DAY-018e6b3d04abe378309129368f7ec493/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-79cd6c1e483157c7b95faa238f2f3fa0/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/15312611408"
+      "gameUrl": "https://www.roblox.com/games/15312611408",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/18566967136/Facility-of-Redemption-Public-Testing",
@@ -909,7 +985,7 @@
       "maintainerNote": "7th month of 2024 - private for winter maintenance supposedly",
       "universeId": 6290750494,
       "name": "❄️Facility of Redemption❄️",
-      "playerCount": 14,
+      "playerCount": 10,
       "created": "2024-07-19T21:55:42.947Z",
       "updated": "2026-03-14T01:48:15.977Z",
       "ownerName": "[ Solstice Studios ]",
@@ -923,7 +999,8 @@
         "https://tr.rbxcdn.com/180DAY-5aa3685753fe3628d3df41b5d0ba9290/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-15b0a0b7b19cd06cc73ceec215e46cc0/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/18566967136"
+      "gameUrl": "https://www.roblox.com/games/18566967136",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/16526868524/Contagious-Revival",
@@ -934,7 +1011,7 @@
       "maintainerNote": "2nd month of 2024",
       "universeId": 5690919956,
       "name": "Contagious Revival",
-      "playerCount": 19,
+      "playerCount": 24,
       "created": "2024-02-25T20:47:27.507Z",
       "updated": "2026-03-16T22:01:03.141Z",
       "ownerName": "Mardz38",
@@ -943,7 +1020,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-3e57241e2d43f2235afd2e199720fa49/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/16526868524"
+      "gameUrl": "https://www.roblox.com/games/16526868524",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/106062443102422/Fur-Infection-Outbreak",
@@ -965,7 +1043,8 @@
         "https://tr.rbxcdn.com/180DAY-8c8454279b5c0d29904a46a2a26f63f1/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-a633d14c2adb7354ea5f74d778a81650/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/106062443102422"
+      "gameUrl": "https://www.roblox.com/games/106062443102422",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/130317993523756/HALLOWS-Hindsight-Test-Place",
@@ -976,9 +1055,9 @@
       "maintainerNote": "7th month of 2025 - Literally alternative Kaiju Paradise",
       "universeId": 8196011676,
       "name": "[🍀] Hindsight Test Place",
-      "playerCount": 412,
+      "playerCount": 432,
       "created": "2025-07-19T00:32:42.217Z",
-      "updated": "2026-03-18T07:14:34.9953906Z",
+      "updated": "2026-03-18T18:58:35.796182Z",
       "ownerName": "BunnyHopStudios",
       "ownerUrl": "https://www.roblox.com/groups/524369363",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-6f3e8234175b2547cfcbae1971fcc2f6/256/256/Image/Png/noFilter",
@@ -992,7 +1071,8 @@
         "https://tr.rbxcdn.com/180DAY-fbb0efc41bcc190242dc4eb9658ae73b/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-0f3fe80f37d7b572943e7f8669dc3e5a/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/130317993523756"
+      "gameUrl": "https://www.roblox.com/games/130317993523756",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/17649920055/Sub-Infection",
@@ -1003,7 +1083,7 @@
       "maintainerNote": "5th month of 2024",
       "universeId": 6044592851,
       "name": "Sub Infection [V2 SOON]",
-      "playerCount": 0,
+      "playerCount": 4,
       "created": "2024-05-28T19:48:32.387Z",
       "updated": "2026-03-05T13:03:49.524Z",
       "ownerName": "Sub Infection Team",
@@ -1013,7 +1093,8 @@
         "https://tr.rbxcdn.com/180DAY-2aaf5843289418c3ecc570d1610e2804/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-6b167022aa2f0228220eed1c159acbe3/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/17649920055"
+      "gameUrl": "https://www.roblox.com/games/17649920055",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/18955534702/Transfur-Escape",
@@ -1026,14 +1107,22 @@
         {
           "gameLink": "https://www.roblox.com/games/77104913262515/Transfur-Escape-Test-Side-game",
           "placeId": "77104913262515",
-          "note": "side game"
+          "note": "side game",
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/77104913262515/Transfur-Escape-Test-Side-game"
         }
       ],
       "universeId": 6419872918,
       "name": "Transfur Escape [WIP]",
-      "playerCount": 14,
+      "playerCount": 9,
       "created": "2024-08-15T07:18:35.277Z",
-      "updated": "2026-03-16T21:53:39.46Z",
+      "updated": "2026-03-18T15:30:23.6745754Z",
       "ownerName": "unnamedpeopl",
       "ownerUrl": "https://www.roblox.com/users/7212443941/profile",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-cb84d3efc92a2d3c66461a8fd790ae91/256/256/Image/Png/noFilter",
@@ -1063,7 +1152,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-c6ab864590a3c6aa12450e4ccd28ffbe/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5989426850"
+      "gameUrl": "https://www.roblox.com/games/5989426850",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/81671487601414/infection-game-mp4-0-1",
@@ -1079,7 +1169,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/81671487601414/infection-game-mp4-0-1"
+      "gameUrl": "https://www.roblox.com/games/81671487601414/infection-game-mp4-0-1",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/126476488388914/Transfur-Breach",
@@ -1099,7 +1190,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-e411fa53e4dbdd48529c0e9d03357bd3/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/126476488388914"
+      "gameUrl": "https://www.roblox.com/games/126476488388914",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/10532261198/The-Transfurity-Outbreak-Outdated",
@@ -1121,7 +1213,8 @@
         "https://tr.rbxcdn.com/180DAY-31bb57648d68f808d96dcc4dde77b382/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-e7030c7e3548ae057208118b109d8c17/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/10532261198"
+      "gameUrl": "https://www.roblox.com/games/10532261198",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/18877052599/newgen-outbreak-DISCONTINUED",
@@ -1137,7 +1230,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/18877052599/newgen-outbreak-DISCONTINUED"
+      "gameUrl": "https://www.roblox.com/games/18877052599/newgen-outbreak-DISCONTINUED",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/17300916368/Transfur-Outbreak-Map-2",
@@ -1159,7 +1253,8 @@
         "https://tr.rbxcdn.com/180DAY-b94ec711c9120c412b58e82b981c7887/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-1bc7d28644fac2b385e007954702e66d/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/17300916368"
+      "gameUrl": "https://www.roblox.com/games/17300916368",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6002476208/Latt-Transfur-Mod-V-15",
@@ -1175,7 +1270,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/6002476208/Latt-Transfur-Mod-V-15"
+      "gameUrl": "https://www.roblox.com/games/6002476208/Latt-Transfur-Mod-V-15",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6008740665/Infection-V-V1-4-2",
@@ -1188,7 +1284,15 @@
         {
           "gameLink": "https://www.roblox.com/games/6007088245/Infection",
           "placeId": "6007088245",
-          "note": "same game but older version"
+          "note": "same game but older version",
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/6007088245/Infection"
         }
       ],
       "name": "Failed to load",
@@ -1218,7 +1322,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-e6d94b23f0930ac9a2898320e5f0fc3c/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/107980730910540"
+      "gameUrl": "https://www.roblox.com/games/107980730910540",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/5958351575/The-Infectious-Overhaul",
@@ -1238,7 +1343,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-1162bb3b1a3c1ebb20f494331be1ec89/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/5958351575"
+      "gameUrl": "https://www.roblox.com/games/5958351575",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/5990048380/Monster-Infection",
@@ -1254,7 +1360,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/5990048380/Monster-Infection"
+      "gameUrl": "https://www.roblox.com/games/5990048380/Monster-Infection",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/6798251421/NOT-Being-Updated-Atlas-Central",
@@ -1270,7 +1377,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/6798251421/NOT-Being-Updated-Atlas-Central"
+      "gameUrl": "https://www.roblox.com/games/6798251421/NOT-Being-Updated-Atlas-Central",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/9903531648/Infection-Facility",
@@ -1286,7 +1394,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/9903531648/Infection-Facility"
+      "gameUrl": "https://www.roblox.com/games/9903531648/Infection-Facility",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/15728405852/Escape-from-Changed",
@@ -1297,9 +1406,9 @@
       "maintainerNote": "12th month of 2023",
       "universeId": 5434200278,
       "name": "Escape from Changed (some optimization updates)",
-      "playerCount": 2,
+      "playerCount": 1,
       "created": "2023-12-23T21:32:43.213Z",
-      "updated": "2026-03-17T05:41:00.5268453Z",
+      "updated": "2026-03-17T05:41:00.526Z",
       "ownerName": "Escape from Changed",
       "ownerUrl": "https://www.roblox.com/groups/35223817",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-c9c8fd95020cad6ca65001d3418b0b09/256/256/Image/Png/noFilter",
@@ -1312,7 +1421,8 @@
         "https://tr.rbxcdn.com/180DAY-b718309f12e18f88f73d5a0d66c1542c/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-ad89378dac7f6025a7c20b709fbaa4e1/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/15728405852"
+      "gameUrl": "https://www.roblox.com/games/15728405852",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/139500066197829/Escape-From-Changed-ARCHIVE-REUPLOAD",
@@ -1323,7 +1433,7 @@
       "maintainerNote": "2nd month of 2025 - archive reupload",
       "universeId": 7247948785,
       "name": "Escape From Changed | ARCHIVE/REUPLOAD |",
-      "playerCount": 1,
+      "playerCount": 4,
       "created": "2025-02-15T16:19:31.977Z",
       "updated": "2026-01-26T03:27:08.39Z",
       "ownerName": "KT_FM",
@@ -1337,7 +1447,8 @@
         "https://tr.rbxcdn.com/180DAY-c4027669984f57adf993cea2691d89d2/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-3d16d560ec58d8819f3dd0f55832af05/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/139500066197829"
+      "gameUrl": "https://www.roblox.com/games/139500066197829",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/72407903748016/Furry-Infection",
@@ -1358,7 +1469,8 @@
         "https://tr.rbxcdn.com/180DAY-dac5970320402283060dd19ed48d47e3/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-bc89c02591d1a7680537c4198cb3c885/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/72407903748016"
+      "gameUrl": "https://www.roblox.com/games/72407903748016",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/15178727828/Werewolf-infection",
@@ -1385,7 +1497,8 @@
         "https://tr.rbxcdn.com/180DAY-1045c3c961cd68d0684d7927f2658fb7/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-d87c9921f8815dbe8deb5fa572fa32cb/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/15178727828"
+      "gameUrl": "https://www.roblox.com/games/15178727828",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/97545343806660/silly-transfur-game-2",
@@ -1411,7 +1524,8 @@
         "https://tr.rbxcdn.com/180DAY-26f7a6d61c39455c27004da1bb5733db/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-3459b0cf961f38c96755c2f1959aa757/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/97545343806660"
+      "gameUrl": "https://www.roblox.com/games/97545343806660",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/13431915633/Fractured-Facility-Testing-Place",
@@ -1432,7 +1546,8 @@
         "https://tr.rbxcdn.com/180DAY-96ea08e6e69bc60b6e422c7d3bca274d/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-2d6a83c1131db3273702a87fa39ef3bf/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/13431915633"
+      "gameUrl": "https://www.roblox.com/games/13431915633",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/128903563180469/Transfurmation-Recalled",
@@ -1452,7 +1567,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-2288c3b9d5e928a2c44b5db7f975b43f/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/128903563180469"
+      "gameUrl": "https://www.roblox.com/games/128903563180469",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/96717852874249/Untitled-Transfur-RPG",
@@ -1474,7 +1590,8 @@
         "https://tr.rbxcdn.com/180DAY-b0a34e2d55b0cbe62cbbb82340d82ba1/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-02b6f81a98fefde3a1299f56ff2a737e/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/96717852874249"
+      "gameUrl": "https://www.roblox.com/games/96717852874249",
+      "subgames": []
     },
     {
       "gameLink": "https://www.roblox.com/games/84952056636158/City-Transfur-The-Return",
@@ -1490,7 +1607,8 @@
       "ownerName": "?",
       "thumbnailUrl": "",
       "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/84952056636158/City-Transfur-The-Return"
+      "gameUrl": "https://www.roblox.com/games/84952056636158/City-Transfur-The-Return",
+      "subgames": []
     }
   ]
 }
