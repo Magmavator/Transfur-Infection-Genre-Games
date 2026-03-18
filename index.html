@@ -558,10 +558,14 @@
             const data = await response.json();
             
             // Update last updated display with relative time
-         if (data.lastUpdated) {
-    // Parse the date from games-data.json
+        if (data.lastUpdated) {
+    // Parse the date from games-data.json (which is in UTC)
     const dataDate = new Date(data.lastUpdated);
-    const dataUpdatedAbsolute = dataDate.toLocaleDateString() + ' ' + dataDate.toLocaleTimeString();
+    
+    // Create a UTC-based string for the tooltip
+    const dataUpdatedAbsolute = dataDate.toUTCString();
+    
+    // Get relative time using UTC to avoid timezone confusion
     const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
