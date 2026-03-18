@@ -11,7 +11,7 @@
             box-sizing: border-box;
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
-       body {
+               body {
     background-image: url('https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/SeamlessConcrete.jpg?raw=true'); /* You can replace this URL with any pattern */
     background-repeat: repeat;
     background-position: top left;
@@ -489,7 +489,7 @@
 <div class="container">
 
     <div class="topbar">
-        <span>📅 COMINA GAME LIST <span id="last-updated"></span></span>
+        <span>📅 COMINA GAME LIST <span id="last-updated"></span> | ⚙️ Data: <span id="data-updated"></span></span>
         <div class="nav">
             <a href="index.html">home</a>
             <a href="about.html">about</a>
@@ -558,20 +558,18 @@
             const data = await response.json();
             
             // Update last updated display with relative time
-// Update last updated display with relative time
-if (data.lastUpdatedFull) {
-    const relativeTime = getRelativeTime(data.lastUpdatedFull);
-    const date = new Date(data.lastUpdatedFull);
-    const formattedDate = date.toLocaleDateString();
-    const formattedTime = date.toLocaleTimeString();
-    document.getElementById('last-updated').textContent = `(updated ${relativeTime} - ${formattedDate} ${formattedTime})`;
-    document.getElementById('last-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdatedFull}`);
-} else if (data.lastUpdated) {
-    // Fallback to just date if full timestamp not available
+           if (data.lastUpdated) {
     const relativeTime = getRelativeTime(data.lastUpdated);
     document.getElementById('last-updated').textContent = `(updated ${relativeTime})`;
     document.getElementById('last-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdated}`);
 }
+
+// Add data file timestamp
+const now = new Date();
+const dataUpdatedRelative = getRelativeTime(now.toISOString());
+const dataUpdatedAbsolute = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+document.getElementById('data-updated').textContent = `(${dataUpdatedRelative})`;
+document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute}`);
             
             // Store original games
             originalGames = data.games;
@@ -793,11 +791,11 @@ if (data.lastUpdatedFull) {
         games.forEach((game, index) => {
             const isFailed = game.name === 'Failed to load';
             
-// Format dates with relative time
-const createdRelative = getRelativeTime(game.created);
-const updatedRelative = getRelativeTime(game.updated);
-const createdAbsolute = game.created ? new Date(game.created).toLocaleString() : '?';
-const updatedAbsolute = game.updated ? new Date(game.updated).toLocaleString() : '?';
+            // Format dates with relative time
+            const createdRelative = getRelativeTime(game.created);
+            const updatedRelative = getRelativeTime(game.updated);
+            const createdAbsolute = game.created ? new Date(game.created).toLocaleDateString() : '?';
+            const updatedAbsolute = game.updated ? new Date(game.updated).toLocaleDateString() : '?';
             
             // Build tags HTML
             let tagsHtml = '';
