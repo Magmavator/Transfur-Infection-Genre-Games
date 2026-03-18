@@ -33,6 +33,74 @@ jobs:
           const fs = require('fs');
           const fetch = require('node-fetch');
           
+          // Helper function to fetch game data by placeId
+          async function fetchGameData(placeId, gameLink) {
+            try {
+              // 1. Get universeId
+              const universeUrl = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
+              const universeRes = await fetch(universeUrl);
+              const universeData = await universeRes.json();
+              
+              if (!universeData.universeId) {
+                throw new Error('No universeId in response');
+              }
+              const universeId = universeData.universeId;
+              
+              // 2. Get game details
+              const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
+              const detailsRes = await fetch(detailsUrl);
+              const detailsData = await detailsRes.json();
+              
+              if (!detailsData.data || !detailsData.data[0]) {
+                throw new Error('No game details in response');
+              }
+              const details = detailsData.data[0];
+              
+              // 3. Get icon
+              const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
+              const iconRes = await fetch(iconUrl);
+              const iconData = await iconRes.json();
+              const icon = iconData.data?.[0]?.imageUrl || '';
+              
+              // 4. Get thumbnails
+              const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
+              const thumbRes = await fetch(thumbUrl);
+              const thumbData = await thumbRes.json();
+              
+              let thumbnails = [];
+              if (thumbData.data && thumbData.data[0] && thumbData.data[0].thumbnails) {
+                thumbnails = thumbData.data[0].thumbnails.map(t => t.imageUrl);
+              }
+              
+              return {
+                universeId,
+                name: details.name,
+                playerCount: details.playing,
+                created: details.created,
+                updated: details.updated,
+                ownerName: details.creator.name,
+                ownerUrl: details.creator.type === 'Group' 
+                  ? `https://www.roblox.com/groups/${details.creator.id}`
+                  : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                thumbnailUrl: icon,
+                thumbnails: thumbnails,
+                gameUrl: `https://www.roblox.com/games/${placeId}`
+              };
+            } catch (err) {
+              console.error(`    ❌ Subgame fetch failed: ${err.message}`);
+              return {
+                name: 'Failed to load',
+                playerCount: '?',
+                created: '?',
+                updated: '?',
+                ownerName: '?',
+                thumbnailUrl: '',
+                thumbnails: [],
+                gameUrl: gameLink || '#'
+              };
+            }
+          }
+
           async function main() {
             console.log('📂 Reading games.json...');
             const gamesData = JSON.parse(fs.readFileSync('games.json', 'utf8'));
@@ -45,71 +113,72 @@ jobs:
               console.log(`\n[${i + 1}/${gamesData.games.length}] Processing: ${game.gameLink || game.placeId}`);
               
               try {
-                // 1. Get universeId
-                const universeUrl = `https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`;
-                console.log(`  🔍 Fetching universe ID...`);
-                const universeRes = await fetch(universeUrl);
-                const universeData = await universeRes.json();
+                // Fetch main game data
+                const mainGameData = await fetchGameData(game.placeId, game.gameLink);
                 
-                if (!universeData.universeId) {
-                  throw new Error('No universeId in response');
+                // Process subgames if they exist
+                let processedSubgames = [];
+                if (game.subgames && game.subgames.length > 0) {
+                  console.log(`  🔍 Processing ${game.subgames.length} subgames...`);
+                  
+                  for (let j = 0; j < game.subgames.length; j++) {
+                    const sub = game.subgames[j];
+                    console.log(`    📦 Subgame ${j + 1}/${game.subgames.length}: ${sub.gameLink || sub.placeId}`);
+                    
+                    // Fetch subgame data
+                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink);
+                    
+                    // Preserve the original note
+                    processedSubgames.push({
+                      ...sub,
+                      ...subGameData,
+                      note: sub.note // Keep the original note
+                    });
+                    
+                    // Small delay between subgame fetches
+                    if (j < game.subgames.length - 1) {
+                      await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                  }
+                  
+                  console.log(`  ✅ Processed ${processedSubgames.length} subgames`);
                 }
-                const universeId = universeData.universeId;
-                console.log(`  ✅ Universe ID: ${universeId}`);
                 
-                // 2. Get game details
-                const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
-                console.log(`  🔍 Fetching game details...`);
-                const detailsRes = await fetch(detailsUrl);
-                const detailsData = await detailsRes.json();
-                
-                if (!detailsData.data || !detailsData.data[0]) {
-                  throw new Error('No game details in response');
-                }
-                const details = detailsData.data[0];
-                console.log(`  ✅ Game: ${details.name} (${details.playing} players)`);
-                
-                // 3. Get icon
-                const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
-                console.log(`  🔍 Fetching icon...`);
-                const iconRes = await fetch(iconUrl);
-                const iconData = await iconRes.json();
-                const icon = iconData.data?.[0]?.imageUrl || '';
-                console.log(`  ✅ Icon: ${icon ? 'found' : 'not found'}`);
-                
-                // 4. Get thumbnails
-                const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
-                console.log(`  🔍 Fetching thumbnails...`);
-                const thumbRes = await fetch(thumbUrl);
-                const thumbData = await thumbRes.json();
-                
-                let thumbnails = [];
-                if (thumbData.data && thumbData.data[0] && thumbData.data[0].thumbnails) {
-                  thumbnails = thumbData.data[0].thumbnails.map(t => t.imageUrl);
-                }
-                console.log(`  ✅ Found ${thumbnails.length} thumbnails`);
-                
-                // Build enriched game object
+                // Build enriched game object with subgames
                 enrichedGames.push({
                   ...game,
-                  universeId,
-                  name: details.name,
-                  playerCount: details.playing,
-                  created: details.created,
-                  updated: details.updated,
-                  ownerName: details.creator.name,
-                  ownerUrl: details.creator.type === 'Group' 
-                    ? `https://www.roblox.com/groups/${details.creator.id}`
-                    : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                  thumbnailUrl: icon,
-                  thumbnails: thumbnails,
-                  gameUrl: `https://www.roblox.com/games/${game.placeId}`
+                  ...mainGameData,
+                  subgames: processedSubgames
                 });
                 
-                console.log(`  ✅ Game ${i + 1} complete`);
+                console.log(`  ✅ Game ${i + 1} complete with ${processedSubgames.length} subgames`);
                 
               } catch (err) {
                 console.error(`  ❌ Failed: ${err.message}`);
+                
+                // Process subgames even if main game fails
+                let processedSubgames = [];
+                if (game.subgames && game.subgames.length > 0) {
+                  console.log(`  🔍 Processing ${game.subgames.length} subgames (main game failed)...`);
+                  
+                  for (let j = 0; j < game.subgames.length; j++) {
+                    const sub = game.subgames[j];
+                    console.log(`    📦 Subgame ${j + 1}/${game.subgames.length}: ${sub.gameLink || sub.placeId}`);
+                    
+                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink);
+                    
+                    processedSubgames.push({
+                      ...sub,
+                      ...subGameData,
+                      note: sub.note
+                    });
+                    
+                    if (j < game.subgames.length - 1) {
+                      await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                  }
+                }
+                
                 enrichedGames.push({
                   ...game,
                   name: 'Failed to load',
@@ -119,11 +188,12 @@ jobs:
                   ownerName: '?',
                   thumbnailUrl: '',
                   thumbnails: [],
-                  gameUrl: game.gameLink || '#'
+                  gameUrl: game.gameLink || '#',
+                  subgames: processedSubgames
                 });
               }
               
-              // Delay to avoid rate limiting
+              // Delay to avoid rate limiting between main games
               if (i < gamesData.games.length - 1) {
                 console.log('  ⏱️ Waiting 1 second...');
                 await new Promise(resolve => setTimeout(resolve, 1000));
@@ -146,10 +216,9 @@ jobs:
             console.log(`✅ File created: ${stats.size} bytes`);
             console.log(`✅ Contains ${enrichedGames.length} games`);
             
-            // Log first game's thumbnail count as verification
-            if (enrichedGames[0] && enrichedGames[0].thumbnails) {
-              console.log(`✅ First game has ${enrichedGames[0].thumbnails.length} thumbnails`);
-            }
+            // Log stats
+            let totalSubgames = enrichedGames.reduce((acc, game) => acc + (game.subgames?.length || 0), 0);
+            console.log(`✅ Total subgames processed: ${totalSubgames}`);
           }
           
           main().catch(err => {
