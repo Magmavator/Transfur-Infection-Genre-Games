@@ -521,36 +521,15 @@
 </div>
 
 <script>
-    // ==================== RELATIVE TIME HELPER ====================
-    // ==================== RELATIVE TIME HELPER (FIXED FOR UTC) ====================
+   // ==================== RELATIVE TIME HELPER (SIMPLE & RELIABLE) ====================
 function getRelativeTime(dateString) {
     if (!dateString || dateString === '?') return '?';
     
-    // Parse the UTC date
-    const utcDate = new Date(dateString);
-    
-    // Get current UTC time
+    const past = new Date(dateString);
     const now = new Date();
-    const utcNow = Date.UTC(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(),
-        now.getUTCHours(),
-        now.getUTCMinutes(),
-        now.getUTCSeconds()
-    );
     
-    // Convert the target date to UTC milliseconds
-    const utcTarget = Date.UTC(
-        utcDate.getUTCFullYear(),
-        utcDate.getUTCMonth(),
-        utcDate.getUTCDate(),
-        utcDate.getUTCHours(),
-        utcDate.getUTCMinutes(),
-        utcDate.getUTCSeconds()
-    );
-    
-    const diffMs = utcNow - utcTarget;
+    // Get difference in milliseconds
+    const diffMs = now - past;
     const diffSec = Math.floor(diffMs / 1000);
     const diffMin = Math.floor(diffSec / 60);
     const diffHour = Math.floor(diffMin / 60);
@@ -588,7 +567,7 @@ function getRelativeTime(dateString) {
     const dataUpdatedAbsolute = dataDate.toUTCString(); // Shows full UTC time
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute}`);
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdatedFull}`);
 } else if (data.lastUpdated) {
     // Fallback to just date if full timestamp isn't available
     const dataDate = new Date(data.lastUpdated);
@@ -596,7 +575,7 @@ function getRelativeTime(dateString) {
     const dataUpdatedAbsolute = dataDate.toUTCString();
     
     document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${dataUpdatedAbsolute} (approx)`);
+    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${data.lastUpdatedFull}`);
 }
             
             // Store original games
@@ -861,8 +840,8 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                         ${tagsHtml}
                         <div class="game-stats">
                             <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${createdAbsolute}">${createdRelative}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${updatedAbsolute}">${updatedRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${game.created}">${createdRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${game.updated}">${updatedRelative}</span></span>
                             <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
                         <div class="maintainer-note">
