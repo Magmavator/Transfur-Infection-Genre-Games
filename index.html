@@ -883,9 +883,9 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                                 <img src="${sub.thumbnailUrl || 'https://placehold.co/100x100/5f9ea0/white?text=Sub'}" alt="${sub.name}" onerror="this.src='https://placehold.co/100x100/5f9ea0/white?text=No+Icon'">
                             </div>
                             <div class="subgame-info">
-                                <div class="subgame-title">
-                                    <a href="${sub.gameUrl || sub.gameLink || '#'}">${sub.name || 'Subgame'}</a>
-                                </div>
+                               <div class="subgame-title">
+    <a href="${sub.gameUrl || sub.gameLink || '#'}" data-full-link="${sub.gameLink || sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a>
+</div>
                                 <div class="subgame-stats">
                                     <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
                                     <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
