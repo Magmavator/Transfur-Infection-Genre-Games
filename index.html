@@ -196,19 +196,19 @@
             color: #5f9ea0;
         }
         .game-title a:hover:after {
-            content: attr(href);
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            background: #1a2b3c;
-            color: #e8f0fe;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            white-space: nowrap;
-            z-index: 10;
-            margin-bottom: 5px;
-        }
+    content: attr(data-full-link);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #1a2b3c;
+    color: #e8f0fe;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    margin-bottom: 5px;
+}
         
         .game-tags {
             display: flex;
@@ -843,8 +843,8 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                     </div>
                     <div class="game-info">
                         <div class="game-title">
-                            <a href="${game.gameUrl}">${game.name}</a>
-                        </div>
+    <a href="${game.gameUrl}" data-full-link="${game.gameLink || game.gameUrl}">${game.name}</a>
+</div>
                         ${tagsHtml}
                         <div class="game-stats">
                             <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
