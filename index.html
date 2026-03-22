@@ -209,6 +209,20 @@
     z-index: 10;
     margin-bottom: 5px;
 }
+        .subgame-title a:hover:after {
+    content: attr(data-full-link);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #1a2b3c;
+    color: #e8f0fe;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    margin-bottom: 5px;
+}
         
         .game-tags {
             display: flex;
@@ -414,6 +428,8 @@
         .subgame-title a {
             color: #1a2b3c;
             text-decoration: none;
+            position: relative;
+    display: inline-block;
         }
         .subgame-title a:hover {
             color: #5f9ea0;
