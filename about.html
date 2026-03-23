@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMINA · about</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
 
+        body {
+            background-image: url('https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/SeamlessConcrete.jpg?raw=true');
+            background-repeat: repeat;
+            background-position: top left;
+            background-attachment: scroll;
+            background-size: 200px 200px;
+            color: #e0e0e0;
+            line-height: 1.4;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #3a3a3a;
+        }
+
+        .topbar {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid #ffffff;
+            border: 2px solid #3a3a3a;
+        }
+
+        .topbar .nav a {
+            color: #e0e0e0;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .topbar .nav a:hover {
+            color: #ffffff;
+        }
+
+        .content-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border: 2px solid #4a4a4a;
+        }
+
+        .content-card h1 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            border-left: 4px solid #ffffff;
+            padding-left: 16px;
+        }
+
+        .content-card h2 {
+            font-size: 24px;
+            margin: 24px 0 16px 0;
+            border-left: 4px solid #ffffff;
+            padding-left: 12px;
+        }
+
+        .content-card p {
+            margin-bottom: 16px;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .content-card a {
+            color: #ffffff;
+            text-decoration: none;
+            border-bottom: 1px dotted #ffffff;
+        }
+
+        .content-card a:hover {
+            color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .content-card hr {
+            margin: 24px 0;
+            border: none;
+            border-top: 2px solid #4a4a4a;
+        }
+
+        .content-card ul, .content-card ol {
+            margin: 16px 0 16px 32px;
+            color: #e0e0e0;
+        }
+
+        .content-card li {
+            margin: 8px 0;
+        }
+
+        .content-card blockquote {
+            margin: 20px 0;
+            padding: 16px 20px;
+            background: #1a1a1a;
+            border-left: 4px solid #ffffff;
+            border-radius: 4px;
+            color: #b0b0b0;
+            font-style: italic;
+        }
+
+        .content-card .highlight {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #ffffff;
+            margin: 20px 0;
+        }
+
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .stat-box {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #4a4a4a;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            color: #8a8a8a;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .loading, .error {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error {
+            color: #ffffff;
+        }
+
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            z-index: 10;
+            margin-bottom: 5px;
+        }
+
+        [data-tooltip]:hover:before {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="topbar">
+        <span>📅 COMINA · ABOUT</span>
+        <div class="nav">
+            <a href="index.html">home</a>
+            <a href="about.html">about</a>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h1>about this list</h1>
+        
+        <p>This is a curated collection of Roblox games within the transfur/infection genre — a niche but passionate corner of the platform. These games range from abandoned experiments to active communities, from rough prototypes to polished experiences.</p>
+        
+        <div class="highlight">
+            <strong>why this list exists</strong><br><br>
+            The transfur/infection genre has a scattered history. Many games come and go, get deleted, get abandoned, or get lost in the noise. This page exists to document what's out there — the good, the dead, the hidden, the forgotten.
+        </div>
+        
+        <h2>how this works</h2>
+        <p>Data is pulled from <code>games-data.json</code>, which is updated automatically every 6 hours via GitHub Actions. Player counts, thumbnails, and game details are fetched directly from Roblox APIs. Tags and maintainer notes are added manually based on community knowledge and personal testing.</p>
+        
+        <div class="stats-box">
+            <div class="stat-box">
+                <div class="stat-number" id="total-games">—</div>
+                <div class="stat-label">total games tracked</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="active-games">—</div>
+                <div class="stat-label">games with active players</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="og-games">—</div>
+                <div class="stat-label">OG / classic games</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="failed-games">—</div>
+                <div class="stat-label">deleted / inaccessible</div>
+            </div>
+        </div>
+        
+        <h2>the criteria</h2>
+        <p>A game is included if:</p>
+        <ul>
+            <li>It's within the transfur / infection / furry infection genre</li>
+            <li>It has historical significance or notable player base</li>
+            <li>It's a remake, reupload, or spiritual successor to a classic</li>
+            <li>It's simply a hidden gem worth documenting</li>
+        </ul>
+        <p>Games are not included based on quality alone — dead games, broken games, and obscure experiments are all welcome. This is an archive, not a recommendation engine.</p>
+        
+        <h2>tags explained</h2>
+        <ul>
+            <li><strong>unknown-quality</strong> — haven't played enough to judge</li>
+            <li><strong>low-quality</strong> — rough around the edges</li>
+            <li><strong>moderate-quality</strong> — decent, playable, some effort</li>
+            <li><strong>high-quality</strong> — polished, well-made, recommended</li>
+            <li><strong>supreme-quality</strong> — exceptional, genre-defining</li>
+            <li><strong>OG</strong> — original or early classic in the genre</li>
+        </ul>
+        
+        <h2>about the maintainer</h2>
+        <p>Slav from Eastern Poland. I make games under COMINA on Roblox. I don't chase money — I build what I want, when I want, with quality and poured love. You'll never see me speedrun a project.</p>
+        <p>This list started as a personal bookmark folder. It grew into something worth sharing. If a game is missing, email me. If something is wrong, email me. If you just want to talk about cars, also email me.</p>
+        
+        <blockquote>
+            "driving nonchalantly is driving boldly" — some guy with a Panda 1.1
+        </blockquote>
+        
+        <h2>contact</h2>
+        <p>📧 <a href="mailto:cominapacnicca@gmail.com">cominapacnicca@gmail.com</a></p>
+        <p>🔗 <a href="https://www.roblox.com/communities/5903879/COMINA#!/about">Roblox group: COMINA</a></p>
+        <p>📺 <a href="https://www.youtube.com/@kamurek1878">YouTube: @kamurek1878</a></p>
+        
+        <hr>
+        
+        <p style="font-size: 12px; color: #8a8a8a; text-align: center;">Data updates automatically every 6 hours. Last fetched from Roblox APIs.</p>
+    </div>
+
+</div>
+
+<script>
+    // ==================== RELATIVE TIME HELPER ====================
+    function getRelativeTime(dateString) {
+        if (!dateString || dateString === '?') return '?';
+        
+        const past = new Date(dateString);
+        const now = new Date();
+        
+        const diffMs = now - past;
+        const diffSec = Math.floor(diffMs / 1000);
+        const diffMin = Math.floor(diffSec / 60);
+        const diffHour = Math.floor(diffMin / 60);
+        const diffDay = Math.floor(diffHour / 24);
+        const diffMonth = Math.floor(diffDay / 30);
+        const diffYear = Math.floor(diffMonth / 12);
+
+        if (diffSec < 60) return 'just now';
+        if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+        if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
+        if (diffDay < 30) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+        if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
+        return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
+    }
+
+    // ==================== FETCH STATS FROM GAMES-DATA ====================
+    async function loadStats() {
+        try {
+            const response = await fetch('games-data.json');
+            const data = await response.json();
+            const games = data.games;
+            
+            // Calculate stats
+            const total = games.length;
+            const active = games.filter(g => {
+                const playerCount = typeof g.playerCount === 'number' ? g.playerCount : 0;
+                return playerCount > 0;
+            }).length;
+            const og = games.filter(g => g.tags && g.tags.includes('OG')).length;
+            const failed = games.filter(g => g.name === 'Failed to load').length;
+            
+            // Update stats boxes
+            document.getElementById('total-games').textContent = total;
+            document.getElementById('active-games').textContent = active;
+            document.getElementById('og-games').textContent = og;
+            document.getElementById('failed-games').textContent = failed;
+            
+        } catch (err) {
+            console.error('Failed to load stats:', err);
+            document.getElementById('total-games').textContent = '?';
+            document.getElementById('active-games').textContent = '?';
+            document.getElementById('og-games').textContent = '?';
+            document.getElementById('failed-games').textContent = '?';
+        }
+    }
+    
+    loadStats();
+</script>
+
+</body>
+</html>
