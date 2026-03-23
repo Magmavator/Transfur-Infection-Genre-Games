@@ -130,6 +130,57 @@
             margin: 20px 0;
         }
 
+        /* Defense button and expandable section */
+        .defense-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .defense-btn {
+            background: #1a1a1a;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .defense-btn:hover {
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .defense-note {
+            color: #8a8a8a;
+            font-size: 13px;
+        }
+
+        .defense-content {
+            display: none;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ffffff;
+            margin-top: 16px;
+        }
+
+        .defense-content.visible {
+            display: block;
+        }
+
+        .defense-content p {
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .defense-content p:last-child {
+            margin-bottom: 0;
+        }
+
         .stats-box {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -204,7 +255,6 @@
         <span>📅 ABOUT THIS WEBSITE</span>
         <div class="nav">
             <a href="index.html">home</a>
-            <!-- <a href="about.html">about</a> -->
         </div>
     </div>
 
@@ -221,6 +271,26 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
 <br><br>That genre was a chance for players to escape boredom and finally play something fresh on this stale platform. Any references to "Changed" were purely artistic. Tiny fucking references, so specific you wouldn't randomly go "Oh, I totally fucking know that" unless you have an asshole-shaped radar for micro-references. 
 <br><br>These words came from a "Furry hater." Think about that.
 <br><br>Hotdog buns aren't baguettes, even though they share the same ingredient.
+        </div>
+
+        <!-- DEFENSE BUTTON -->
+        <div class="defense-header">
+            <button class="defense-btn" id="defenseBtn">▼ my defense</button>
+            <span class="defense-note">(AI keeps getting it wrong when i ask what they think. read this instead.)</span>
+        </div>
+
+        <div class="defense-content" id="defenseContent">
+            <p><strong>No, this isn't a "strategic reframing" or "PR language."</strong> I'm not playing politics. I'm not trying to "normalize" anything. I'm telling you what these games actually are.</p>
+            
+            <p>I'm a furry hater. I don't like furries. But I like these games. Why? Because they're games where you <strong>kill furries</strong>. That's it. That's the appeal. No hidden agenda. No fetish content. Just a game where you fight monsters.</p>
+            
+            <p>When I say "you kill Furries," I'm not simplifying or reframing. I'm describing exactly what happens in the game. If you think that's provocative, you're proving my point — you're reading into something that isn't there.</p>
+            
+            <p>Ofcourse i checked my text using AI - they keep telling me I'm "strategically reframing" or "using deliberate provocation to normalize the concept." No. I'm just saying what the games are. If that makes you uncomfortable, ask yourself why. The games aren't the problem.</p>
+            
+            <p><strong>Yes, these games exist because of Changed. No, they aren't fetish games. No adult content. Nothing to flag. You kill furries. That's it.</strong></p>
+            
+            <p>Hotdog buns aren't baguettes, even though they share the same ingredient. Think about that.</p>
         </div>
         
         <h2>how this website works</h2>
@@ -250,7 +320,6 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
         <ul>
             <li>It's within the transfur / infection / furry infection genre</li>
             <li>Isnt a clear spit in the face to the Transfur Genre</li>
-            <!-- <li>It has historical significance or notable player base</li> -->
             <li>It's a remake, reupload, or spiritual successor to a classic</li>
             <li>It's simply a hidden gem worth documenting</li>
         </ul>
@@ -276,7 +345,7 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
         
         <h2>contact</h2>
         <p>📧 <a href="mailto:cominapacnicca@gmail.com">cominapacnicca@gmail.com</a></p>
-        <p>🔗 <a href="https://comina-pacnicca.itch.io/">Itch.io pageA</a></p>
+        <p>🔗 <a href="https://comina-pacnicca.itch.io/">Itch.io page</a></p>
         
         <hr>
         
@@ -286,6 +355,15 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
 </div>
 
 <script>
+    // ==================== TOGGLE DEFENSE SECTION ====================
+    const defenseBtn = document.getElementById('defenseBtn');
+    const defenseContent = document.getElementById('defenseContent');
+
+    defenseBtn.addEventListener('click', function() {
+        defenseContent.classList.toggle('visible');
+        defenseBtn.textContent = defenseContent.classList.contains('visible') ? '▲ my defense' : '▼ my defense';
+    });
+
     // ==================== RELATIVE TIME HELPER ====================
     function getRelativeTime(dateString) {
         if (!dateString || dateString === '?') return '?';
@@ -316,7 +394,6 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
             const data = await response.json();
             const games = data.games;
             
-            // Calculate stats
             const total = games.length;
             const active = games.filter(g => {
                 const playerCount = typeof g.playerCount === 'number' ? g.playerCount : 0;
@@ -325,7 +402,6 @@ The transfur/infection genre has a scattered history. Many games come and go, ge
             const og = games.filter(g => g.tags && g.tags.includes('OG')).length;
             const failed = games.filter(g => g.name === 'Failed to load').length;
             
-            // Update stats boxes
             document.getElementById('total-games').textContent = total;
             document.getElementById('active-games').textContent = active;
             document.getElementById('og-games').textContent = og;
