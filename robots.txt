@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://magmavator.github.io/Transfur-Infection-Genre-Games/sitemap.xml
