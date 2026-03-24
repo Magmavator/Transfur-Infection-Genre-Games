@@ -1,2 +1,3 @@
 # Transfur-Infection-Genre-Games
-repository for a manual overview list of games from the transfur genre
+A curated list of Roblox transfur/infection games. Tracks player counts, game's status, and discover hidden gems.
+https://magmavator.github.io/Transfur-Infection-Genre-Games/ <--- Link to website
