@@ -954,9 +954,11 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                             <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
                             <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
                         </div>
-                        <div class="maintainer-note">
-                            <strong>✎ note:</strong> ${game.maintainerNote}
-                        </div>
+                       ${game.maintainerNote ? `
+<div class="maintainer-note">
+    <strong>✎ note:</strong> ${game.maintainerNote}
+</div>
+` : ''}
                         ${thumbnailsHtml}
             `;
             
@@ -994,7 +996,11 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                                     <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
                                     <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
                                 </div>
-                                ${sub.note ? `<div class="subgame-note"><strong>✎ note:</strong> ${sub.note}</div>` : ''}
+                                ${sub.note ? `
+<div class="subgame-note">
+    <strong>✎ note:</strong> ${sub.note}
+</div>
+` : ''}
                                 ${subThumbnailsHtml}
                             </div>
                         </div>
