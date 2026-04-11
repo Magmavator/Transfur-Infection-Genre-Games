@@ -655,6 +655,7 @@ function getRelativeTime(dateString) {
     let currentTagFilter = null;
 
     // ==================== LOAD STATIC GAME DATA ====================
+    // ==================== LOAD STATIC GAME DATA ====================
     async function loadGames() {
         const grid = document.getElementById('game-grid');
         
@@ -663,23 +664,110 @@ function getRelativeTime(dateString) {
             const data = await response.json();
             
             // Update last updated display with relative time
-     if (data.lastUpdatedFull) {
-    // Use the full timestamp with time
-    const dataDate = new Date(data.lastUpdatedFull);
-    const dataUpdatedRelative = getRelativeTime(data.lastUpdatedFull);
-    const dataUpdatedAbsolute = dataDate.toUTCString(); // Shows full UTC time
-    
-    document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdatedFull).toLocaleString()}`);
-} else if (data.lastUpdated) {
-    // Fallback to just date if full timestamp isn't available
-    const dataDate = new Date(data.lastUpdated);
-    const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
-    const dataUpdatedAbsolute = dataDate.toUTCString();
-    
-    document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
-    document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdatedFull).toLocaleString()}`);
-}
+            if (data.lastUpdatedFull) {
+                const dataDate = new Date(data.lastUpdatedFull);
+                const dataUpdatedRelative = getRelativeTime(data.lastUpdatedFull);
+                
+                document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
+                document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdatedFull).toLocaleString()}`);
+            } else if (data.lastUpdated) {
+                const dataDate = new Date(data.lastUpdated);
+                const dataUpdatedRelative = getRelativeTime(data.lastUpdated);
+                
+                document.getElementById('data-updated').textContent = `📊 data: ${dataUpdatedRelative}`;
+                document.getElementById('data-updated').setAttribute('data-tooltip', `absolute: ${new Date(data.lastUpdated).toLocaleString()}`);
+            }
+            
+            // ==================== CHECK FOR DUPLICATE PLACE IDs ====================
+            if (data.games && Array.isArray(data.games)) {
+                const placeIdMap = new Map(); // placeId -> array of game indices/names
+                const duplicatePlaceIds = [];
+                
+                // Iterate through each game to check for duplicate placeIds
+                data.games.forEach((game, index) => {
+                    // Skip "Failed to load" games as they don't have real placeIds
+                    if (game.name === 'Failed to load') return;
+                    
+                    // Get the placeId from gameUrl (Roblox game URLs contain the placeId)
+                    let placeId = null;
+                    if (game.gameUrl && game.gameUrl.includes('games/')) {
+                        const match = game.gameUrl.match(/\/games\/(\d+)/);
+                        if (match) {
+                            placeId = match[1];
+                        }
+                    }
+                    
+                    // Also check if there's a direct placeId field (if you add it to JSON)
+                    if (game.placeId) {
+                        placeId = game.placeId;
+                    }
+                    
+                    if (placeId) {
+                        if (placeIdMap.has(placeId)) {
+                            // Duplicate found
+                            const existingGames = placeIdMap.get(placeId);
+                            if (!duplicatePlaceIds.includes(placeId)) {
+                                duplicatePlaceIds.push(placeId);
+                            }
+                            existingGames.push({ index, name: game.name, url: game.gameUrl });
+                            placeIdMap.set(placeId, existingGames);
+                        } else {
+                            placeIdMap.set(placeId, [{ index, name: game.name, url: game.gameUrl }]);
+                        }
+                    }
+                });
+                
+                // Report duplicates to console with clear formatting
+                if (duplicatePlaceIds.length > 0) {
+                    console.warn('%c⚠️ DUPLICATE PLACE ID DETECTED!', 'color: #ff6600; font-size: 14px; font-weight: bold;');
+                    console.warn('%cThe following place IDs appear multiple times in games-data.json (ignoring subgames):', 'color: #ffaa00; font-size: 12px;');
+                    console.warn('─'.repeat(60));
+                    
+                    duplicatePlaceIds.forEach(placeId => {
+                        const games = placeIdMap.get(placeId);
+                        console.group(`📌 Duplicate Place ID: ${placeId}`);
+                        console.log(`Appears ${games.length} times:`);
+                        games.forEach((game, idx) => {
+                            console.log(`  ${idx + 1}. "${game.name}" - ${game.url}`);
+                        });
+                        console.groupEnd();
+                    });
+                    
+                    console.warn('─'.repeat(60));
+                    console.warn(`💡 Total: ${duplicatePlaceIds.length} unique place ID(s) with duplicates.`);
+                    console.warn('💡 These games point to the same Roblox game. Consider merging or removing duplicates.');
+                } else {
+                    console.log('%c✅ No duplicate place IDs found!', 'color: #00cc00; font-size: 12px; font-weight: bold;');
+                }
+                
+                // Also check for duplicate by name (optional - useful for catching near-duplicates)
+                const nameMap = new Map();
+                const duplicateNames = [];
+                
+                data.games.forEach((game, index) => {
+                    if (game.name === 'Failed to load') return;
+                    const name = game.name.toLowerCase().trim();
+                    if (nameMap.has(name)) {
+                        if (!duplicateNames.includes(name)) {
+                            duplicateNames.push(name);
+                        }
+                        nameMap.get(name).push({ index, name: game.name, placeId: game.gameUrl });
+                    } else {
+                        nameMap.set(name, [{ index, name: game.name, placeId: game.gameUrl }]);
+                    }
+                });
+                
+                if (duplicateNames.length > 0) {
+                    console.log('%c📝 NOTE: Possible duplicate game names found (may be intentional):', 'color: #8888ff; font-size: 12px;');
+                    duplicateNames.forEach(name => {
+                        const games = nameMap.get(name);
+                        if (games.length > 1) {
+                            console.log(`  "${name}" appears ${games.length} times`);
+                        }
+                    });
+                }
+            }
+            // ==================== END DUPLICATE CHECK ====================
             
             // Store original games
             originalGames = data.games;
