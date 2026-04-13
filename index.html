@@ -342,6 +342,43 @@ body {
     border-bottom: 1px dotted #8a8a8a;
 }
 
+.stat-value.downtime {
+    cursor: help;
+}
+
+.stat-value.downtime-active {
+    color: #ff6b6b;
+    border-bottom: 1px dotted #ff6b6b;
+}
+
+.stat-value.downtime-past {
+    color: #ffd93d;
+    border-bottom: 1px dotted #ffd93d;
+}
+
+.downtime-tooltip {
+    position: absolute;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid #4a4a4a;
+    z-index: 1000;
+    pointer-events: none;
+    max-width: 300px;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.downtime-tooltip .downtime-active {
+    color: #ff6b6b;
+}
+
+.downtime-tooltip .downtime-past {
+    color: #ffd93d;
+}
+
 .stat-value a {
     color: #e0e0e0;
     text-decoration: none;
@@ -783,7 +820,72 @@ function getRelativeTime(dateString) {
             grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
         }
     }
+    // ==================== DOWNTIME FORMATTING ====================
+function formatDowntimePeriods(downtimePeriods, currentlyAvailable) {
+    if (!downtimePeriods || downtimePeriods.length === 0) {
+        return { text: 'no downtime', class: '', tooltip: 'No recorded downtime' };
+    }
+    
+    const hasActiveDowntime = downtimePeriods.some(p => p.end === null);
+    
+    // Count completed and active periods
+    const completedPeriods = downtimePeriods.filter(p => p.end !== null);
+    const activePeriods = downtimePeriods.filter(p => p.end === null);
+    
+    let text = '';
+    let cssClass = '';
+    
+    if (hasActiveDowntime) {
+        text = `⚠️ down (${activePeriods.length} active)`;
+        cssClass = 'downtime-active';
+    } else {
+        text = `📉 ${completedPeriods.length} downtime${completedPeriods.length > 1 ? 's' : ''}`;
+        cssClass = 'downtime-past';
+    }
+    
+    // Build tooltip with all periods
+    let tooltip = '';
+    downtimePeriods.forEach((period, i) => {
+        const startStr = period.start ? new Date(period.start).toLocaleDateString() : 'unknown start';
+        const endStr = period.end ? new Date(period.end).toLocaleDateString() : 'ongoing';
+        
+        if (period.end === null) {
+            tooltip += `<span class="downtime-active">⚠️ ${startStr} → ongoing</span>`;
+        } else {
+            tooltip += `<span class="downtime-past">📉 ${startStr} → ${endStr}</span>`;
+        }
+        
+        if (i < downtimePeriods.length - 1) {
+            tooltip += '<br>';
+        }
+    });
+    
+    return { text, class: cssClass, tooltip };
+}
 
+// Downtime hover tooltip handler
+let downtimeTooltip = null;
+
+function showDowntimeTooltip(e, tooltipText) {
+    if (!downtimeTooltip) {
+        downtimeTooltip = document.createElement('div');
+        downtimeTooltip.className = 'downtime-tooltip';
+        document.body.appendChild(downtimeTooltip);
+    }
+    
+    downtimeTooltip.innerHTML = tooltipText;
+    downtimeTooltip.style.display = 'block';
+    
+    const rect = e.target.getBoundingClientRect();
+    downtimeTooltip.style.left = rect.left + 'px';
+    downtimeTooltip.style.top = (rect.bottom + 5) + 'px';
+}
+
+function hideDowntimeTooltip() {
+    if (downtimeTooltip) {
+        downtimeTooltip.style.display = 'none';
+    }
+}
     // ==================== FILTER AND SORT GAMES ====================
     function filterAndSortGames() {
         // Start with all games
@@ -1036,12 +1138,23 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
     <a href="${game.gameUrl}" data-full-link="${game.gameLink || game.gameUrl}">${game.name}</a>
 </div>
                         ${tagsHtml}
-                        <div class="game-stats">
-                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${new Date(game.created).toLocaleString()}">${createdRelative}</span></span>
-                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
-                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
-                        </div>
+<div class="game-stats">
+    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
+    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${new Date(game.created).toLocaleString()}">${createdRelative}</span></span>
+    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
+    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+${(() => {
+    const downtime = formatDowntimePeriods(game.downtimePeriods, game.currentlyAvailable);
+    if (downtime.text !== 'no downtime') {
+        // Store tooltip data
+        const tooltipKey = `game-${index}`;
+        window.downtimeTooltips = window.downtimeTooltips || {};
+        window.downtimeTooltips[tooltipKey] = `<strong>${game.name}</strong><br>${downtime.tooltip}`;
+        return `<span class="stat-item"><span class="stat-label">downtime:</span> <span class="stat-value downtime ${downtime.class}" data-downtime-key="${tooltipKey}">${downtime.text}</span></span>`;
+    }
+    return '';
+})()}
+</div>
                        ${game.maintainerNote ? `
 <div class="maintainer-note">
     <strong>✎ note:</strong> ${game.maintainerNote}
@@ -1078,12 +1191,22 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
                                <div class="subgame-title">
     <a href="${sub.gameUrl || sub.gameLink || '#'}" data-full-link="${sub.gameLink || sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a>
 </div>
-                                <div class="subgame-stats">
-                                    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
-                                    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
-                                    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
-                                    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
-                                </div>
+<div class="subgame-stats">
+    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
+    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
+    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
+    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
+  ${(() => {
+    const downtime = formatDowntimePeriods(sub.downtimePeriods, sub.currentlyAvailable);
+    if (downtime.text !== 'no downtime') {
+        const tooltipKey = `subgame-${index}-${subIndex}`;
+        window.downtimeTooltips = window.downtimeTooltips || {};
+        window.downtimeTooltips[tooltipKey] = `<strong>${sub.name || 'Subgame'}</strong><br>${downtime.tooltip}`;
+        return `<span class="stat-item"><span class="stat-label">downtime:</span> <span class="stat-value downtime ${downtime.class}" data-downtime-key="${tooltipKey}">${downtime.text}</span></span>`;
+    }
+    return '';
+})()}
+</div>
                                 ${sub.note ? `
 <div class="subgame-note">
     <strong>✎ note:</strong> ${sub.note}
@@ -1099,7 +1222,8 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
             
             html += `</div></div>`;
         });
-        
+        // Store downtime data for tooltips
+window.downtimeData = window.downtimeData || {};
         grid.innerHTML = html;
     }
 
@@ -1168,7 +1292,34 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
             ? `▲ subgames (${count})` 
             : `▼ subgames (${count})`;
     };
+// Downtime tooltip event delegation
+// Downtime tooltip event delegation
+document.addEventListener('mouseover', (e) => {
+    const downtimeEl = e.target.closest('.stat-value.downtime');
+    if (!downtimeEl) return;
+    
+    // Get the tooltip key directly from the element's data attribute
+    const tooltipKey = downtimeEl.dataset.downtimeKey;
+    if (!tooltipKey) return;
+    
+    // Get the stored tooltip content
+    const tooltipContent = window.downtimeTooltips?.[tooltipKey];
+    if (tooltipContent) {
+        showDowntimeTooltip(e, tooltipContent);
+    }
+});
 
+document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('.stat-value.downtime')) {
+        hideDowntimeTooltip();
+    }
+});
+
+document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('.stat-value.downtime')) {
+        hideDowntimeTooltip();
+    }
+});
     // Start
     loadGames();
 </script>
