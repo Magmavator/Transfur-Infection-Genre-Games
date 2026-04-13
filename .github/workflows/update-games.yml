@@ -61,44 +61,53 @@ jobs:
           }
           
           // Helper to update downtime periods
-          function updateDowntime(existingGame, isAvailable) {
-            const now = new Date().toISOString();
-            const today = now.split('T')[0];
-            
-            let downtimePeriods = [];
-            if (existingGame && existingGame.downtimePeriods) {
-              downtimePeriods = [...existingGame.downtimePeriods];
-            }
-            
-            const isFirstRun = !existingGame;
-            
-            if (!isAvailable) {
-              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-              
-              if (!lastPeriod || lastPeriod.end !== null) {
-                const startDate = isFirstRun ? null : today;
-                
-                downtimePeriods.push({
-                  start: startDate,
-                  end: null
-                });
-                
-                if (isFirstRun) {
-                  console.log(`    📉 Started new downtime period with unknown start (first run)`);
-                } else {
-                  console.log(`    📉 Started new downtime period: ${today}`);
-                }
-              }
-            } else {
-              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-              if (lastPeriod && lastPeriod.end === null) {
-                lastPeriod.end = today;
-                console.log(`    📈 Closed downtime period: ${lastPeriod.start || 'unknown'} to ${today}`);
-              }
-            }
-            
-            return downtimePeriods;
-          }
+function updateDowntime(existingGame, isAvailable) {
+  const now = new Date().toISOString();
+  const today = now.split('T')[0];
+  
+  let downtimePeriods = [];
+  if (existingGame && existingGame.downtimePeriods) {
+    downtimePeriods = [...existingGame.downtimePeriods];
+  }
+  
+  const isFirstRun = !existingGame;
+  
+  if (!isAvailable) {
+    // Game is currently down
+    const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
+    
+    // Check if we need to start a new period
+    // A new period is needed if: no periods exist, OR the last period has an end date (is closed)
+    if (!lastPeriod || lastPeriod.end !== null) {
+      // If first run AND game is down, we don't know when it started -> null
+      // If subsequent run, we caught it going down today -> today
+      const startDate = isFirstRun ? null : today;
+      
+      downtimePeriods.push({
+        start: startDate,
+        end: null
+      });
+      
+      if (isFirstRun) {
+        console.log(`    📉 Started new downtime period with unknown start (first run, game already down)`);
+      } else {
+        console.log(`    📉 Started new downtime period: ${today}`);
+      }
+    } else {
+      // Already in an open period, do nothing
+      console.log(`    ⏳ Already in open downtime period since: ${lastPeriod.start || 'unknown'}`);
+    }
+  } else {
+    // Game is up - close any open downtime period
+    const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
+    if (lastPeriod && lastPeriod.end === null) {
+      lastPeriod.end = today;
+      console.log(`    📈 Closed downtime period: ${lastPeriod.start || 'unknown'} to ${today}`);
+    }
+  }
+  
+  return downtimePeriods;
+}
           
           // Helper function to fetch game data by placeId
           async function fetchGameData(placeId, gameLink, existingGame) {
