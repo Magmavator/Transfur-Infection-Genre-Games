@@ -146,40 +146,42 @@ function updateDowntime(existingGame, isAvailable) {
               
               const downtimePeriods = updateDowntime(existingGame, true);
               
-              return {
-                universeId: universeId,
-                name: details.name,
-                playerCount: details.playing,
-                created: details.created,
-                updated: details.updated,
-                ownerName: details.creator.name,
-                ownerUrl: details.creator.type === 'Group' 
-                  ? `https://www.roblox.com/groups/${details.creator.id}`
-                  : `https://www.roblox.com/users/${details.creator.id}/profile`,
-                thumbnailUrl: icon,
-                thumbnails: thumbnails,
-                gameUrl: `https://www.roblox.com/games/${placeId}`,
-                downtimePeriods: downtimePeriods,
-                currentlyAvailable: true
-              };
+return {
+  universeId: universeId,
+  name: details.name,
+  playerCount: details.playing,
+  created: details.created,
+  updated: details.updated,
+  ownerName: details.creator.name,
+  ownerUrl: details.creator.type === 'Group' 
+    ? `https://www.roblox.com/groups/${details.creator.id}`
+    : `https://www.roblox.com/users/${details.creator.id}/profile`,
+  thumbnailUrl: icon,
+  thumbnails: thumbnails,
+  gameUrl: `https://www.roblox.com/games/${placeId}`,
+  downtimePeriods: downtimePeriods,
+  currentlyAvailable: true,
+  maintainerNote: existingGame?.maintainerNote || game.maintainerNote || null  // ← ADD THIS
+};
             } catch (err) {
               console.error(`    ❌ Fetch failed: ${err.message}`);
               
               const downtimePeriods = updateDowntime(existingGame, false);
               
-              return {
-                name: 'Failed to load',
-                playerCount: '?',
-                created: '?',
-                updated: '?',
-                ownerName: '?',
-                thumbnailUrl: '',
-                thumbnails: [],
-                gameUrl: gameLink || '#',
-                downtimePeriods: downtimePeriods,
-                currentlyAvailable: false,
-                lastError: err.message
-              };
+             return {
+  name: 'Failed to load',
+  playerCount: '?',
+  created: '?',
+  updated: '?',
+  ownerName: '?',
+  thumbnailUrl: '',
+  thumbnails: [],
+  gameUrl: gameLink || '#',
+  downtimePeriods: downtimePeriods,
+  currentlyAvailable: false,
+  lastError: err.message,
+  maintainerNote: existingGame?.maintainerNote || game.maintainerNote || null  // ← ADD THIS
+};
             }
           }
 
@@ -236,12 +238,13 @@ function updateDowntime(existingGame, isAvailable) {
                   console.log(`  ✅ Processed ${processedSubgames.length} subgames`);
                 }
                 
-                enrichedGames.push({
-                  placeId: game.placeId,
-                  gameLink: game.gameLink || null,
-                  ...mainGameData,
-                  subgames: processedSubgames
-                });
+enrichedGames.push({
+  placeId: game.placeId,
+  gameLink: game.gameLink || null,
+  ...mainGameData,
+  maintainerNote: game.maintainerNote || mainGameData.maintainerNote || null,  // ← ADD THIS
+  subgames: processedSubgames
+});
                 
                 console.log(`  ✅ Game ${i + 1} complete with ${processedSubgames.length} subgames`);
                 
@@ -289,21 +292,22 @@ function updateDowntime(existingGame, isAvailable) {
                 }
                 
                 enrichedGames.push({
-                  placeId: game.placeId,
-                  gameLink: game.gameLink || null,
-                  name: 'Failed to load',
-                  playerCount: '?',
-                  created: '?',
-                  updated: '?',
-                  ownerName: '?',
-                  thumbnailUrl: '',
-                  thumbnails: [],
-                  gameUrl: game.gameLink || '#',
-                  subgames: processedSubgames,
-                  downtimePeriods: downtimePeriods,
-                  currentlyAvailable: false,
-                  lastError: err.message
-                });
+  placeId: game.placeId,
+  gameLink: game.gameLink || null,
+  name: 'Failed to load',
+  playerCount: '?',
+  created: '?',
+  updated: '?',
+  ownerName: '?',
+  thumbnailUrl: '',
+  thumbnails: [],
+  gameUrl: game.gameLink || '#',
+  subgames: processedSubgames,
+  downtimePeriods: downtimePeriods,
+  currentlyAvailable: false,
+  lastError: err.message,
+  maintainerNote: game.maintainerNote || null  // ← ADD THIS
+});
               }
               
               if (i < gamesData.games.length - 1) {
