@@ -161,7 +161,7 @@ return {
   gameUrl: `https://www.roblox.com/games/${placeId}`,
   downtimePeriods: downtimePeriods,
   currentlyAvailable: true,
-  maintainerNote: existingGame?.maintainerNote || game.maintainerNote || null  // ← ADD THIS
+  maintainerNote: existingGame?.maintainerNote || null
 };
             } catch (err) {
               console.error(`    ❌ Fetch failed: ${err.message}`);
@@ -180,7 +180,7 @@ return {
   downtimePeriods: downtimePeriods,
   currentlyAvailable: false,
   lastError: err.message,
-  maintainerNote: existingGame?.maintainerNote || game.maintainerNote || null  // ← ADD THIS
+  maintainerNote: existingGame?.maintainerNote || null
 };
             }
           }
