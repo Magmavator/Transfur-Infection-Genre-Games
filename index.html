@@ -578,48 +578,7 @@ body {
 [data-tooltip]:hover:before {
     display: block;
 }
-.downtime-indicator {
-    display: inline-block;
-    margin-left: 8px;
-    padding: 2px 8px;
-    background: #ff4444;
-    color: white;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: help;
-    border: 1px solid #ff0000;
-}
 
-.downtime-indicator.warning {
-    background: #ff8800;
-    border-color: #ff6600;
-}
-
-.downtime-tooltip {
-    position: absolute;
-    background: #0a0a0a;
-    color: #e0e0e0;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    border: 1px solid #ff4444;
-    z-index: 1000;
-    max-width: 300px;
-    line-height: 1.5;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    pointer-events: none;
-}
-
-.downtime-tooltip ul {
-    margin: 5px 0 0 0;
-    padding-left: 16px;
-}
-
-.downtime-tooltip li {
-    margin: 2px 0;
-    color: #ffaaaa;
-}
 .hidden {
     display: none;
 }
@@ -824,67 +783,7 @@ function getRelativeTime(dateString) {
             grid.innerHTML = '<div class="error">⚠️ Failed to load games</div>';
         }
     }
-    // ==================== DOWNTIME FORMATTING ====================
-function formatDowntimePeriods(downtimePeriods, currentlyAvailable) {
-    if (!downtimePeriods || downtimePeriods.length === 0) {
-        return { html: '', hasDowntime: false, hasActiveDowntime: false };
-    }
-    
-    let tooltipHtml = '<strong>📉 Downtime History</strong><ul>';
-    let hasActiveDowntime = false;
-    
-    downtimePeriods.forEach(period => {
-        const start = period.start || 'unknown date';
-        const end = period.end || 'ongoing';
-        
-        if (!period.end) {
-            hasActiveDowntime = true;
-        }
-        
-        tooltipHtml += `<li>${start} → ${end}</li>`;
-    });
-    
-    tooltipHtml += '</ul>';
-    
-    const indicatorClass = hasActiveDowntime ? 'downtime-indicator' : 'downtime-indicator warning';
-    const indicatorText = hasActiveDowntime ? '⚠️ DOWN' : '⚠️ HISTORY';
-    
-    const html = `<span class="${indicatorClass}" data-downtime-tooltip="${encodeURIComponent(tooltipHtml)}">${indicatorText}</span>`;
-    
-    return { 
-        html, 
-        hasDowntime: true, 
-        hasActiveDowntime,
-        tooltipHtml 
-    };
-}
 
-// Tooltip handler for downtime indicators
-document.addEventListener('mouseover', function(e) {
-    const target = e.target.closest('[data-downtime-tooltip]');
-    if (!target) return;
-    
-    const tooltipText = decodeURIComponent(target.dataset.downtimeTooltip);
-    
-    const tooltip = document.createElement('div');
-    tooltip.className = 'downtime-tooltip';
-    tooltip.innerHTML = tooltipText;
-    tooltip.id = 'active-downtime-tooltip';
-    
-    document.body.appendChild(tooltip);
-    
-    const rect = target.getBoundingClientRect();
-    tooltip.style.left = rect.left + 'px';
-    tooltip.style.top = (rect.bottom + 5) + 'px';
-});
-
-document.addEventListener('mouseout', function(e) {
-    const target = e.target.closest('[data-downtime-tooltip]');
-    if (!target) return;
-    
-    const tooltip = document.getElementById('active-downtime-tooltip');
-    if (tooltip) tooltip.remove();
-});
     // ==================== FILTER AND SORT GAMES ====================
     function filterAndSortGames() {
         // Start with all games
@@ -997,23 +896,63 @@ document.addEventListener('mouseout', function(e) {
         }
     };
 
-    // ==================== THUMBNAIL GALLERY COMPONENT ====================
-    function createThumbnailGallery(thumbnails, gameIndex, isSubgame = false, subIndex = null) {
-        if (!thumbnails || thumbnails.length === 0) return '';
-        
-        const galleryId = isSubgame ? `subgallery-${gameIndex}-${subIndex}` : `gallery-${gameIndex}`;
-        let html = `<div class="thumbnail-section">`;
-        
-        // Header with toggle button and count
-html += `<div class="gallery-header">`;
-html += `<button class="gallery-toggle" onclick="toggleGallery('${galleryId}')">▶ show gallery</button>`;
-html += `<span class="thumbnail-count">${thumbnails.length} screenshot${thumbnails.length > 1 ? 's' : ''}</span>`;
-// Add downtime indicator if present (passed as additional parameter)
-if (window.currentDowntimeData && window.currentDowntimeData[galleryId]) {
-    html += window.currentDowntimeData[galleryId];
+    // ==================== FORMAT DOWNTIME PERIOD ====================
+function formatDowntimePeriod(period) {
+    if (period.start === null && period.end === null) {
+        return 'unknown period';
+    } else if (period.start === null) {
+        return `unknown start → ${period.end}`;
+    } else if (period.end === null) {
+        return `${period.start} → ongoing`;
+    } else {
+        return `${period.start} → ${period.end}`;
+    }
 }
-html += `</div>`;
+
+function formatDowntimeTooltip(downtimePeriods) {
+    if (!downtimePeriods || downtimePeriods.length === 0) return '';
+    
+    let tooltip = 'Downtime periods:\n';
+    downtimePeriods.forEach((period, i) => {
+        tooltip += `  ${i + 1}. ${formatDowntimePeriod(period)}\n`;
+    });
+    return tooltip;
+}
+
+// ==================== THUMBNAIL GALLERY COMPONENT ====================
+function createThumbnailGallery(thumbnails, gameIndex, isSubgame = false, subIndex = null, downtimePeriods = null) {
+    const galleryId = isSubgame ? `subgallery-${gameIndex}-${subIndex}` : `gallery-${gameIndex}`;
+    let html = `<div class="thumbnail-section">`;
+    
+    // Header with toggle button, count, and downtime indicator
+    html += `<div class="gallery-header">`;
+    html += `<button class="gallery-toggle" onclick="toggleGallery('${galleryId}')">▶ show gallery</button>`;
+    
+    const screenshotCount = thumbnails ? thumbnails.length : 0;
+    html += `<span class="thumbnail-count">${screenshotCount} screenshot${screenshotCount !== 1 ? 's' : ''}</span>`;
+    
+    // Add downtime indicator if periods exist
+    if (downtimePeriods && downtimePeriods.length > 0) {
+        const tooltip = formatDowntimeTooltip(downtimePeriods);
+        const ongoingCount = downtimePeriods.filter(p => p.end === null).length;
+        const pastCount = downtimePeriods.length - ongoingCount;
         
+        let indicatorText = '';
+        if (ongoingCount > 0 && pastCount > 0) {
+            indicatorText = `⚠️ ${downtimePeriods.length} downtime${downtimePeriods.length > 1 ? 's' : ''} (1 ongoing)`;
+        } else if (ongoingCount > 0) {
+            indicatorText = `⚠️ ongoing downtime`;
+        } else {
+            indicatorText = `⚠️ ${downtimePeriods.length} past downtime${downtimePeriods.length > 1 ? 's' : ''}`;
+        }
+        
+        html += `<span class="downtime-indicator" data-tooltip="${tooltip.replace(/\n/g, '&#10;')}" style="margin-left: 12px; font-size: 12px; color: #ffaa00; cursor: help; border-bottom: 1px dotted #ffaa00;">${indicatorText}</span>`;
+    }
+    
+    html += `</div>`;
+    
+    // Only create gallery if there are thumbnails
+    if (thumbnails && thumbnails.length > 0) {
         // Gallery container
         html += `<div class="thumbnail-gallery" id="${galleryId}">`;
         
@@ -1031,9 +970,12 @@ html += `</div>`;
             html += `</div>`;
         }
         
-        html += `</div></div>`;
-        return html;
+        html += `</div>`;
     }
+    
+    html += `</div>`;
+    return html;
+}
 
     // ==================== THUMBNAIL FUNCTIONS ====================
     window.setThumbnail = function(galleryId, index) {
@@ -1124,20 +1066,12 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
             }
             
             // Store thumbnail data
-// Store thumbnail data
-const galleryId = `gallery-${index}`;
-if (game.thumbnails && game.thumbnails.length > 0) {
-    window.thumbnailData[galleryId] = game.thumbnails;
-}
-
-// Format downtime data for this game
-const downtimeInfo = formatDowntimePeriods(game.downtimePeriods, game.currentlyAvailable);
-if (downtimeInfo.hasDowntime) {
-    if (!window.currentDowntimeData) window.currentDowntimeData = {};
-    window.currentDowntimeData[galleryId] = downtimeInfo.html;
-}
-
-const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
+            const galleryId = `gallery-${index}`;
+            if (game.thumbnails && game.thumbnails.length > 0) {
+                window.thumbnailData[galleryId] = game.thumbnails;
+            }
+            
+            const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index, false, null, game.downtimePeriods);
             
             html += `
                 <div class="game-card ${isFailed ? 'failed' : ''}">
@@ -1175,20 +1109,12 @@ const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
                     const subUpdatedAbsolute = sub.updated ? new Date(sub.updated).toLocaleDateString() : '?';
                     
                     // Store subgame thumbnail data
-// Store subgame thumbnail data
-const subGalleryId = `subgallery-${index}-${subIndex}`;
-if (sub.thumbnails && sub.thumbnails.length > 0) {
-    window.thumbnailData[subGalleryId] = sub.thumbnails;
-}
-
-// Format downtime data for this subgame
-const subDowntimeInfo = formatDowntimePeriods(sub.downtimePeriods, sub.currentlyAvailable);
-if (subDowntimeInfo.hasDowntime) {
-    if (!window.currentDowntimeData) window.currentDowntimeData = {};
-    window.currentDowntimeData[subGalleryId] = subDowntimeInfo.html;
-}
-
-const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
+                    const subGalleryId = `subgallery-${index}-${subIndex}`;
+                    if (sub.thumbnails && sub.thumbnails.length > 0) {
+                        window.thumbnailData[subGalleryId] = sub.thumbnails;
+                    }
+                    
+                    const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex, sub.downtimePeriods);
                     
                     html += `
                         <div class="subgame-card">
