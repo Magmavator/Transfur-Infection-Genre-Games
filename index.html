@@ -342,43 +342,6 @@ body {
     border-bottom: 1px dotted #8a8a8a;
 }
 
-.stat-value.downtime {
-    cursor: help;
-}
-
-.stat-value.downtime-active {
-    color: #ff6b6b;
-    border-bottom: 1px dotted #ff6b6b;
-}
-
-.stat-value.downtime-past {
-    color: #ffd93d;
-    border-bottom: 1px dotted #ffd93d;
-}
-
-.downtime-tooltip {
-    position: absolute;
-    background: #0a0a0a;
-    color: #e0e0e0;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    border: 1px solid #4a4a4a;
-    z-index: 1000;
-    pointer-events: none;
-    max-width: 300px;
-    line-height: 1.5;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-.downtime-tooltip .downtime-active {
-    color: #ff6b6b;
-}
-
-.downtime-tooltip .downtime-past {
-    color: #ffd93d;
-}
-
 .stat-value a {
     color: #e0e0e0;
     text-decoration: none;
@@ -615,7 +578,48 @@ body {
 [data-tooltip]:hover:before {
     display: block;
 }
+.downtime-indicator {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: #ff4444;
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: help;
+    border: 1px solid #ff0000;
+}
 
+.downtime-indicator.warning {
+    background: #ff8800;
+    border-color: #ff6600;
+}
+
+.downtime-tooltip {
+    position: absolute;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid #ff4444;
+    z-index: 1000;
+    max-width: 300px;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
+.downtime-tooltip ul {
+    margin: 5px 0 0 0;
+    padding-left: 16px;
+}
+
+.downtime-tooltip li {
+    margin: 2px 0;
+    color: #ffaaaa;
+}
 .hidden {
     display: none;
 }
@@ -823,69 +827,64 @@ function getRelativeTime(dateString) {
     // ==================== DOWNTIME FORMATTING ====================
 function formatDowntimePeriods(downtimePeriods, currentlyAvailable) {
     if (!downtimePeriods || downtimePeriods.length === 0) {
-        return { text: 'no downtime', class: '', tooltip: 'No recorded downtime' };
+        return { html: '', hasDowntime: false, hasActiveDowntime: false };
     }
     
-    const hasActiveDowntime = downtimePeriods.some(p => p.end === null);
+    let tooltipHtml = '<strong>📉 Downtime History</strong><ul>';
+    let hasActiveDowntime = false;
     
-    // Count completed and active periods
-    const completedPeriods = downtimePeriods.filter(p => p.end !== null);
-    const activePeriods = downtimePeriods.filter(p => p.end === null);
-    
-    let text = '';
-    let cssClass = '';
-    
-    if (hasActiveDowntime) {
-        text = `⚠️ down (${activePeriods.length} active)`;
-        cssClass = 'downtime-active';
-    } else {
-        text = `📉 ${completedPeriods.length} downtime${completedPeriods.length > 1 ? 's' : ''}`;
-        cssClass = 'downtime-past';
-    }
-    
-    // Build tooltip with all periods
-    let tooltip = '';
-    downtimePeriods.forEach((period, i) => {
-        const startStr = period.start ? new Date(period.start).toLocaleDateString() : 'unknown start';
-        const endStr = period.end ? new Date(period.end).toLocaleDateString() : 'ongoing';
+    downtimePeriods.forEach(period => {
+        const start = period.start || 'unknown date';
+        const end = period.end || 'ongoing';
         
-        if (period.end === null) {
-            tooltip += `<span class="downtime-active">⚠️ ${startStr} → ongoing</span>`;
-        } else {
-            tooltip += `<span class="downtime-past">📉 ${startStr} → ${endStr}</span>`;
+        if (!period.end) {
+            hasActiveDowntime = true;
         }
         
-        if (i < downtimePeriods.length - 1) {
-            tooltip += '<br>';
-        }
+        tooltipHtml += `<li>${start} → ${end}</li>`;
     });
     
-    return { text, class: cssClass, tooltip };
-}
-
-// Downtime hover tooltip handler
-let downtimeTooltip = null;
-
-function showDowntimeTooltip(e, tooltipText) {
-    if (!downtimeTooltip) {
-        downtimeTooltip = document.createElement('div');
-        downtimeTooltip.className = 'downtime-tooltip';
-        document.body.appendChild(downtimeTooltip);
-    }
+    tooltipHtml += '</ul>';
     
-    downtimeTooltip.innerHTML = tooltipText;
-    downtimeTooltip.style.display = 'block';
+    const indicatorClass = hasActiveDowntime ? 'downtime-indicator' : 'downtime-indicator warning';
+    const indicatorText = hasActiveDowntime ? '⚠️ DOWN' : '⚠️ HISTORY';
     
-    const rect = e.target.getBoundingClientRect();
-    downtimeTooltip.style.left = rect.left + 'px';
-    downtimeTooltip.style.top = (rect.bottom + 5) + 'px';
+    const html = `<span class="${indicatorClass}" data-downtime-tooltip="${encodeURIComponent(tooltipHtml)}">${indicatorText}</span>`;
+    
+    return { 
+        html, 
+        hasDowntime: true, 
+        hasActiveDowntime,
+        tooltipHtml 
+    };
 }
 
-function hideDowntimeTooltip() {
-    if (downtimeTooltip) {
-        downtimeTooltip.style.display = 'none';
-    }
-}
+// Tooltip handler for downtime indicators
+document.addEventListener('mouseover', function(e) {
+    const target = e.target.closest('[data-downtime-tooltip]');
+    if (!target) return;
+    
+    const tooltipText = decodeURIComponent(target.dataset.downtimeTooltip);
+    
+    const tooltip = document.createElement('div');
+    tooltip.className = 'downtime-tooltip';
+    tooltip.innerHTML = tooltipText;
+    tooltip.id = 'active-downtime-tooltip';
+    
+    document.body.appendChild(tooltip);
+    
+    const rect = target.getBoundingClientRect();
+    tooltip.style.left = rect.left + 'px';
+    tooltip.style.top = (rect.bottom + 5) + 'px';
+});
+
+document.addEventListener('mouseout', function(e) {
+    const target = e.target.closest('[data-downtime-tooltip]');
+    if (!target) return;
+    
+    const tooltip = document.getElementById('active-downtime-tooltip');
+    if (tooltip) tooltip.remove();
+});
     // ==================== FILTER AND SORT GAMES ====================
     function filterAndSortGames() {
         // Start with all games
@@ -1006,10 +1005,14 @@ function hideDowntimeTooltip() {
         let html = `<div class="thumbnail-section">`;
         
         // Header with toggle button and count
-        html += `<div class="gallery-header">`;
-        html += `<button class="gallery-toggle" onclick="toggleGallery('${galleryId}')">▶ show gallery</button>`;
-        html += `<span class="thumbnail-count">${thumbnails.length} screenshot${thumbnails.length > 1 ? 's' : ''}</span>`;
-        html += `</div>`;
+html += `<div class="gallery-header">`;
+html += `<button class="gallery-toggle" onclick="toggleGallery('${galleryId}')">▶ show gallery</button>`;
+html += `<span class="thumbnail-count">${thumbnails.length} screenshot${thumbnails.length > 1 ? 's' : ''}</span>`;
+// Add downtime indicator if present (passed as additional parameter)
+if (window.currentDowntimeData && window.currentDowntimeData[galleryId]) {
+    html += window.currentDowntimeData[galleryId];
+}
+html += `</div>`;
         
         // Gallery container
         html += `<div class="thumbnail-gallery" id="${galleryId}">`;
@@ -1121,12 +1124,20 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
             }
             
             // Store thumbnail data
-            const galleryId = `gallery-${index}`;
-            if (game.thumbnails && game.thumbnails.length > 0) {
-                window.thumbnailData[galleryId] = game.thumbnails;
-            }
-            
-            const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
+// Store thumbnail data
+const galleryId = `gallery-${index}`;
+if (game.thumbnails && game.thumbnails.length > 0) {
+    window.thumbnailData[galleryId] = game.thumbnails;
+}
+
+// Format downtime data for this game
+const downtimeInfo = formatDowntimePeriods(game.downtimePeriods, game.currentlyAvailable);
+if (downtimeInfo.hasDowntime) {
+    if (!window.currentDowntimeData) window.currentDowntimeData = {};
+    window.currentDowntimeData[galleryId] = downtimeInfo.html;
+}
+
+const thumbnailsHtml = createThumbnailGallery(game.thumbnails, index);
             
             html += `
                 <div class="game-card ${isFailed ? 'failed' : ''}">
@@ -1138,23 +1149,12 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
     <a href="${game.gameUrl}" data-full-link="${game.gameLink || game.gameUrl}">${game.name}</a>
 </div>
                         ${tagsHtml}
-<div class="game-stats">
-    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
-    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${new Date(game.created).toLocaleString()}">${createdRelative}</span></span>
-    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
-    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
-${(() => {
-    const downtime = formatDowntimePeriods(game.downtimePeriods, game.currentlyAvailable);
-    if (downtime.text !== 'no downtime') {
-        // Store tooltip data
-        const tooltipKey = `game-${index}`;
-        window.downtimeTooltips = window.downtimeTooltips || {};
-        window.downtimeTooltips[tooltipKey] = `<strong>${game.name}</strong><br>${downtime.tooltip}`;
-        return `<span class="stat-item"><span class="stat-label">downtime:</span> <span class="stat-value downtime ${downtime.class}" data-downtime-key="${tooltipKey}">${downtime.text}</span></span>`;
-    }
-    return '';
-})()}
-</div>
+                        <div class="game-stats">
+                            <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${game.playerCount}</span></span>
+                            <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${new Date(game.created).toLocaleString()}">${createdRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${new Date(game.updated).toLocaleString()}">${updatedRelative}</span></span>
+                            <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${game.ownerUrl}">${game.ownerName}</a></span></span>
+                        </div>
                        ${game.maintainerNote ? `
 <div class="maintainer-note">
     <strong>✎ note:</strong> ${game.maintainerNote}
@@ -1175,12 +1175,20 @@ ${(() => {
                     const subUpdatedAbsolute = sub.updated ? new Date(sub.updated).toLocaleDateString() : '?';
                     
                     // Store subgame thumbnail data
-                    const subGalleryId = `subgallery-${index}-${subIndex}`;
-                    if (sub.thumbnails && sub.thumbnails.length > 0) {
-                        window.thumbnailData[subGalleryId] = sub.thumbnails;
-                    }
-                    
-                    const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
+// Store subgame thumbnail data
+const subGalleryId = `subgallery-${index}-${subIndex}`;
+if (sub.thumbnails && sub.thumbnails.length > 0) {
+    window.thumbnailData[subGalleryId] = sub.thumbnails;
+}
+
+// Format downtime data for this subgame
+const subDowntimeInfo = formatDowntimePeriods(sub.downtimePeriods, sub.currentlyAvailable);
+if (subDowntimeInfo.hasDowntime) {
+    if (!window.currentDowntimeData) window.currentDowntimeData = {};
+    window.currentDowntimeData[subGalleryId] = subDowntimeInfo.html;
+}
+
+const subThumbnailsHtml = createThumbnailGallery(sub.thumbnails, index, true, subIndex);
                     
                     html += `
                         <div class="subgame-card">
@@ -1191,22 +1199,12 @@ ${(() => {
                                <div class="subgame-title">
     <a href="${sub.gameUrl || sub.gameLink || '#'}" data-full-link="${sub.gameLink || sub.gameUrl || '#'}">${sub.name || 'Subgame'}</a>
 </div>
-<div class="subgame-stats">
-    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
-    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
-    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
-    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
-  ${(() => {
-    const downtime = formatDowntimePeriods(sub.downtimePeriods, sub.currentlyAvailable);
-    if (downtime.text !== 'no downtime') {
-        const tooltipKey = `subgame-${index}-${subIndex}`;
-        window.downtimeTooltips = window.downtimeTooltips || {};
-        window.downtimeTooltips[tooltipKey] = `<strong>${sub.name || 'Subgame'}</strong><br>${downtime.tooltip}`;
-        return `<span class="stat-item"><span class="stat-label">downtime:</span> <span class="stat-value downtime ${downtime.class}" data-downtime-key="${tooltipKey}">${downtime.text}</span></span>`;
-    }
-    return '';
-})()}
-</div>
+                                <div class="subgame-stats">
+                                    <span class="stat-item"><span class="stat-label">players:</span> <span class="stat-value">${sub.playerCount || '?'}</span></span>
+                                    <span class="stat-item"><span class="stat-label">created:</span> <span class="stat-value" data-tooltip="${subCreatedAbsolute}">${subCreatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">updated:</span> <span class="stat-value" data-tooltip="${subUpdatedAbsolute}">${subUpdatedRelative}</span></span>
+                                    <span class="stat-item"><span class="stat-label">owner:</span> <span class="stat-value"><a href="${sub.ownerUrl || '#'}">${sub.ownerName || '?'}</a></span></span>
+                                </div>
                                 ${sub.note ? `
 <div class="subgame-note">
     <strong>✎ note:</strong> ${sub.note}
@@ -1222,8 +1220,7 @@ ${(() => {
             
             html += `</div></div>`;
         });
-        // Store downtime data for tooltips
-window.downtimeData = window.downtimeData || {};
+        
         grid.innerHTML = html;
     }
 
@@ -1292,34 +1289,7 @@ window.downtimeData = window.downtimeData || {};
             ? `▲ subgames (${count})` 
             : `▼ subgames (${count})`;
     };
-// Downtime tooltip event delegation
-// Downtime tooltip event delegation
-document.addEventListener('mouseover', (e) => {
-    const downtimeEl = e.target.closest('.stat-value.downtime');
-    if (!downtimeEl) return;
-    
-    // Get the tooltip key directly from the element's data attribute
-    const tooltipKey = downtimeEl.dataset.downtimeKey;
-    if (!tooltipKey) return;
-    
-    // Get the stored tooltip content
-    const tooltipContent = window.downtimeTooltips?.[tooltipKey];
-    if (tooltipContent) {
-        showDowntimeTooltip(e, tooltipContent);
-    }
-});
 
-document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('.stat-value.downtime')) {
-        hideDowntimeTooltip();
-    }
-});
-
-document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('.stat-value.downtime')) {
-        hideDowntimeTooltip();
-    }
-});
     // Start
     loadGames();
 </script>
