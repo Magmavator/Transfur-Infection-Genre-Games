@@ -61,56 +61,52 @@ jobs:
           }
           
           // Helper to update downtime periods
-function updateDowntime(existingGame, isAvailable) {
-  const now = new Date().toISOString();
-  const today = now.split('T')[0];
-  
-  let downtimePeriods = [];
-  if (existingGame && existingGame.downtimePeriods) {
-    downtimePeriods = [...existingGame.downtimePeriods];
-  }
-  
-  const isFirstRun = !existingGame;
-  
-  if (!isAvailable) {
-    // Game is currently down
-    const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-    
-    // Check if we need to start a new period
-    // A new period is needed if: no periods exist, OR the last period has an end date (is closed)
-    if (!lastPeriod || lastPeriod.end !== null) {
-      // If first run AND game is down, we don't know when it started -> null
-      // If subsequent run, we caught it going down today -> today
-      const startDate = isFirstRun ? null : today;
-      
-      downtimePeriods.push({
-        start: startDate,
-        end: null
-      });
-      
-      if (isFirstRun) {
-        console.log(`    📉 Started new downtime period with unknown start (first run, game already down)`);
-      } else {
-        console.log(`    📉 Started new downtime period: ${today}`);
-      }
-    } else {
-      // Already in an open period, do nothing
-      console.log(`    ⏳ Already in open downtime period since: ${lastPeriod.start || 'unknown'}`);
-    }
-  } else {
-    // Game is up - close any open downtime period
-    const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-    if (lastPeriod && lastPeriod.end === null) {
-      lastPeriod.end = today;
-      console.log(`    📈 Closed downtime period: ${lastPeriod.start || 'unknown'} to ${today}`);
-    }
-  }
-  
-  return downtimePeriods;
-}
+          function updateDowntime(existingGame, isAvailable) {
+            const now = new Date().toISOString();
+            const today = now.split('T')[0];
+            
+            let downtimePeriods = [];
+            if (existingGame && existingGame.downtimePeriods) {
+              downtimePeriods = [...existingGame.downtimePeriods];
+            }
+            
+            const isFirstRun = !existingGame;
+            
+            if (!isAvailable) {
+              // Game is currently down
+              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
+              
+              // Check if we need to start a new period
+              if (!lastPeriod || lastPeriod.end !== null) {
+                const startDate = isFirstRun ? null : today;
+                
+                downtimePeriods.push({
+                  start: startDate,
+                  end: null
+                });
+                
+                if (isFirstRun) {
+                  console.log(`    📉 Started new downtime period with unknown start (first run, game already down)`);
+                } else {
+                  console.log(`    📉 Started new downtime period: ${today}`);
+                }
+              } else {
+                console.log(`    ⏳ Already in open downtime period since: ${lastPeriod.start || 'unknown'}`);
+              }
+            } else {
+              // Game is up - close any open downtime period
+              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
+              if (lastPeriod && lastPeriod.end === null) {
+                lastPeriod.end = today;
+                console.log(`    📈 Closed downtime period: ${lastPeriod.start || 'unknown'} to ${today}`);
+              }
+            }
+            
+            return downtimePeriods;
+          }
           
           // Helper function to fetch game data by placeId
-          async function fetchGameData(placeId, gameLink, existingGame) {
+          async function fetchGameData(placeId, gameLink, existingGame, originalGameNote = null) {
             try {
               const universeUrl = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
               const universeRes = await fetch(universeUrl);
@@ -146,42 +142,42 @@ function updateDowntime(existingGame, isAvailable) {
               
               const downtimePeriods = updateDowntime(existingGame, true);
               
-return {
-  universeId: universeId,
-  name: details.name,
-  playerCount: details.playing,
-  created: details.created,
-  updated: details.updated,
-  ownerName: details.creator.name,
-  ownerUrl: details.creator.type === 'Group' 
-    ? `https://www.roblox.com/groups/${details.creator.id}`
-    : `https://www.roblox.com/users/${details.creator.id}/profile`,
-  thumbnailUrl: icon,
-  thumbnails: thumbnails,
-  gameUrl: `https://www.roblox.com/games/${placeId}`,
-  downtimePeriods: downtimePeriods,
-  currentlyAvailable: true,
-  maintainerNote: existingGame?.maintainerNote || null
-};
+              return {
+                universeId: universeId,
+                name: details.name,
+                playerCount: details.playing,
+                created: details.created,
+                updated: details.updated,
+                ownerName: details.creator.name,
+                ownerUrl: details.creator.type === 'Group' 
+                  ? `https://www.roblox.com/groups/${details.creator.id}`
+                  : `https://www.roblox.com/users/${details.creator.id}/profile`,
+                thumbnailUrl: icon,
+                thumbnails: thumbnails,
+                gameUrl: `https://www.roblox.com/games/${placeId}`,
+                downtimePeriods: downtimePeriods,
+                currentlyAvailable: true,
+                maintainerNote: existingGame?.maintainerNote || originalGameNote || null
+              };
             } catch (err) {
               console.error(`    ❌ Fetch failed: ${err.message}`);
               
               const downtimePeriods = updateDowntime(existingGame, false);
               
-             return {
-  name: 'Failed to load',
-  playerCount: '?',
-  created: '?',
-  updated: '?',
-  ownerName: '?',
-  thumbnailUrl: '',
-  thumbnails: [],
-  gameUrl: gameLink || '#',
-  downtimePeriods: downtimePeriods,
-  currentlyAvailable: false,
-  lastError: err.message,
-  maintainerNote: existingGame?.maintainerNote || null
-};
+              return {
+                name: 'Failed to load',
+                playerCount: '?',
+                created: '?',
+                updated: '?',
+                ownerName: '?',
+                thumbnailUrl: '',
+                thumbnails: [],
+                gameUrl: gameLink || '#',
+                downtimePeriods: downtimePeriods,
+                currentlyAvailable: false,
+                lastError: err.message,
+                maintainerNote: existingGame?.maintainerNote || originalGameNote || null
+              };
             }
           }
 
@@ -209,7 +205,7 @@ return {
               try {
                 const existingMain = findExistingGame(game.placeId);
                 
-                const mainGameData = await fetchGameData(game.placeId, game.gameLink, existingMain);
+                const mainGameData = await fetchGameData(game.placeId, game.gameLink, existingMain, game.maintainerNote);
                 
                 let processedSubgames = [];
                 if (game.subgames && game.subgames.length > 0) {
@@ -221,7 +217,7 @@ return {
                     
                     const existingSub = existingMain?.subgames?.find(s => s.placeId === sub.placeId);
                     
-                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub);
+                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub, sub.note || sub.maintainerNote);
                     
                     processedSubgames.push({
                       placeId: sub.placeId,
@@ -238,13 +234,13 @@ return {
                   console.log(`  ✅ Processed ${processedSubgames.length} subgames`);
                 }
                 
-enrichedGames.push({
-  placeId: game.placeId,
-  gameLink: game.gameLink || null,
-  ...mainGameData,
-  maintainerNote: game.maintainerNote || mainGameData.maintainerNote || null,  // ← ADD THIS
-  subgames: processedSubgames
-});
+                enrichedGames.push({
+                  placeId: game.placeId,
+                  gameLink: game.gameLink || null,
+                  ...mainGameData,
+                  maintainerNote: game.maintainerNote || mainGameData.maintainerNote || null,
+                  subgames: processedSubgames
+                });
                 
                 console.log(`  ✅ Game ${i + 1} complete with ${processedSubgames.length} subgames`);
                 
@@ -263,7 +259,7 @@ enrichedGames.push({
                     
                     try {
                       const existingSub = existingMain?.subgames?.find(s => s.placeId === sub.placeId);
-                      const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub);
+                      const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub, sub.note || sub.maintainerNote);
                       
                       processedSubgames.push({
                         placeId: sub.placeId,
@@ -292,22 +288,22 @@ enrichedGames.push({
                 }
                 
                 enrichedGames.push({
-  placeId: game.placeId,
-  gameLink: game.gameLink || null,
-  name: 'Failed to load',
-  playerCount: '?',
-  created: '?',
-  updated: '?',
-  ownerName: '?',
-  thumbnailUrl: '',
-  thumbnails: [],
-  gameUrl: game.gameLink || '#',
-  subgames: processedSubgames,
-  downtimePeriods: downtimePeriods,
-  currentlyAvailable: false,
-  lastError: err.message,
-  maintainerNote: game.maintainerNote || null  // ← ADD THIS
-});
+                  placeId: game.placeId,
+                  gameLink: game.gameLink || null,
+                  name: 'Failed to load',
+                  playerCount: '?',
+                  created: '?',
+                  updated: '?',
+                  ownerName: '?',
+                  thumbnailUrl: '',
+                  thumbnails: [],
+                  gameUrl: game.gameLink || '#',
+                  subgames: processedSubgames,
+                  downtimePeriods: downtimePeriods,
+                  currentlyAvailable: false,
+                  lastError: err.message,
+                  maintainerNote: game.maintainerNote || null
+                });
               }
               
               if (i < gamesData.games.length - 1) {
