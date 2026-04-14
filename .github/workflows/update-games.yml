@@ -207,7 +207,7 @@ jobs:
                 
                 const mainGameData = await fetchGameData(game.placeId, game.gameLink, existingMain, game.maintainerNote);
                 
-                let processedSubgames = [];
+                                let processedSubgames = [];
                 if (game.subgames && game.subgames.length > 0) {
                   console.log(`  🔍 Processing ${game.subgames.length} subgames...`);
                   
@@ -234,11 +234,18 @@ jobs:
                   console.log(`  ✅ Processed ${processedSubgames.length} subgames`);
                 }
                 
+                console.log(`    📦 game.maintainerNote: "${game.maintainerNote}"`);
+                console.log(`    📦 mainGameData.maintainerNote: "${mainGameData.maintainerNote}"`);
+                console.log(`    📦 existingMain?.maintainerNote: "${existingMain?.maintainerNote}"`);
+                
+                const finalNote = game.maintainerNote || (existingMain && existingMain.maintainerNote) || mainGameData.maintainerNote || null;
+                console.log(`    📝 Final maintainerNote: "${finalNote}"`);
+                
                 enrichedGames.push({
                   placeId: game.placeId,
                   gameLink: game.gameLink || null,
                   ...mainGameData,
-                  maintainerNote: game.maintainerNote || mainGameData.maintainerNote || null,
+                  maintainerNote: finalNote,
                   subgames: processedSubgames
                 });
                 
