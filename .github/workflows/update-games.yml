@@ -29,85 +29,14 @@ jobs:
       
       - name: Create fresh fetch script
         run: |
-          cat > fetch-games.js << 'ENDOFSCRIPT'
+          cat > fetch-games.js << 'EOF'
           const fs = require('fs');
           const fetch = require('node-fetch');
           
-          // Load existing data if available
-          let existingData = { games: [] };
-          try {
-            if (fs.existsSync('games-data.json')) {
-              existingData = JSON.parse(fs.readFileSync('games-data.json', 'utf8'));
-              console.log('📂 Loaded existing games-data.json for downtime tracking');
-            } else {
-              console.log('📝 No existing games-data.json found, starting fresh');
-            }
-          } catch (err) {
-            console.log('⚠️ Error reading existing data, starting fresh:', err.message);
-          }
-          
-          // Helper to find existing game data
-          function findExistingGame(placeId) {
-            if (!existingData.games) return null;
-            for (const game of existingData.games) {
-              if (game.placeId === placeId) return game;
-              if (game.subgames) {
-                for (const sub of game.subgames) {
-                  if (sub.placeId === placeId) return sub;
-                }
-              }
-            }
-            return null;
-          }
-          
-          // Helper to update downtime periods
-          function updateDowntime(existingGame, isAvailable) {
-            const now = new Date().toISOString();
-            const today = now.split('T')[0];
-            
-            let downtimePeriods = [];
-            if (existingGame && existingGame.downtimePeriods) {
-              downtimePeriods = [...existingGame.downtimePeriods];
-            }
-            
-            const isFirstRun = !existingGame;
-            
-            if (!isAvailable) {
-              // Game is currently down
-              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-              
-              // Check if we need to start a new period
-              if (!lastPeriod || lastPeriod.end !== null) {
-                const startDate = isFirstRun ? null : today;
-                
-                downtimePeriods.push({
-                  start: startDate,
-                  end: null
-                });
-                
-                if (isFirstRun) {
-                  console.log(`    📉 Started new downtime period with unknown start (first run, game already down)`);
-                } else {
-                  console.log(`    📉 Started new downtime period: ${today}`);
-                }
-              } else {
-                console.log(`    ⏳ Already in open downtime period since: ${lastPeriod.start || 'unknown'}`);
-              }
-            } else {
-              // Game is up - close any open downtime period
-              const lastPeriod = downtimePeriods[downtimePeriods.length - 1];
-              if (lastPeriod && lastPeriod.end === null) {
-                lastPeriod.end = today;
-                console.log(`    📈 Closed downtime period: ${lastPeriod.start || 'unknown'} to ${today}`);
-              }
-            }
-            
-            return downtimePeriods;
-          }
-          
           // Helper function to fetch game data by placeId
-          async function fetchGameData(placeId, gameLink, existingGame, originalGameNote = null) {
+          async function fetchGameData(placeId, gameLink) {
             try {
+              // 1. Get universeId
               const universeUrl = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
               const universeRes = await fetch(universeUrl);
               const universeData = await universeRes.json();
@@ -117,6 +46,7 @@ jobs:
               }
               const universeId = universeData.universeId;
               
+              // 2. Get game details
               const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
               const detailsRes = await fetch(detailsUrl);
               const detailsData = await detailsRes.json();
@@ -126,11 +56,13 @@ jobs:
               }
               const details = detailsData.data[0];
               
+              // 3. Get icon
               const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
               const iconRes = await fetch(iconUrl);
               const iconData = await iconRes.json();
               const icon = iconData.data?.[0]?.imageUrl || '';
               
+              // 4. Get thumbnails
               const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
               const thumbRes = await fetch(thumbUrl);
               const thumbData = await thumbRes.json();
@@ -140,10 +72,8 @@ jobs:
                 thumbnails = thumbData.data[0].thumbnails.map(t => t.imageUrl);
               }
               
-              const downtimePeriods = updateDowntime(existingGame, true);
-              
               return {
-                universeId: universeId,
+                universeId,
                 name: details.name,
                 playerCount: details.playing,
                 created: details.created,
@@ -154,16 +84,10 @@ jobs:
                   : `https://www.roblox.com/users/${details.creator.id}/profile`,
                 thumbnailUrl: icon,
                 thumbnails: thumbnails,
-                gameUrl: `https://www.roblox.com/games/${placeId}`,
-                downtimePeriods: downtimePeriods,
-                currentlyAvailable: true,
-                maintainerNote: existingGame?.maintainerNote || originalGameNote || null
+                gameUrl: `https://www.roblox.com/games/${placeId}`
               };
             } catch (err) {
-              console.error(`    ❌ Fetch failed: ${err.message}`);
-              
-              const downtimePeriods = updateDowntime(existingGame, false);
-              
+              console.error(`    ❌ Subgame fetch failed: ${err.message}`);
               return {
                 name: 'Failed to load',
                 playerCount: '?',
@@ -172,28 +96,14 @@ jobs:
                 ownerName: '?',
                 thumbnailUrl: '',
                 thumbnails: [],
-                gameUrl: gameLink || '#',
-                downtimePeriods: downtimePeriods,
-                currentlyAvailable: false,
-                lastError: err.message,
-                maintainerNote: existingGame?.maintainerNote || originalGameNote || null
+                gameUrl: gameLink || '#'
               };
             }
           }
 
           async function main() {
             console.log('📂 Reading games.json...');
-            
-            if (!fs.existsSync('games.json')) {
-              throw new Error('games.json not found!');
-            }
-            
             const gamesData = JSON.parse(fs.readFileSync('games.json', 'utf8'));
-            
-            if (!gamesData.games || !Array.isArray(gamesData.games)) {
-              throw new Error('games.json must have a "games" array');
-            }
-            
             console.log(`📦 Found ${gamesData.games.length} games to process`);
             
             const enrichedGames = [];
@@ -203,11 +113,11 @@ jobs:
               console.log(`\n[${i + 1}/${gamesData.games.length}] Processing: ${game.gameLink || game.placeId}`);
               
               try {
-                const existingMain = findExistingGame(game.placeId);
+                // Fetch main game data
+                const mainGameData = await fetchGameData(game.placeId, game.gameLink);
                 
-                const mainGameData = await fetchGameData(game.placeId, game.gameLink, existingMain, game.maintainerNote);
-                
-                                let processedSubgames = [];
+                // Process subgames if they exist
+                let processedSubgames = [];
                 if (game.subgames && game.subgames.length > 0) {
                   console.log(`  🔍 Processing ${game.subgames.length} subgames...`);
                   
@@ -215,17 +125,17 @@ jobs:
                     const sub = game.subgames[j];
                     console.log(`    📦 Subgame ${j + 1}/${game.subgames.length}: ${sub.gameLink || sub.placeId}`);
                     
-                    const existingSub = existingMain?.subgames?.find(s => s.placeId === sub.placeId);
+                    // Fetch subgame data
+                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink);
                     
-                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub, sub.note || sub.maintainerNote);
-                    
+                    // Preserve the original note
                     processedSubgames.push({
-                      placeId: sub.placeId,
-                      gameLink: sub.gameLink,
-                      note: sub.note || null,
-                      ...subGameData
+                      ...sub,
+                      ...subGameData,
+                      note: sub.note // Keep the original note
                     });
                     
+                    // Small delay between subgame fetches
                     if (j < game.subgames.length - 1) {
                       await new Promise(resolve => setTimeout(resolve, 500));
                     }
@@ -234,59 +144,34 @@ jobs:
                   console.log(`  ✅ Processed ${processedSubgames.length} subgames`);
                 }
                 
-                console.log(`    📦 game.maintainerNote: "${game.maintainerNote}"`);
-                console.log(`    📦 mainGameData.maintainerNote: "${mainGameData.maintainerNote}"`);
-                console.log(`    📦 existingMain?.maintainerNote: "${existingMain?.maintainerNote}"`);
-                
-                const finalNote = game.maintainerNote || (existingMain && existingMain.maintainerNote) || mainGameData.maintainerNote || null;
-                console.log(`    📝 Final maintainerNote: "${finalNote}"`);
-                
+                // Build enriched game object with subgames
                 enrichedGames.push({
-                  placeId: game.placeId,
-                  gameLink: game.gameLink || null,
+                  ...game,
                   ...mainGameData,
-                  maintainerNote: finalNote,
                   subgames: processedSubgames
                 });
                 
                 console.log(`  ✅ Game ${i + 1} complete with ${processedSubgames.length} subgames`);
                 
               } catch (err) {
-                console.error(`  ❌ Main game failed: ${err.message}`);
+                console.error(`  ❌ Failed: ${err.message}`);
                 
-                const existingMain = findExistingGame(game.placeId);
-                const downtimePeriods = updateDowntime(existingMain, false);
-                
+                // Process subgames even if main game fails
                 let processedSubgames = [];
                 if (game.subgames && game.subgames.length > 0) {
                   console.log(`  🔍 Processing ${game.subgames.length} subgames (main game failed)...`);
                   
                   for (let j = 0; j < game.subgames.length; j++) {
                     const sub = game.subgames[j];
+                    console.log(`    📦 Subgame ${j + 1}/${game.subgames.length}: ${sub.gameLink || sub.placeId}`);
                     
-                    try {
-                      const existingSub = existingMain?.subgames?.find(s => s.placeId === sub.placeId);
-                      const subGameData = await fetchGameData(sub.placeId, sub.gameLink, existingSub, sub.note || sub.maintainerNote);
-                      
-                      processedSubgames.push({
-                        placeId: sub.placeId,
-                        gameLink: sub.gameLink,
-                        note: sub.note || null,
-                        ...subGameData
-                      });
-                    } catch (subErr) {
-                      console.error(`    ❌ Subgame failed: ${subErr.message}`);
-                      processedSubgames.push({
-                        placeId: sub.placeId,
-                        gameLink: sub.gameLink,
-                        note: sub.note || null,
-                        name: 'Failed to load',
-                        playerCount: '?',
-                        currentlyAvailable: false,
-                        lastError: subErr.message,
-                        downtimePeriods: updateDowntime(null, false)
-                      });
-                    }
+                    const subGameData = await fetchGameData(sub.placeId, sub.gameLink);
+                    
+                    processedSubgames.push({
+                      ...sub,
+                      ...subGameData,
+                      note: sub.note
+                    });
                     
                     if (j < game.subgames.length - 1) {
                       await new Promise(resolve => setTimeout(resolve, 500));
@@ -295,8 +180,7 @@ jobs:
                 }
                 
                 enrichedGames.push({
-                  placeId: game.placeId,
-                  gameLink: game.gameLink || null,
+                  ...game,
                   name: 'Failed to load',
                   playerCount: '?',
                   created: '?',
@@ -305,56 +189,43 @@ jobs:
                   thumbnailUrl: '',
                   thumbnails: [],
                   gameUrl: game.gameLink || '#',
-                  subgames: processedSubgames,
-                  downtimePeriods: downtimePeriods,
-                  currentlyAvailable: false,
-                  lastError: err.message,
-                  maintainerNote: game.maintainerNote || null
+                  subgames: processedSubgames
                 });
               }
               
+              // Delay to avoid rate limiting between main games
               if (i < gamesData.games.length - 1) {
                 console.log('  ⏱️ Waiting 1 second...');
                 await new Promise(resolve => setTimeout(resolve, 1000));
               }
             }
             
+            // Create output object
             const output = {
               lastUpdated: new Date().toISOString().split('T')[0],
               lastUpdatedFull: new Date().toISOString(),
               games: enrichedGames
             };
             
+            // Write file
             console.log('\n📝 Writing games-data.json...');
             fs.writeFileSync('games-data.json', JSON.stringify(output, null, 2));
             
+            // Verify file was written
             const stats = fs.statSync('games-data.json');
             console.log(`✅ File created: ${stats.size} bytes`);
             console.log(`✅ Contains ${enrichedGames.length} games`);
             
+            // Log stats
             let totalSubgames = enrichedGames.reduce((acc, game) => acc + (game.subgames?.length || 0), 0);
             console.log(`✅ Total subgames processed: ${totalSubgames}`);
-            
-            console.log('\n📊 Downtime summary:');
-            enrichedGames.forEach(game => {
-              if (game.downtimePeriods?.length > 0) {
-                console.log(`  ${game.name}: ${game.downtimePeriods.length} downtime periods`);
-              }
-              if (game.subgames) {
-                game.subgames.forEach(sub => {
-                  if (sub.downtimePeriods?.length > 0) {
-                    console.log(`    ${sub.name}: ${sub.downtimePeriods.length} downtime periods`);
-                  }
-                });
-              }
-            });
           }
           
           main().catch(err => {
             console.error('❌ Fatal error:', err);
             process.exit(1);
           });
-          ENDOFSCRIPT
+          EOF
       
       - name: Run fetch script
         run: node fetch-games.js
@@ -364,18 +235,10 @@ jobs:
           if [ -f games-data.json ]; then
             echo "✅ games-data.json exists"
             ls -la games-data.json
-            echo ""
-            echo "📄 Preview (first 20 lines):"
-            head -20 games-data.json
           else
             echo "❌ games-data.json was not created!"
             exit 1
           fi
-      
-      - name: Validate JSON
-        run: |
-          echo "🔍 Validating JSON..."
-          node -e "JSON.parse(require('fs').readFileSync('games-data.json', 'utf8')); console.log('✅ JSON is valid!')"
       
       - name: Commit and push changes
         env:
