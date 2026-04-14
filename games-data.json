@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-13",
-  "lastUpdatedFull": "2026-04-13T23:12:46.744Z",
+  "lastUpdated": "2026-04-14",
+  "lastUpdatedFull": "2026-04-14T00:13:01.812Z",
   "games": [
     {
       "placeId": "79991553834328",
@@ -21,6 +21,7 @@
       "gameUrl": "https://www.roblox.com/games/79991553834328",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "1st month of 2025",
       "subgames": []
     },
     {
@@ -28,7 +29,7 @@
       "gameLink": "https://www.roblox.com/games/6466630690/Cat-Infection-CAT-SKINS",
       "universeId": 2414164590,
       "name": "Cat Infection [CAT SKINS]",
-      "playerCount": 63,
+      "playerCount": 56,
       "created": "2021-03-02T19:06:49.21Z",
       "updated": "2024-12-30T17:41:03.947Z",
       "ownerName": "SHIBA FORCE",
@@ -44,6 +45,7 @@
       "gameUrl": "https://www.roblox.com/games/6466630690",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "3rd month 2021",
       "subgames": []
     },
     {
@@ -51,7 +53,7 @@
       "gameLink": "https://www.roblox.com/games/17525496045/Infection-Facility",
       "universeId": 5998732669,
       "name": "Infection Facility",
-      "playerCount": 30,
+      "playerCount": 31,
       "created": "2024-05-18T00:13:49.773Z",
       "updated": "2026-02-24T22:57:48.7Z",
       "ownerName": "SillyCat games",
@@ -64,6 +66,7 @@
       "gameUrl": "https://www.roblox.com/games/17525496045",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2024",
       "subgames": []
     },
     {
@@ -83,6 +86,7 @@
       "gameUrl": "https://www.roblox.com/games/105838757260774",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2024",
       "subgames": []
     },
     {
@@ -104,6 +108,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "12th month of 2023 - was a top down angled 3d view sprite RP game, best soundtrack yet (especially Serenitension)",
       "subgames": []
     },
     {
@@ -125,6 +130,7 @@
       "gameUrl": "https://www.roblox.com/games/6894745593",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "6th month of 2021",
       "subgames": []
     },
     {
@@ -132,7 +138,7 @@
       "gameLink": "https://www.roblox.com/games/7624147869/Infection-alley",
       "universeId": 2961881754,
       "name": "Infection alley",
-      "playerCount": 6,
+      "playerCount": 5,
       "created": "2021-10-02T11:10:24.457Z",
       "updated": "2026-02-19T20:22:08.907Z",
       "ownerName": "Gl1tchprodigy",
@@ -145,6 +151,7 @@
       "gameUrl": "https://www.roblox.com/games/7624147869",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2021",
       "subgames": []
     },
     {
@@ -152,7 +159,7 @@
       "gameLink": "https://www.roblox.com/games/10679239752/Furry-Infection-game",
       "universeId": 3869462497,
       "name": "Furry Infection game [Furinfection]",
-      "playerCount": 1103,
+      "playerCount": 1215,
       "created": "2022-08-22T09:17:18.667Z",
       "updated": "2026-03-23T20:38:18.005Z",
       "ownerName": "Kiwi Games.",
@@ -168,6 +175,7 @@
       "gameUrl": "https://www.roblox.com/games/10679239752",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2022",
       "subgames": []
     },
     {
@@ -187,6 +195,7 @@
       "gameUrl": "https://www.roblox.com/games/106031284598035",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2024",
       "subgames": []
     },
     {
@@ -194,7 +203,7 @@
       "gameLink": "https://www.roblox.com/games/5985232436/Infectious-Smile",
       "universeId": 2157872230,
       "name": "Infectious Smile",
-      "playerCount": 3214,
+      "playerCount": 3339,
       "created": "2020-11-21T21:30:08.547Z",
       "updated": "2026-04-09T20:14:47.252Z",
       "ownerName": "laughablehaha",
@@ -206,6 +215,7 @@
       "gameUrl": "https://www.roblox.com/games/5985232436",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -226,6 +236,7 @@
       "gameUrl": "https://www.roblox.com/games/6104518672",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "12th month of 2020 - This is where it all started.",
       "subgames": []
     },
     {
@@ -245,6 +256,7 @@
       "gameUrl": "https://www.roblox.com/games/10748233729",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2022",
       "subgames": []
     },
     {
@@ -268,6 +280,7 @@
       "gameUrl": "https://www.roblox.com/games/17318778118",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "4th month of 2024 - seems to be a replica or fan game",
       "subgames": []
     },
     {
@@ -289,6 +302,7 @@
       "gameUrl": "https://www.roblox.com/games/6374505146",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2021",
       "subgames": []
     },
     {
@@ -309,6 +323,7 @@
       "gameUrl": "https://www.roblox.com/games/18998666187",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2024 - poorly made remake (Quality does not match original)",
       "subgames": []
     },
     {
@@ -329,6 +344,7 @@
       "gameUrl": "https://www.roblox.com/games/119396263459477",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2024",
       "subgames": []
     },
     {
@@ -336,7 +352,7 @@
       "gameLink": "https://www.roblox.com/games/9716268675/The-Infection-Remastered",
       "universeId": 3604379511,
       "name": "(Deprecated) The Infection: Remastered",
-      "playerCount": 7,
+      "playerCount": 5,
       "created": "2022-05-24T18:00:22.05Z",
       "updated": "2026-03-15T13:36:08.347Z",
       "ownerName": "Project Yuro",
@@ -350,6 +366,7 @@
       "gameUrl": "https://www.roblox.com/games/9716268675",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2022 - Plays like an OG Transfur genre game",
       "subgames": []
     },
     {
@@ -371,6 +388,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "8th month of 2024 - 'Successor' to TI:R (The Infection Remastered)",
       "subgames": []
     },
     {
@@ -378,7 +396,7 @@
       "gameLink": "https://www.roblox.com/games/8827608845/Furry-Cold-Infection",
       "universeId": 3343734528,
       "name": "Furry Cold Infection 🥶🦊",
-      "playerCount": 8,
+      "playerCount": 27,
       "created": "2022-02-14T20:38:02.997Z",
       "updated": "2026-01-28T17:25:46.022Z",
       "ownerName": "Wolf Donut",
@@ -393,6 +411,7 @@
       "gameUrl": "https://www.roblox.com/games/8827608845",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2022",
       "subgames": []
     },
     {
@@ -418,6 +437,7 @@
       "gameUrl": "https://www.roblox.com/games/13902380789",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "6th month of 2023",
       "subgames": []
     },
     {
@@ -425,7 +445,7 @@
       "gameLink": "https://www.roblox.com/games/12432097393/TIS-The-Transfeyyr",
       "universeId": 4372883077,
       "name": "TIS: The Transfeyyr",
-      "playerCount": 87,
+      "playerCount": 111,
       "created": "2023-02-09T17:34:04.243Z",
       "updated": "2026-04-10T18:30:18.339Z",
       "ownerName": "The Infectious Studio.",
@@ -437,6 +457,7 @@
       "gameUrl": "https://www.roblox.com/games/12432097393",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2023",
       "subgames": [
         {
           "placeId": "6136608081",
@@ -457,7 +478,8 @@
             }
           ],
           "currentlyAvailable": false,
-          "lastError": "No game details in response"
+          "lastError": "No game details in response",
+          "maintainerNote": "old version of Transfeyyr"
         }
       ]
     },
@@ -480,6 +502,7 @@
       "gameUrl": "https://www.roblox.com/games/87546301807669",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2025",
       "subgames": []
     },
     {
@@ -487,7 +510,7 @@
       "gameLink": "https://www.roblox.com/games/139654708382397/ez-Oldgen-Outbreak",
       "universeId": 6687485767,
       "name": "[ez] Oldgen Outbreak",
-      "playerCount": 1,
+      "playerCount": 2,
       "created": "2024-10-18T01:23:51.567Z",
       "updated": "2026-04-11T00:38:13.04Z",
       "ownerName": "Project Furbox",
@@ -501,6 +524,7 @@
       "gameUrl": "https://www.roblox.com/games/139654708382397",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2024",
       "subgames": []
     },
     {
@@ -520,6 +544,7 @@
       "gameUrl": "https://www.roblox.com/games/17450398934",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2024",
       "subgames": []
     },
     {
@@ -527,7 +552,7 @@
       "gameLink": "https://www.roblox.com/games/15491631439/OCTOBER-Fluffy-Infection",
       "universeId": 5345991188,
       "name": "Fluffy Infection",
-      "playerCount": 53,
+      "playerCount": 54,
       "created": "2023-11-28T22:57:35.79Z",
       "updated": "2026-04-10T20:26:32.583Z",
       "ownerName": "5navv",
@@ -536,7 +561,7 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-268528fe52c77a0890dfcac2cf7e8b2f/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-88e50829408823c66dde9ac4c542f091/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-e74703724dccac1ddd67c663ab8b27f4/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-d43d27f6e9e59d109c3662e1d4652974/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-8f4e3917be75b334f34ff0c9fd09a210/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-2dca176739e53ce0abe90617221bd125/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-84ab1e16cac8bf6f526a41139ddcf00d/768/432/Image/Png/noFilter",
@@ -545,6 +570,7 @@
       "gameUrl": "https://www.roblox.com/games/15491631439",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2023",
       "subgames": []
     },
     {
@@ -565,6 +591,7 @@
       "gameUrl": "https://www.roblox.com/games/5966923567",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -572,7 +599,7 @@
       "gameLink": "https://www.roblox.com/games/78803148130926/Furry-Infection",
       "universeId": 8396683494,
       "name": "Furry Infection ☣️ [READ DESC]",
-      "playerCount": 3,
+      "playerCount": 5,
       "created": "2025-08-10T06:44:29.86Z",
       "updated": "2026-04-12T15:00:10.7024996Z",
       "ownerName": "(terrible) GAMES, THE FIRST",
@@ -584,6 +611,7 @@
       "gameUrl": "https://www.roblox.com/games/78803148130926",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2025",
       "subgames": []
     },
     {
@@ -604,6 +632,7 @@
       "gameUrl": "https://www.roblox.com/games/9127979316",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "3rd month of 2022 - cant tell whether this is a reupload or a remake or is original....",
       "subgames": []
     },
     {
@@ -611,14 +640,14 @@
       "gameLink": "https://www.roblox.com/games/112455523658545/goo-animal-simulator-remake",
       "universeId": 8833620058,
       "name": "goo animal simulator: remake (hybrids)",
-      "playerCount": 13,
+      "playerCount": 19,
       "created": "2025-09-29T19:13:42.12Z",
       "updated": "2026-04-10T00:55:02.931Z",
       "ownerName": "jahde2",
       "ownerUrl": "https://www.roblox.com/users/694352102/profile",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-30d55d1f37a58edab523eabcf0273975/256/256/Image/Png/noFilter",
       "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-6fa7f9f9d16406415d2ec7abeb187625/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-f3d776b8e0e58ce6e19b52e724bce088/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-cae4eccd68342ad8c8694d0749436d86/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-69e60bf7904f2675ad6b08ab0799924c/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-d0c6c922907157f651f0f14818ab14a0/768/432/Image/Png/noFilter",
@@ -630,6 +659,7 @@
       "gameUrl": "https://www.roblox.com/games/112455523658545",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2025 - fan remake/reupload",
       "subgames": []
     },
     {
@@ -637,7 +667,7 @@
       "gameLink": "https://www.roblox.com/games/102607240913864/Project-Neko",
       "universeId": 6776657819,
       "name": "Project Neko [ALPHA]",
-      "playerCount": 23,
+      "playerCount": 22,
       "created": "2024-11-09T14:09:49.5Z",
       "updated": "2026-04-13T01:27:49.8679378Z",
       "ownerName": "Superbullet Studios",
@@ -649,6 +679,7 @@
       "gameUrl": "https://www.roblox.com/games/102607240913864",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2024",
       "subgames": []
     },
     {
@@ -656,7 +687,7 @@
       "gameLink": "https://www.roblox.com/games/135006593107618/Fur-Infection-ABSORD-CRATES-SYSTEM",
       "universeId": 7071048537,
       "name": "Fur Infection ABSORD [UPDATE]",
-      "playerCount": 38,
+      "playerCount": 41,
       "created": "2025-01-11T13:28:52.203Z",
       "updated": "2026-04-12T13:08:46.3636565Z",
       "ownerName": "Ruslan_voeniy",
@@ -675,6 +706,7 @@
       "gameUrl": "https://www.roblox.com/games/135006593107618",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "1st month of 2025",
       "subgames": []
     },
     {
@@ -682,7 +714,7 @@
       "gameLink": "https://www.roblox.com/games/13831863192/Neko-Infection",
       "universeId": 4796726263,
       "name": "Neko Infection",
-      "playerCount": 14,
+      "playerCount": 26,
       "created": "2023-06-22T20:49:30.073Z",
       "updated": "2026-04-05T16:11:10.35Z",
       "ownerName": "Notula Studio",
@@ -696,6 +728,7 @@
       "gameUrl": "https://www.roblox.com/games/13831863192",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "6th month of 2023",
       "subgames": []
     },
     {
@@ -718,6 +751,7 @@
       "gameUrl": "https://www.roblox.com/games/83258383534432",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "7th month of 2025 - Definitive recreation of Transfur Outbreak in its truthful peak. (with a bit 'more than in original' sprinkled in)",
       "subgames": [
         {
           "placeId": "83258383534432",
@@ -739,7 +773,8 @@
           ],
           "gameUrl": "https://www.roblox.com/games/83258383534432",
           "downtimePeriods": [],
-          "currentlyAvailable": true
+          "currentlyAvailable": true,
+          "maintainerNote": "same game, name change"
         },
         {
           "placeId": "83258383534432",
@@ -761,7 +796,8 @@
           ],
           "gameUrl": "https://www.roblox.com/games/83258383534432",
           "downtimePeriods": [],
-          "currentlyAvailable": true
+          "currentlyAvailable": true,
+          "maintainerNote": "same game, name change"
         }
       ]
     },
@@ -770,7 +806,7 @@
       "gameLink": "https://www.roblox.com/games/5993542958/Project-Transfur",
       "universeId": 2162087722,
       "name": "Project Fur",
-      "playerCount": 26,
+      "playerCount": 17,
       "created": "2020-11-23T19:01:54.617Z",
       "updated": "2026-03-03T18:13:03.197Z",
       "ownerName": "Intended Chaos",
@@ -785,6 +821,7 @@
       "gameUrl": "https://www.roblox.com/games/5993542958",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -792,7 +829,7 @@
       "gameLink": "https://www.roblox.com/games/5987922834/Transfur-Outbreak",
       "universeId": 2159264015,
       "name": "Transfur Outbreak",
-      "playerCount": 37,
+      "playerCount": 27,
       "created": "2020-11-22T12:34:40.47Z",
       "updated": "2026-03-09T00:52:59.934Z",
       "ownerName": "glungus empire",
@@ -805,6 +842,7 @@
       "gameUrl": "https://www.roblox.com/games/5987922834",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020 - The True OG, many owner changes over the years, lost the identity that made it the face of Transfur Genre.",
       "subgames": []
     },
     {
@@ -826,19 +864,20 @@
       "gameUrl": "https://www.roblox.com/games/121204547519240",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "12th month of 2024",
       "subgames": []
     },
     {
       "placeId": "6456351776",
       "gameLink": "https://www.roblox.com/games/6456351776/Kaiju-Paradise",
       "universeId": 2408700413,
-      "name": "kajoo pardise",
-      "playerCount": 680,
+      "name": "Kaiju Paradise",
+      "playerCount": 764,
       "created": "2021-02-28T10:30:25.16Z",
-      "updated": "2026-04-13T23:09:22.8428218Z",
+      "updated": "2026-04-13T23:16:10.6409708Z",
       "ownerName": "LAMINAX CO.",
       "ownerUrl": "https://www.roblox.com/groups/6423736",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-84aab5f4a12d995d5ce27876346b264c/256/256/Image/Png/noFilter",
+      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-5357cf340bb6105d03cb98ff1684c9b0/256/256/Image/Png/noFilter",
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-3e3fe41c01da3a8ce85dfc1872b5e1fb/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-c9a0f93373eae5c187d5fefdaf7a9c02/768/432/Image/Png/noFilter",
@@ -848,6 +887,7 @@
       "gameUrl": "https://www.roblox.com/games/6456351776",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "Entry exists because the mechanics are transfur. A tree that forgot its roots still grows in the same forest. 2nd month of 2021",
       "subgames": []
     },
     {
@@ -855,7 +895,7 @@
       "gameLink": "https://www.roblox.com/games/14176262714/Unknow-furry-infection-game",
       "universeId": 4906523382,
       "name": "Unknow furry infection game",
-      "playerCount": 76,
+      "playerCount": 88,
       "created": "2023-07-24T10:46:02.15Z",
       "updated": "2026-04-13T19:58:02.8468835Z",
       "ownerName": "177unneh",
@@ -874,6 +914,7 @@
       "gameUrl": "https://www.roblox.com/games/14176262714",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "7th month of 2023",
       "subgames": []
     },
     {
@@ -881,7 +922,7 @@
       "gameLink": "https://www.roblox.com/games/6573732104/combat-overhaul-twisting-ruin",
       "universeId": 2471596693,
       "name": "(winter) twisting ruin",
-      "playerCount": 37,
+      "playerCount": 28,
       "created": "2021-03-27T03:06:23.757Z",
       "updated": "2026-01-07T21:55:10.797Z",
       "ownerName": "sun_thedeadlylazer",
@@ -896,6 +937,7 @@
       "gameUrl": "https://www.roblox.com/games/6573732104",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "3rd month of 2021",
       "subgames": []
     },
     {
@@ -903,7 +945,7 @@
       "gameLink": "https://www.roblox.com/games/15312611408/Fluffy-infection-Shop-UPD",
       "universeId": 5281230212,
       "name": "Project : Fur Infection",
-      "playerCount": 1,
+      "playerCount": 0,
       "created": "2023-11-10T08:10:12.75Z",
       "updated": "2026-04-03T17:17:49.353Z",
       "ownerName": "tazarikys",
@@ -917,6 +959,7 @@
       "gameUrl": "https://www.roblox.com/games/15312611408",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2023",
       "subgames": []
     },
     {
@@ -924,7 +967,7 @@
       "gameLink": "https://www.roblox.com/games/18566967136/Facility-of-Redemption-Public-Testing",
       "universeId": 6290750494,
       "name": "❄️Facility of Redemption❄️",
-      "playerCount": 17,
+      "playerCount": 16,
       "created": "2024-07-19T21:55:42.947Z",
       "updated": "2026-04-12T02:29:10.312Z",
       "ownerName": "[ Solstice Studios ]",
@@ -941,6 +984,7 @@
       "gameUrl": "https://www.roblox.com/games/18566967136",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "7th month of 2024",
       "subgames": []
     },
     {
@@ -960,6 +1004,7 @@
       "gameUrl": "https://www.roblox.com/games/16526868524",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2024",
       "subgames": []
     },
     {
@@ -981,6 +1026,7 @@
       "gameUrl": "https://www.roblox.com/games/106062443102422",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2025",
       "subgames": []
     },
     {
@@ -988,7 +1034,7 @@
       "gameLink": "https://www.roblox.com/games/130317993523756/HALLOWS-Hindsight-Test-Place",
       "universeId": 8196011676,
       "name": "Hindsight Test Place",
-      "playerCount": 183,
+      "playerCount": 213,
       "created": "2025-07-19T00:32:42.217Z",
       "updated": "2026-04-12T17:49:34.3341286Z",
       "ownerName": "BunnyHopStudios",
@@ -1006,6 +1052,7 @@
       "gameUrl": "https://www.roblox.com/games/130317993523756",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "Game Inspired by Kaiju Paradise. Same shit. Different toilet. Includes a signed apology for the plumbing (bottom of desc). 7th month of 2025",
       "subgames": []
     },
     {
@@ -1013,7 +1060,7 @@
       "gameLink": "https://www.roblox.com/games/17649920055/Sub-Infection",
       "universeId": 6044592851,
       "name": "Sub Infection [V2 SOON]",
-      "playerCount": 1,
+      "playerCount": 0,
       "created": "2024-05-28T19:48:32.387Z",
       "updated": "2026-03-05T13:03:49.524Z",
       "ownerName": "Sub Infection Team",
@@ -1026,6 +1073,7 @@
       "gameUrl": "https://www.roblox.com/games/17649920055",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2024",
       "subgames": []
     },
     {
@@ -1033,7 +1081,7 @@
       "gameLink": "https://www.roblox.com/games/18955534702/Transfur-Escape",
       "universeId": 6419872918,
       "name": "Transfur Escape [WIP]",
-      "playerCount": 30,
+      "playerCount": 39,
       "created": "2024-08-15T07:18:35.277Z",
       "updated": "2026-04-13T09:05:54.8176077Z",
       "ownerName": "unnamedpeopl",
@@ -1049,6 +1097,7 @@
       "gameUrl": "https://www.roblox.com/games/18955534702",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2024 - fresh take on the Transfur Genre",
       "subgames": [
         {
           "placeId": "77104913262515",
@@ -1069,7 +1118,8 @@
             }
           ],
           "currentlyAvailable": false,
-          "lastError": "No game details in response"
+          "lastError": "No game details in response",
+          "maintainerNote": "side game"
         }
       ]
     },
@@ -1078,7 +1128,7 @@
       "gameLink": "https://www.roblox.com/games/5989426850/LIMITED-Candy-Cane-Transfur-Infection-2",
       "universeId": 2160069355,
       "name": "[LIMITED Candy Cane] Transfur Infection 2",
-      "playerCount": 1,
+      "playerCount": 4,
       "created": "2020-11-22T19:07:37.443Z",
       "updated": "2024-11-14T17:31:46.423Z",
       "ownerName": "Mumu Studios",
@@ -1090,6 +1140,7 @@
       "gameUrl": "https://www.roblox.com/games/5989426850",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020 - Game stopped in time, it was left just as it was back in 2021. Relic of the past.",
       "subgames": []
     },
     {
@@ -1097,9 +1148,9 @@
       "gameLink": "https://www.roblox.com/games/81671487601414/infection-game-mp4-0-1",
       "universeId": 7647158915,
       "name": "infection_game.mp4  [0.1]",
-      "playerCount": 2,
+      "playerCount": 3,
       "created": "2025-05-04T23:03:44.637Z",
-      "updated": "2026-04-13T08:29:46.2161493Z",
+      "updated": "2026-04-14T00:12:12.730848Z",
       "ownerName": "The Unfit Devs",
       "ownerUrl": "https://www.roblox.com/groups/35942144",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-8b61f2a0435ab0cb7f4b460563feda1e/256/256/Image/Png/noFilter",
@@ -1110,6 +1161,7 @@
       "gameUrl": "https://www.roblox.com/games/81671487601414",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2025",
       "subgames": []
     },
     {
@@ -1129,6 +1181,7 @@
       "gameUrl": "https://www.roblox.com/games/126476488388914",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2025",
       "subgames": []
     },
     {
@@ -1150,6 +1203,7 @@
       "gameUrl": "https://www.roblox.com/games/10532261198",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2022",
       "subgames": []
     },
     {
@@ -1174,6 +1228,7 @@
       "gameUrl": "https://www.roblox.com/games/18877052599",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "8th month of 2024",
       "subgames": []
     },
     {
@@ -1194,6 +1249,7 @@
       "gameUrl": "https://www.roblox.com/games/17300916368",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "4th month of 2024 - a 1:1 recreation of Transfur Outbreak Chapter 2 Map, looks and feels exactly how the chapter did back in 2021. This 'version' is in some degree 'upgraded' with details that the original did not contain.",
       "subgames": []
     },
     {
@@ -1215,6 +1271,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "11th month of 2020 - Latte Transfur",
       "subgames": []
     },
     {
@@ -1236,6 +1293,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "11th month of 2020 - very basic modelling, good scripts, despite that it made significant history.",
       "subgames": [
         {
           "placeId": "6007088245",
@@ -1256,7 +1314,8 @@
             }
           ],
           "currentlyAvailable": false,
-          "lastError": "No game details in response"
+          "lastError": "No game details in response",
+          "maintainerNote": "same game but older version"
         }
       ]
     },
@@ -1277,6 +1336,7 @@
       "gameUrl": "https://www.roblox.com/games/107980730910540",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2024",
       "subgames": []
     },
     {
@@ -1296,6 +1356,7 @@
       "gameUrl": "https://www.roblox.com/games/5958351575",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -1317,6 +1378,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -1338,6 +1400,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "5th month of 2021",
       "subgames": []
     },
     {
@@ -1359,27 +1422,39 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "6th month of 2022",
       "subgames": []
     },
     {
       "placeId": "15728405852",
       "gameLink": "https://www.roblox.com/games/15728405852/Escape-from-Changed",
-      "name": "Failed to load",
-      "playerCount": "?",
-      "created": "?",
-      "updated": "?",
-      "ownerName": "?",
-      "thumbnailUrl": "",
-      "thumbnails": [],
-      "gameUrl": "https://www.roblox.com/games/15728405852/Escape-from-Changed",
+      "universeId": 5434200278,
+      "name": "[Friendly Fire] Escape from Changed",
+      "playerCount": 66,
+      "created": "2023-12-23T21:32:43.213Z",
+      "updated": "2026-04-13T23:53:45.137549Z",
+      "ownerName": "Escape from Changed",
+      "ownerUrl": "https://www.roblox.com/groups/35223817",
+      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-cd3f38ac6498fdf1123adf4440f90975/256/256/Image/Png/noFilter",
+      "thumbnails": [
+        "https://tr.rbxcdn.com/180DAY-b08b6c88348791c1b995ace5e616abd5/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-7c5bdb611fd45de00f4ec9496b72cafd/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-58707e582dcdfc00d0f25077a0f8b68c/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-ec3989b2372de0fc635c62be184da2bc/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-6a19037d82a7e2c9b3d840d1376f0e2b/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-1fc448b521656f0b3fc7cea4ed1e3b71/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-b718309f12e18f88f73d5a0d66c1542c/768/432/Image/Png/noFilter",
+        "https://tr.rbxcdn.com/180DAY-ad89378dac7f6025a7c20b709fbaa4e1/768/432/Image/Png/noFilter"
+      ],
+      "gameUrl": "https://www.roblox.com/games/15728405852",
       "downtimePeriods": [
         {
           "start": "2026-04-13",
-          "end": null
+          "end": "2026-04-14"
         }
       ],
-      "currentlyAvailable": false,
-      "lastError": "No game details in response",
+      "currentlyAvailable": true,
+      "maintainerNote": "12th month of 2023",
       "subgames": []
     },
     {
@@ -1404,6 +1479,7 @@
       "gameUrl": "https://www.roblox.com/games/139500066197829",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2025 - archive reupload",
       "subgames": []
     },
     {
@@ -1424,6 +1500,7 @@
       "gameUrl": "https://www.roblox.com/games/72407903748016",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2025",
       "subgames": []
     },
     {
@@ -1450,6 +1527,7 @@
       "gameUrl": "https://www.roblox.com/games/15178727828",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2023",
       "subgames": []
     },
     {
@@ -1475,6 +1553,7 @@
       "gameUrl": "https://www.roblox.com/games/97545343806660",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "10th month of 2025",
       "subgames": []
     },
     {
@@ -1495,6 +1574,7 @@
       "gameUrl": "https://www.roblox.com/games/13431915633",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2023",
       "subgames": []
     },
     {
@@ -1514,6 +1594,7 @@
       "gameUrl": "https://www.roblox.com/games/128903563180469",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2024",
       "subgames": []
     },
     {
@@ -1535,6 +1616,7 @@
       "gameUrl": "https://www.roblox.com/games/96717852874249",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2025 - Another fresh take on the Transfur Genre.",
       "subgames": []
     },
     {
@@ -1556,27 +1638,29 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "7th month of 2025 - Hangs between moderate and low quality, huge city map free roam open world exploration game.",
       "subgames": []
     },
     {
       "placeId": "107212130407183",
       "gameLink": "https://www.roblox.com/games/107212130407183/Transfur-Otherworld",
-      "universeId": 9316907891,
-      "name": "Otherworld: Fur Infection",
-      "playerCount": 52,
-      "created": "2025-12-07T15:23:15.92Z",
-      "updated": "2026-04-13T21:37:08.9436261Z",
-      "ownerName": "Terraturgy Foundation",
-      "ownerUrl": "https://www.roblox.com/groups/35430940",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-66249e3e8b80351fcfa2a215054290fc/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-d297dc3cfa0b69c261713321cc268f72/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-26807fee2cce9efa575e6b1460b72938/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-250421885beab29e0ba79badc33beb13/768/432/Image/Png/noFilter"
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
+      "gameUrl": "https://www.roblox.com/games/107212130407183/Transfur-Otherworld",
+      "downtimePeriods": [
+        {
+          "start": "2026-04-14",
+          "end": null
+        }
       ],
-      "gameUrl": "https://www.roblox.com/games/107212130407183",
-      "downtimePeriods": [],
-      "currentlyAvailable": true,
+      "currentlyAvailable": false,
+      "lastError": "No game details in response",
+      "maintainerNote": "12th month of 2025",
       "subgames": []
     },
     {
@@ -1598,6 +1682,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "unknown",
       "subgames": []
     },
     {
@@ -1617,6 +1702,7 @@
       "gameUrl": "https://www.roblox.com/games/5968440444",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020",
       "subgames": []
     },
     {
@@ -1636,6 +1722,7 @@
       "gameUrl": "https://www.roblox.com/games/4707970283",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2th month of 2020",
       "subgames": []
     },
     {
@@ -1643,7 +1730,7 @@
       "gameLink": "https://www.roblox.com/games/93649455143022/Mental-Holdout",
       "universeId": 7990679404,
       "name": "Mental:Holdout [Alpha]",
-      "playerCount": 5,
+      "playerCount": 9,
       "created": "2025-06-24T17:58:26.12Z",
       "updated": "2026-04-13T15:16:32.7242436Z",
       "ownerName": "ZxcStiller",
@@ -1655,6 +1742,7 @@
       "gameUrl": "https://www.roblox.com/games/93649455143022",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "6th month of 2025",
       "subgames": []
     },
     {
@@ -1674,6 +1762,7 @@
       "gameUrl": "https://www.roblox.com/games/6759937858",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2021",
       "subgames": []
     },
     {
@@ -1695,6 +1784,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "4th month of 2021 - not playable but probably low quality as seen from images",
       "subgames": []
     },
     {
@@ -1716,6 +1806,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "unknown game but must be from transfur genre (blindly took first search for 'latex chaos')",
       "subgames": []
     },
     {
@@ -1737,6 +1828,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "unknown game but must be from transfur genre (blindly took first search for 'the laboratory revamp')",
       "subgames": []
     },
     {
@@ -1758,6 +1850,7 @@
       "gameUrl": "https://www.roblox.com/games/5945584065",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "11th month of 2020 (plays like it wants to work but cant)(seems to not be the 'original')",
       "subgames": []
     },
     {
@@ -1778,6 +1871,7 @@
       "gameUrl": "https://www.roblox.com/games/76153462951298",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "3rd month of 2026",
       "subgames": []
     },
     {
@@ -1799,6 +1893,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "12th month of 2025 (plays like Transfur Outbreak, same visuals, same scripts, idk man what to tell you)",
       "subgames": []
     },
     {
@@ -1821,6 +1916,7 @@
       "gameUrl": "https://www.roblox.com/games/108126315081529",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "5th month of 2025 (Transfur Outbreak copy)",
       "subgames": []
     },
     {
@@ -1828,7 +1924,7 @@
       "gameLink": "https://www.roblox.com/games/70477948929979/Furfection",
       "universeId": 9661848109,
       "name": "Furfection",
-      "playerCount": 26,
+      "playerCount": 21,
       "created": "2026-02-01T19:21:20.28Z",
       "updated": "2026-04-01T19:40:12.086Z",
       "ownerName": "FURFECTED",
@@ -1840,6 +1936,7 @@
       "gameUrl": "https://www.roblox.com/games/70477948929979",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "2nd month of 2025 - quite entertaining, no rp, no gimmicks, pure fighting",
       "subgames": []
     },
     {
@@ -1847,7 +1944,7 @@
       "gameLink": "https://www.roblox.com/games/120550559221143/Fur-Infection-Outbreak",
       "universeId": 9464360885,
       "name": "[UDP] Fur Infection Outbreak 🥚",
-      "playerCount": 2803,
+      "playerCount": 2934,
       "created": "2025-12-30T02:29:35.923Z",
       "updated": "2026-04-13T19:29:06.5659005Z",
       "ownerName": "HopeStar Studio",
@@ -1860,6 +1957,7 @@
       "gameUrl": "https://www.roblox.com/games/120550559221143",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "12th month of 2025",
       "subgames": []
     },
     {
@@ -1881,6 +1979,7 @@
       ],
       "currentlyAvailable": false,
       "lastError": "No game details in response",
+      "maintainerNote": "1st month of 2025 - 'Successor' to Transfur Otherworld (also called Otherworld Labs)",
       "subgames": []
     },
     {
@@ -1902,6 +2001,7 @@
       "gameUrl": "https://www.roblox.com/games/138855555399822",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2025",
       "subgames": []
     },
     {
@@ -1921,6 +2021,7 @@
       "gameUrl": "https://www.roblox.com/games/16799102339",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "3rd month of 2024 - map is generic free model (as seen in Transfur Outbreak Chapter 1)",
       "subgames": []
     },
     {
@@ -1945,6 +2046,7 @@
       "gameUrl": "https://www.roblox.com/games/134922313437159",
       "downtimePeriods": [],
       "currentlyAvailable": true,
+      "maintainerNote": "9th month of 2025 - Dance 1 Emote is goated (free model)",
       "subgames": []
     }
   ]
