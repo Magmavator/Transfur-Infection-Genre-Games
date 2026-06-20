@@ -602,6 +602,18 @@
       "placeId": "15210839174",
       "tags": ["high-quality"],
       "maintainerNote": "10th month of 2023(supposedly, because i aint ever seen this game untill 22.05.2026) - Nice scripts and moderate build quality, plays similarly to the classic transfur games"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/6390414757/Transfur-infect-Lespertls-Facility",
+      "placeId": "6390414757",
+      "tags": ["low-quality"],
+      "maintainerNote": "2nd month of 2021"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/11220964949/Transfur-Testing-Game",
+      "placeId": "11220964949",
+      "tags": ["high-quality"],
+      "maintainerNote": "10th month of 2022 - good scripts, no playable game though (just baseplate for testing)"
     }
   ]
 }
