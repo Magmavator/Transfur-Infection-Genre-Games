@@ -674,6 +674,24 @@
       "placeId": "90708307097689",
       "tags": ["high-quality"],
       "maintainerNote": "Released 04/2025 | Reviewed 07/2026 - high quality except the lack of content and very buggy nature"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/9912677619/goo-animal-simulator-2-0",
+      "placeId": "9912677619",
+      "tags": ["high-quality", "OG"],
+      "maintainerNote": "Released 06/2022 | Reviewed 07/2026 - another version of goo animal simulator (GAS)"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/139063727139754/EPR-Facility-Remastered",
+      "placeId": "139063727139754",
+      "tags": ["low-quality"],
+      "maintainerNote": "Released 01/2025 | Reviewed 07/2026"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/11510951949/The-Underground-Facility-Before-The-Update",
+      "placeId": "11510951949",
+      "tags": ["moderate-quality"],
+      "maintainerNote": "Released 11/2022 | Reviewed 07/2026"
     }
   ]
 }
