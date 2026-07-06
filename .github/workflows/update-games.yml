@@ -33,9 +33,7 @@ jobs:
           const fs = require('fs');
           const fetch = require('node-fetch');
 
-          // ==================== UNIVERSAL VALIDATION ====================
           function isValidGameData(details) {
-            // Check if name exists and isn't a placeholder
             if (!details.name || 
                 details.name === "[TITLE UNAVAILABLE]" || 
                 details.name === "Error" || 
@@ -44,7 +42,6 @@ jobs:
               return false;
             }
             
-            // Check if creator exists
             if (!details.creator || 
                 !details.creator.name || 
                 details.creator.name === "Unknown" ||
@@ -52,21 +49,18 @@ jobs:
               return false;
             }
             
-            // Check if created date is valid
             if (!details.created || 
                 details.created === "0001-01-01T00:00:00.000Z" ||
                 details.created === "1970-01-01T00:00:00.000Z") {
               return false;
             }
             
-            // Check if updated date is valid
             if (!details.updated || 
                 details.updated === "0001-01-01T00:00:00.000Z" ||
                 details.updated === "1970-01-01T00:00:00.000Z") {
               return false;
             }
             
-            // Check if playing count is a number
             if (typeof details.playing !== 'number' || details.playing < 0) {
               return false;
             }
@@ -74,10 +68,8 @@ jobs:
             return true;
           }
 
-          // ==================== FETCH GAME DATA ====================
           async function fetchGameData(placeId, gameLink) {
             try {
-              // 1. Get universeId
               const universeUrl = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
               const universeRes = await fetch(universeUrl);
               const universeData = await universeRes.json();
@@ -87,7 +79,6 @@ jobs:
               }
               const universeId = universeData.universeId;
               
-              // 2. Get game details
               const detailsUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
               const detailsRes = await fetch(detailsUrl);
               const detailsData = await detailsRes.json();
@@ -97,7 +88,6 @@ jobs:
               }
               const details = detailsData.data[0];
               
-              // ========== UNIVERSAL UNAVAILABLE DETECTION ==========
               if (!isValidGameData(details)) {
                 console.log(`    ⚠️ Game unavailable or malformed data detected`);
                 console.log(`       Name: ${details.name || 'missing'}`);
@@ -105,41 +95,87 @@ jobs:
                 console.log(`       Owner: ${details.creator?.name || 'missing'}`);
                 console.log(`       Players: ${details.playing ?? 'missing'}`);
                 
-                let fallbackName = 'Failed to load';
-                if (gameLink) {
-                  const parts = gameLink.split('/');
-                  const lastPart = parts[parts.length - 1];
-                  if (lastPart && !isNaN(lastPart)) {
-                    fallbackName = `Game ${lastPart}`;
+                let gameName = details.name || 'Failed to load';
+                if (gameName === "[TITLE UNAVAILABLE]") {
+                  if (gameLink) {
+                    const parts = gameLink.split('/');
+                    const lastPart = parts[parts.length - 1];
+                    if (lastPart && !isNaN(lastPart)) {
+                      gameName = `Game ${lastPart}`;
+                    } else {
+                      gameName = 'Unavailable Game';
+                    }
+                  }
+                }
+                
+                let ownerName = details.creator?.name || 'Unknown';
+                
+                let created = details.created || '?';
+                let updated = details.updated || '?';
+                if (created === "0001-01-01T00:00:00.000Z" || created === "1970-01-01T00:00:00.000Z") {
+                  created = '?';
+                }
+                if (updated === "0001-01-01T00:00:00.000Z" || updated === "1970-01-01T00:00:00.000Z") {
+                  updated = '?';
+                }
+                
+                let playerCount = '?';
+                if (typeof details.playing === 'number' && details.playing >= 0) {
+                  playerCount = details.playing;
+                }
+                
+                let icon = '';
+                try {
+                  const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
+                  const iconRes = await fetch(iconUrl);
+                  const iconData = await iconRes.json();
+                  icon = iconData.data?.[0]?.imageUrl || '';
+                } catch (e) {}
+                
+                let thumbnails = [];
+                try {
+                  const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
+                  const thumbRes = await fetch(thumbUrl);
+                  const thumbData = await thumbRes.json();
+                  
+                  if (thumbData.data && thumbData.data[0] && thumbData.data[0].thumbnails) {
+                    thumbnails = thumbData.data[0].thumbnails
+                      .filter(t => t.imageUrl && !t.imageUrl.includes('error'))
+                      .map(t => t.imageUrl);
+                  }
+                } catch (e) {}
+                
+                let ownerUrl = '#';
+                if (details.creator && details.creator.id) {
+                  if (details.creator.type === 'Group') {
+                    ownerUrl = `https://www.roblox.com/groups/${details.creator.id}`;
+                  } else {
+                    ownerUrl = `https://www.roblox.com/users/${details.creator.id}/profile`;
                   }
                 }
                 
                 return {
-                  name: fallbackName,
-                  playerCount: '?',
-                  created: '?',
-                  updated: '?',
-                  ownerName: '?',
-                  thumbnailUrl: '',
-                  thumbnails: [],
+                  name: gameName,
+                  playerCount: playerCount,
+                  created: created,
+                  updated: updated,
+                  ownerName: ownerName,
+                  ownerUrl: ownerUrl,
+                  thumbnailUrl: icon,
+                  thumbnails: thumbnails,
                   gameUrl: `https://www.roblox.com/games/${placeId}`,
                   isFailed: true
                 };
               }
-              // ========== END UNAVAILABLE DETECTION ==========
               
-              // 3. Get icon
               let icon = '';
               try {
                 const iconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=256x256&format=Png&isCircular=false`;
                 const iconRes = await fetch(iconUrl);
                 const iconData = await iconRes.json();
                 icon = iconData.data?.[0]?.imageUrl || '';
-              } catch (e) {
-                console.log(`    ⚠️ Icon fetch failed`);
-              }
+              } catch (e) {}
               
-              // 4. Get thumbnails
               let thumbnails = [];
               try {
                 const thumbUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeId}&countPerUniverse=8&size=768x432&format=Png&isCircular=false`;
@@ -151,11 +187,8 @@ jobs:
                     .filter(t => t.imageUrl && !t.imageUrl.includes('error'))
                     .map(t => t.imageUrl);
                 }
-              } catch (e) {
-                console.log(`    ⚠️ Thumbnail fetch failed`);
-              }
+              } catch (e) {}
               
-              // Build owner URL
               let ownerUrl = '#';
               if (details.creator) {
                 if (details.creator.type === 'Group') {
@@ -181,21 +214,32 @@ jobs:
               
             } catch (err) {
               console.error(`    ❌ Fetch failed: ${err.message}`);
+              
+              let fallbackName = 'Failed to load';
+              let fallbackUrl = gameLink || '#';
+              if (gameLink) {
+                const parts = gameLink.split('/');
+                const lastPart = parts[parts.length - 1];
+                if (lastPart && !isNaN(lastPart)) {
+                  fallbackName = `Game ${lastPart}`;
+                }
+              }
+              
               return {
-                name: 'Failed to load',
+                name: fallbackName,
                 playerCount: '?',
                 created: '?',
                 updated: '?',
                 ownerName: '?',
+                ownerUrl: '#',
                 thumbnailUrl: '',
                 thumbnails: [],
-                gameUrl: gameLink || '#',
+                gameUrl: fallbackUrl,
                 isFailed: true
               };
             }
           }
 
-          // ==================== MAIN FUNCTION ====================
           async function main() {
             console.log('📂 Reading games.json...');
             const gamesData = JSON.parse(fs.readFileSync('games.json', 'utf8'));
