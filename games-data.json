@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-07-06",
-  "lastUpdatedFull": "2026-07-06T10:27:58.527Z",
+  "lastUpdatedFull": "2026-07-06T13:05:31.639Z",
   "games": [
     {
       "gameLink": "https://www.roblox.com/games/79991553834328/Transfur-X-Alpha",
@@ -23,6 +23,7 @@
         "https://tr.rbxcdn.com/180DAY-83b2d90800ce1b941ec06b815bc436af/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/79991553834328",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -34,7 +35,7 @@
       "maintainerNote": "3rd month 2021",
       "universeId": 2414164590,
       "name": "Cat Infection [CAT SKINS]",
-      "playerCount": 31,
+      "playerCount": 56,
       "created": "2021-03-02T19:06:49.21Z",
       "updated": "2024-12-30T17:41:03.947Z",
       "ownerName": "SHIBA FORCE",
@@ -48,6 +49,7 @@
         "https://tr.rbxcdn.com/180DAY-609fd2f5c18370c467f745bea004dd5a/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6466630690",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -70,6 +72,7 @@
         "https://tr.rbxcdn.com/180DAY-bdb89666fb22285e1c776073f17e0d63/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17525496045",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -91,6 +94,7 @@
         "https://tr.rbxcdn.com/180DAY-181dd0532816faa51a071e6f17e29010/768/432/GameMediaItem11/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/105838757260774",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -100,19 +104,15 @@
         "high-quality"
       ],
       "maintainerNote": "12th month of 2023 - was a top down angled 3d view sprite RP game, best soundtrack yet (especially Serenitension)",
-      "universeId": 5355485143,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-a664976e3dcfc9ab3d5fc40edb65bd8f/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-3634913fde9a286ae27caa2eb36bec96/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-fcb9dd07c796eab14cdd9a5e1f030d6b/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/15518504762",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -136,6 +136,7 @@
         "https://tr.rbxcdn.com/180DAY-3a703ba13ac3a57c21bca4c4ebaade69/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6894745593",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -158,6 +159,7 @@
         "https://tr.rbxcdn.com/180DAY-1b886234281c70d98d8bb82e70f5550f/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/7624147869",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -169,7 +171,7 @@
       "maintainerNote": "8th month of 2022",
       "universeId": 3869462497,
       "name": "Furry Infection game [Furinfection]",
-      "playerCount": 1786,
+      "playerCount": 2289,
       "created": "2022-08-22T09:17:18.667Z",
       "updated": "2026-06-21T10:55:11.261Z",
       "ownerName": "Kiwi Games.",
@@ -183,6 +185,7 @@
         "https://tr.rbxcdn.com/180DAY-f9da5e1e83d2f90b3eaf1352a6793be2/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/10679239752",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -204,6 +207,7 @@
         "https://tr.rbxcdn.com/180DAY-34357bdf76f29bc7791cc5853cd0ff83/768/432/GameMediaItem8/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/106031284598035",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -227,6 +231,7 @@
         "https://tr.rbxcdn.com/180DAY-02929da6451ef04aa2e63cfcb35d1d91/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6104518672",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -249,6 +254,7 @@
         "https://tr.rbxcdn.com/180DAY-02929da6451ef04aa2e63cfcb35d1d91/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/10748233729",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -274,6 +280,7 @@
         "https://tr.rbxcdn.com/180DAY-182ea1b75b0c1ed46b50f002e655ca95/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17318778118",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -297,6 +304,7 @@
         "https://tr.rbxcdn.com/180DAY-836eb0e1b00dfbbb809c55bb8bc07022/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6374505146",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -319,6 +327,7 @@
         "https://tr.rbxcdn.com/180DAY-78267d472b27c09bede62d092d72bd1e/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/18998666187",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -341,6 +350,7 @@
         "https://tr.rbxcdn.com/180DAY-ba2691394954cc85e65ffd8b1e9a91e6/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/119396263459477",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -364,6 +374,7 @@
         "https://tr.rbxcdn.com/180DAY-8aa156b5beff86de0ab52851516d82ed/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/9716268675",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -373,20 +384,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "8th month of 2024 - 'Successor' to TI:R (The Infection Remastered)",
-      "universeId": 6384053149,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-1c19e803b5d81914417ccec6de4c4047/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-f81b8a932d2434a2a66878014122b04e/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-a55e876e36138714728af120a8e380cc/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-70245c3f8b57f11619de1735c559de98/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/18847801203",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -411,6 +417,7 @@
         "https://tr.rbxcdn.com/180DAY-2393027e7a8eb5fdda672c6e4ca8af1b/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/8827608845",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -438,6 +445,7 @@
         "https://tr.rbxcdn.com/180DAY-d5f6956e3914d10d0c59d214083dd163/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/13902380789",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -452,25 +460,20 @@
           "gameLink": "https://www.roblox.com/games/6136608081/Sunset-Corporation-Transfeyyr",
           "placeId": "6136608081",
           "note": "old version of Transfeyyr",
-          "universeId": 2238959401,
-          "name": "[TITLE UNAVAILABLE]",
-          "playerCount": 0,
-          "created": "0001-01-01T05:51:00Z",
-          "updated": "0001-01-01T05:51:00Z",
-          "ownerName": "[UNKNOWN]",
-          "ownerUrl": "https://www.roblox.com/groups/0",
-          "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-7e342a9a00a3eed279acaeb1c355c2b8/256/256/Image/Png/noFilter",
-          "thumbnails": [
-            "https://tr.rbxcdn.com/180DAY-55762dee04071bb13ce6c21dc2dae067/768/432/Image/Png/noFilter",
-            "https://tr.rbxcdn.com/180DAY-9575ea98b53c1a28cf7d60f2c236eee8/768/432/Image/Png/noFilter",
-            "https://tr.rbxcdn.com/180DAY-c699dcc7c62a42ef81ed1a956eb86e44/768/432/Image/Png/noFilter"
-          ],
-          "gameUrl": "https://www.roblox.com/games/6136608081"
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/6136608081",
+          "isFailed": true
         }
       ],
       "universeId": 4372883077,
       "name": "TIS: The Transfeyyr",
-      "playerCount": 117,
+      "playerCount": 159,
       "created": "2023-02-09T17:34:04.243Z",
       "updated": "2026-05-14T23:02:31.285Z",
       "ownerName": "The Infectious Studio.",
@@ -479,7 +482,8 @@
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-c7e0a63c1f44fbc6765931c55e6cebac/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/12432097393"
+      "gameUrl": "https://www.roblox.com/games/12432097393",
+      "isFailed": false
     },
     {
       "gameLink": "https://www.roblox.com/games/87546301807669/DONO-BOARD-Furry-Infect-6-5",
@@ -502,6 +506,7 @@
         "https://tr.rbxcdn.com/180DAY-f72b79359d91b2a4da575b973dcb5c0c/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/87546301807669",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -511,20 +516,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "10th month of 2024",
-      "universeId": 6687485767,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-e5950f6ad3e06f9cfc37b7343228f96d/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-e62faf13f8eab234fe07347e7425feb2/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-ae6caa1a86a18c0ce9c0d3618e2f7427/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-099fe5f870c489479920867657c1b086/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/139654708382397",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -546,6 +546,7 @@
         "https://tr.rbxcdn.com/180DAY-55f7c1800eb47e67be1801122945bfb3/768/432/GameMediaItem3/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17450398934",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -557,7 +558,7 @@
       "maintainerNote": "11th month of 2023",
       "universeId": 5345991188,
       "name": "Fluffy Infection",
-      "playerCount": 70,
+      "playerCount": 66,
       "created": "2023-11-28T22:57:35.79Z",
       "updated": "2026-06-20T02:54:16.912Z",
       "ownerName": "5navv",
@@ -573,6 +574,7 @@
         "https://tr.rbxcdn.com/180DAY-618ac302d2993b4efee2366bc543807c/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/15491631439",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -585,7 +587,7 @@
       "maintainerNote": "11th month of 2020",
       "universeId": 2148320849,
       "name": "Moonlight Outbreak",
-      "playerCount": 19,
+      "playerCount": 27,
       "created": "2020-11-17T13:32:31.4Z",
       "updated": "2026-03-19T19:30:08.997Z",
       "ownerName": "Bloxigogo",
@@ -596,6 +598,7 @@
         "https://tr.rbxcdn.com/180DAY-df020271724eec9774609347cb34cebe/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5966923567",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -605,18 +608,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "8th month of 2025",
-      "universeId": 8396683494,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-197ae6c1373627b126e2e8fdb52be824/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-5cd6475f47e2d825f0b9b7e2fceb661f/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/78803148130926",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -640,6 +640,7 @@
         "https://tr.rbxcdn.com/180DAY-08cec20563c6fcd87785eb734d2d80d7/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/9127979316",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -669,6 +670,7 @@
         "https://tr.rbxcdn.com/180DAY-4b2101a9434e25f81c30a9503c25ec09/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/112455523658545",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -680,7 +682,7 @@
       "maintainerNote": "11th month of 2024",
       "universeId": 6776657819,
       "name": "Project Neko [ALPHA]",
-      "playerCount": 15,
+      "playerCount": 25,
       "created": "2024-11-09T14:09:49.5Z",
       "updated": "2026-06-26T23:02:58.262Z",
       "ownerName": "Superbullet Studios",
@@ -690,6 +692,7 @@
         "https://tr.rbxcdn.com/180DAY-0f4f5b7b7544573b33ed05c4d9727cee/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/102607240913864",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -701,7 +704,7 @@
       "maintainerNote": "1st month of 2025",
       "universeId": 7071048537,
       "name": "[🌴SUMMER] Fur Infection 2 [ABSORD]",
-      "playerCount": 234,
+      "playerCount": 265,
       "created": "2025-01-11T13:28:52.203Z",
       "updated": "2026-07-05T21:19:53.000508Z",
       "ownerName": "Absoluteness Studio",
@@ -718,6 +721,7 @@
         "https://tr.rbxcdn.com/180DAY-fc38267e4bf7504ae72a97d1a5d0a33a/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/135006593107618",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -729,7 +733,7 @@
       "maintainerNote": "6th month of 2023",
       "universeId": 4796726263,
       "name": "Neko Infection",
-      "playerCount": 21,
+      "playerCount": 28,
       "created": "2023-06-22T20:49:30.073Z",
       "updated": "2026-06-18T20:16:39.252Z",
       "ownerName": "Notula Studio",
@@ -741,6 +745,7 @@
         "https://tr.rbxcdn.com/180DAY-0763a9138c50e31a4f3b3a78bbf8e727/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/13831863192",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -770,7 +775,8 @@
             "https://tr.rbxcdn.com/180DAY-34df614201f948590383aac4025818b5/768/432/Image/Png/noFilter",
             "https://tr.rbxcdn.com/180DAY-db67aa604d728d79a0ea9ec5c15686a4/768/432/Image/Png/noFilter"
           ],
-          "gameUrl": "https://www.roblox.com/games/83258383534432"
+          "gameUrl": "https://www.roblox.com/games/83258383534432",
+          "isFailed": false
         },
         {
           "gameLink": "https://www.roblox.com/games/83258383534432/2021-ish-transfur-outbreak",
@@ -790,7 +796,8 @@
             "https://tr.rbxcdn.com/180DAY-34df614201f948590383aac4025818b5/768/432/Image/Png/noFilter",
             "https://tr.rbxcdn.com/180DAY-db67aa604d728d79a0ea9ec5c15686a4/768/432/Image/Png/noFilter"
           ],
-          "gameUrl": "https://www.roblox.com/games/83258383534432"
+          "gameUrl": "https://www.roblox.com/games/83258383534432",
+          "isFailed": false
         }
       ],
       "universeId": 8298533972,
@@ -807,7 +814,8 @@
         "https://tr.rbxcdn.com/180DAY-34df614201f948590383aac4025818b5/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-db67aa604d728d79a0ea9ec5c15686a4/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/83258383534432"
+      "gameUrl": "https://www.roblox.com/games/83258383534432",
+      "isFailed": false
     },
     {
       "gameLink": "https://www.roblox.com/games/5993542958/Project-Transfur",
@@ -818,7 +826,7 @@
       "maintainerNote": "11th month of 2020",
       "universeId": 2162087722,
       "name": "Project Fur",
-      "playerCount": 18,
+      "playerCount": 14,
       "created": "2020-11-23T19:01:54.617Z",
       "updated": "2026-05-11T01:53:20.313Z",
       "ownerName": "Intended Chaos",
@@ -831,6 +839,7 @@
         "https://tr.rbxcdn.com/180DAY-368625f598c9f3f9d5936b36929edc68/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5993542958",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -843,7 +852,7 @@
       "maintainerNote": "11th month of 2020 - The True OG, many owner changes over the years, lost the identity that made it the face of Transfur Genre.",
       "universeId": 2159264015,
       "name": "Transfur Outbreak",
-      "playerCount": 11,
+      "playerCount": 18,
       "created": "2020-11-22T12:34:40.47Z",
       "updated": "2026-07-01T08:30:32.236Z",
       "ownerName": "super secret bunny cult",
@@ -855,6 +864,7 @@
         "https://tr.rbxcdn.com/180DAY-c0f8579e8c882fa746af0729c7d9bce3/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5987922834",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -878,6 +888,7 @@
         "https://tr.rbxcdn.com/180DAY-02e31cfdd2f6a7ad1fdb643ce99a85f4/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/121204547519240",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -889,7 +900,7 @@
       "maintainerNote": "Entry exists because the mechanics are transfur. A tree that forgot its roots still grows in the same forest. 2nd month of 2021",
       "universeId": 2408700413,
       "name": "Kaiju Paradise",
-      "playerCount": 621,
+      "playerCount": 719,
       "created": "2021-02-28T10:30:25.16Z",
       "updated": "2026-07-04T18:40:01.618Z",
       "ownerName": "LAMINAX CO.",
@@ -902,6 +913,7 @@
         "https://tr.rbxcdn.com/180DAY-09d0b925c03043bff5ada0f02c01c800/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6456351776",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -913,7 +925,7 @@
       "maintainerNote": "7th month of 2023",
       "universeId": 4906523382,
       "name": "Unknow furry infection game",
-      "playerCount": 71,
+      "playerCount": 119,
       "created": "2023-07-24T10:46:02.15Z",
       "updated": "2026-07-05T23:03:27.0489317Z",
       "ownerName": "177unneh",
@@ -930,6 +942,7 @@
         "https://tr.rbxcdn.com/180DAY-fd5d3b572cc644253d47a8d86392fac5/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/14176262714",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -941,12 +954,12 @@
       "maintainerNote": "3rd month of 2021",
       "universeId": 2471596693,
       "name": "(winter) twisting ruin",
-      "playerCount": 53,
+      "playerCount": 74,
       "created": "2021-03-27T03:06:23.757Z",
       "updated": "2026-01-07T21:55:10.797Z",
       "ownerName": "sun_thedeadlylazer",
       "ownerUrl": "https://www.roblox.com/users/2302208468/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-287b15a121009c97948d658dd659925f/256/256/Image/Png/noFilter",
+      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-172e7333a11855c09f38fe8a31ee366b/256/256/Image/Png/noFilter",
       "thumbnails": [
         "https://tr.rbxcdn.com/180DAY-502cdc5a19d43d047b844e22374df49a/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-2f19d2711087f2a747b3c4990ac4d901/768/432/Image/Png/noFilter",
@@ -954,6 +967,7 @@
         "https://tr.rbxcdn.com/180DAY-03668a00605454d107f003f647301f71/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6573732104",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -977,6 +991,7 @@
         "https://tr.rbxcdn.com/180DAY-097fb9f22fa3572da139a3e5ef395717/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/15312611408",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -986,23 +1001,15 @@
         "high-quality"
       ],
       "maintainerNote": "7th month of 2024",
-      "universeId": 6290750494,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-54bcc84523c801c40a3569ae920b9dd7/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-db62494b456293a1b4ffca2555b0bd3c/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-dae0ad42793faf13ebdfdb99a25f3e7c/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-634ddca7c85291db93080a3812a5a8b9/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-1fcf9088d5116e4d56b5b85dcfd0e730/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-5aa3685753fe3628d3df41b5d0ba9290/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-15b0a0b7b19cd06cc73ceec215e46cc0/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/18566967136",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1014,7 +1021,7 @@
       "maintainerNote": "2nd month of 2024",
       "universeId": 5690919956,
       "name": "Contagious Revival",
-      "playerCount": 46,
+      "playerCount": 42,
       "created": "2024-02-25T20:47:27.507Z",
       "updated": "2026-07-03T22:33:36.698Z",
       "ownerName": "Mardz38",
@@ -1028,6 +1035,7 @@
         "https://tr.rbxcdn.com/180DAY-b7f169c713c72662b771632525114911/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/16526868524",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1037,20 +1045,15 @@
         "high-quality"
       ],
       "maintainerNote": "8th month of 2025",
-      "universeId": 8589342558,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-3ee085dd1f3c750ed14d8fe4477f6170/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-cd94702577ce145afc6b6edfaf7f2366/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-f484071cfe02796da261ededeb020522/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-f51d10050049e254fbce6ac4dc1a3818/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/106062443102422",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1062,7 +1065,7 @@
       "maintainerNote": "Game Inspired by Kaiju Paradise. Same shit. Different toilet. Includes a signed apology for the plumbing (bottom of desc). 7th month of 2025",
       "universeId": 8196011676,
       "name": "[☀️🎆] Hindsight Test Place",
-      "playerCount": 54,
+      "playerCount": 108,
       "created": "2025-07-19T00:32:42.217Z",
       "updated": "2026-07-03T15:22:12.957Z",
       "ownerName": "BunnyHopStudios",
@@ -1077,6 +1080,7 @@
         "https://tr.rbxcdn.com/180DAY-7c2ed1c01536c7854fcd75b061035273/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/130317993523756",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1099,6 +1103,7 @@
         "https://tr.rbxcdn.com/180DAY-6b167022aa2f0228220eed1c159acbe3/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17649920055",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1113,23 +1118,20 @@
           "gameLink": "https://www.roblox.com/games/77104913262515/Transfur-Escape-Test-Side-game",
           "placeId": "77104913262515",
           "note": "side game",
-          "universeId": 8243150322,
-          "name": "[TITLE UNAVAILABLE]",
-          "playerCount": 0,
-          "created": "0001-01-01T05:51:00Z",
-          "updated": "0001-01-01T05:51:00Z",
-          "ownerName": "[UNKNOWN]",
-          "ownerUrl": "https://www.roblox.com/users/0/profile",
-          "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-67e441e19f54a3a31b2d53c8513ea0ef/256/256/Image/Png/noFilter",
-          "thumbnails": [
-            "https://tr.rbxcdn.com/180DAY-7afb337f93bbb9b49d3d69d83d44bea7/768/432/Image/Png/noFilter"
-          ],
-          "gameUrl": "https://www.roblox.com/games/77104913262515"
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/77104913262515",
+          "isFailed": true
         }
       ],
       "universeId": 6419872918,
       "name": "Transfur Escape [WIP]",
-      "playerCount": 12,
+      "playerCount": 11,
       "created": "2024-08-15T07:18:35.277Z",
       "updated": "2026-06-29T22:26:28.538Z",
       "ownerName": "unnamedpeopl",
@@ -1142,7 +1144,8 @@
         "https://tr.rbxcdn.com/180DAY-8846af555d09aafea3bf4a37f408f19f/768/432/Image/Png/noFilter",
         "https://tr.rbxcdn.com/180DAY-de944f8c886d340cb8fe3159f6b37f93/768/432/Image/Png/noFilter"
       ],
-      "gameUrl": "https://www.roblox.com/games/18955534702"
+      "gameUrl": "https://www.roblox.com/games/18955534702",
+      "isFailed": false
     },
     {
       "gameLink": "https://www.roblox.com/games/5989426850/LIMITED-Candy-Cane-Transfur-Infection-2",
@@ -1164,6 +1167,7 @@
         "https://tr.rbxcdn.com/180DAY-c6ab864590a3c6aa12450e4ccd28ffbe/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5989426850",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1173,19 +1177,15 @@
         "moderate-quality"
       ],
       "maintainerNote": "5th month of 2025",
-      "universeId": 7647158915,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-b93100f41e02811a4ba0b1c641810da2/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-f4c504cf7ea7753ec4d6210fbba2d1a2/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-70200a839b8281299d8bad89cafc0698/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/81671487601414",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1197,7 +1197,7 @@
       "maintainerNote": "9th month of 2025",
       "universeId": 8657031962,
       "name": "Transfur: Breach",
-      "playerCount": 0,
+      "playerCount": 2,
       "created": "2025-09-07T09:17:05.657Z",
       "updated": "2026-07-02T11:00:53.86Z",
       "ownerName": "wly studios",
@@ -1208,6 +1208,7 @@
         "https://tr.rbxcdn.com/180DAY-263e5fe1972e3a815e6573c5ff3032ee/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/126476488388914",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1231,6 +1232,7 @@
         "https://tr.rbxcdn.com/180DAY-2c55817d6589507968716d1c821cf286/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/10532261198",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1257,6 +1259,7 @@
         "https://tr.rbxcdn.com/180DAY-85e317e363b6c62a4a8172fee0a5552d/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/18877052599",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1280,6 +1283,7 @@
         "https://tr.rbxcdn.com/180DAY-2733b25744039b6170360daa9b0829c4/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17300916368",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1290,18 +1294,15 @@
         "high-quality"
       ],
       "maintainerNote": "11th month of 2020 - Latte Transfur",
-      "universeId": 2166673760,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-1ff2b761156af06b4de9039047f686f2/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-6e118eb59674120b3620ae649444a502/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/6002476208",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1317,32 +1318,26 @@
           "gameLink": "https://www.roblox.com/games/6007088245/Infection",
           "placeId": "6007088245",
           "note": "same game but older version",
-          "universeId": 2169174750,
-          "name": "[TITLE UNAVAILABLE]",
-          "playerCount": 0,
-          "created": "0001-01-01T05:51:00Z",
-          "updated": "0001-01-01T05:51:00Z",
-          "ownerName": "[UNKNOWN]",
-          "ownerUrl": "https://www.roblox.com/users/0/profile",
-          "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-6b0a0f92f70c7748c90fb3d90dc56234/256/256/GameIcon7/Png/noFilter",
-          "thumbnails": [
-            "https://tr.rbxcdn.com/180DAY-05140fe0e621794036aac714cff9b425/768/432/GameMediaItem2/Png/noFilter"
-          ],
-          "gameUrl": "https://www.roblox.com/games/6007088245"
+          "name": "Failed to load",
+          "playerCount": "?",
+          "created": "?",
+          "updated": "?",
+          "ownerName": "?",
+          "thumbnailUrl": "",
+          "thumbnails": [],
+          "gameUrl": "https://www.roblox.com/games/6007088245",
+          "isFailed": true
         }
       ],
-      "universeId": 2170019808,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-51f0860063b7ee0313cfaf8db7200096/256/256/GameIcon1/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-2db260113ece7786e9046c8153e73cd2/768/432/GameMediaItem10/Png/noFilter"
-      ],
-      "gameUrl": "https://www.roblox.com/games/6008740665"
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
+      "gameUrl": "https://www.roblox.com/games/6008740665",
+      "isFailed": true
     },
     {
       "gameLink": "https://www.roblox.com/games/107980730910540/Transfur-Outbreak-Burned-Memories",
@@ -1363,6 +1358,7 @@
         "https://tr.rbxcdn.com/180DAY-057a1cf3300baf6dbcfd034d732f38a6/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/107980730910540",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1384,6 +1380,7 @@
         "https://tr.rbxcdn.com/180DAY-1162bb3b1a3c1ebb20f494331be1ec89/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5958351575",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1393,19 +1390,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "11th month of 2020",
-      "universeId": 2160370035,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-fb61f2b06f23dfdf26af5c7f1cc92433/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-eeb10c66852a2c046d7bfcc2cf7501c0/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-8f4cc1891b405d55305e1de1c4713bec/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/5990048380",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1415,18 +1408,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "5th month of 2021",
-      "universeId": 2580750030,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-84352c23144a1ae1c767af0b1f538f26/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-b8ab0dace06e2093c3f4b2503f62451d/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/6798251421",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1436,19 +1426,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "6th month of 2022",
-      "universeId": 3656321330,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-98fb5abb0fd74b74289e72c85db3cdd3/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-4e9f14d69f4fd98e65b79d833625a000/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-c4798932e391912775e3ce6e75630bd6/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/9903531648",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1458,25 +1444,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "12th month of 2023",
-      "universeId": 5434200278,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-cd3f38ac6498fdf1123adf4440f90975/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-b08b6c88348791c1b995ace5e616abd5/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-f65de1d3703f4744dc505bc1d81b97ce/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-2b9b2bfe7aeaa78a287a9bb7b5125cb6/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-61fa2d1710eee47c570028af427b6626/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-ec3989b2372de0fc635c62be184da2bc/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-1fc448b521656f0b3fc7cea4ed1e3b71/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-b718309f12e18f88f73d5a0d66c1542c/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-47801a6f1d4834408d9cb7b1e491861b/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/15728405852",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1503,6 +1479,7 @@
         "https://tr.rbxcdn.com/180DAY-3d16d560ec58d8819f3dd0f55832af05/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/139500066197829",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1525,6 +1502,7 @@
         "https://tr.rbxcdn.com/180DAY-c3042353129374f360df52c139aba014/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/72407903748016",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1553,6 +1531,7 @@
         "https://tr.rbxcdn.com/180DAY-085d34dc457e56eb21a56d5c956a888c/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/15178727828",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1580,6 +1559,7 @@
         "https://tr.rbxcdn.com/180DAY-3459b0cf961f38c96755c2f1959aa757/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/97545343806660",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1602,6 +1582,7 @@
         "https://tr.rbxcdn.com/180DAY-2d6a83c1131db3273702a87fa39ef3bf/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/13431915633",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1623,6 +1604,7 @@
         "https://tr.rbxcdn.com/180DAY-2288c3b9d5e928a2c44b5db7f975b43f/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/128903563180469",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1632,22 +1614,15 @@
         "moderate-quality"
       ],
       "maintainerNote": "9th month of 2025 - Another fresh take on the Transfur Genre.",
-      "universeId": 8779905508,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-7d813f58b149b04d33b673431019633d/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-40db22acdd3b1e07648fa1065c512ad9/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-40db22acdd3b1e07648fa1065c512ad9/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-40db22acdd3b1e07648fa1065c512ad9/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-40db22acdd3b1e07648fa1065c512ad9/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-40db22acdd3b1e07648fa1065c512ad9/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/96717852874249",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1657,18 +1632,15 @@
         "moderate-quality"
       ],
       "maintainerNote": "7th month of 2025 - Hangs between moderate and low quality, huge city map free roam open world exploration game.",
-      "universeId": 8062557591,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-8c353be34538e596bc21c155a27da5bf/256/256/GameIcon4/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-55f7c1800eb47e67be1801122945bfb3/768/432/GameMediaItem3/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/84952056636158",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1678,18 +1650,15 @@
         "high-quality"
       ],
       "maintainerNote": "12th month of 2025",
-      "universeId": 9316907891,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-66249e3e8b80351fcfa2a215054290fc/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-34357bdf76f29bc7791cc5853cd0ff83/768/432/GameMediaItem8/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/107212130407183",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1699,19 +1668,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "unknown",
-      "universeId": 2126501501,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-84f109cb73c32fa4fd9f0d7c617fa002/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-13c57f5eee68ab5c62be929758c7ddcc/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-3b56d76ce2dfa6b7547ca11818d8a49b/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/5926221710",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1733,6 +1698,7 @@
         "https://tr.rbxcdn.com/180DAY-92479587dadf543db2cf957b240270a2/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5968440444",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1754,6 +1720,7 @@
         "https://tr.rbxcdn.com/180DAY-31c4988011737d846eb1e89341153898/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/4707970283",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1778,6 +1745,7 @@
         "https://tr.rbxcdn.com/180DAY-bd47ff1f773c809dbdfa2fbc666c0e46/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/93649455143022",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1799,6 +1767,7 @@
         "https://tr.rbxcdn.com/180DAY-55ff9925c410a4b48756c4a4dd99f348/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6759937858",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1822,6 +1791,7 @@
         "https://tr.rbxcdn.com/180DAY-7236dbc94852b9604a7e3dc07871571a/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6703391032",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1831,18 +1801,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "unknown game but must be from transfur genre (blindly took first search for 'latex chaos')",
-      "universeId": 9798824167,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-6f04369060213cc72bbec0d8dd5a47a4/256/256/GameIcon8/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-87249609dae614261c1058785f217b72/768/432/UnapprovedImage/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/86715567642201",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1852,18 +1819,15 @@
         "unknown-quality"
       ],
       "maintainerNote": "unknown game but must be from transfur genre (blindly took first search for 'the laboratory revamp')",
-      "universeId": 8258807924,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/users/0/profile",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-b7320474b7db979e5754a1b55a381d6f/256/256/GameIcon9/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-ae088ebacf2ae4de364c56acaf635bb8/768/432/GameMediaItem6/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/105044390173889",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1888,6 +1852,7 @@
         "https://tr.rbxcdn.com/180DAY-c8f6cb7b513409a815040e27b6375217/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/5945584065",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1901,7 +1866,7 @@
       "name": "(Alpha) Transfur Danger II",
       "playerCount": 0,
       "created": "2026-03-30T13:12:17.434Z",
-      "updated": "2026-07-04T22:59:07.6228305Z",
+      "updated": "2026-07-04T22:59:07.622Z",
       "ownerName": "Just bruh it!",
       "ownerUrl": "https://www.roblox.com/groups/32699364",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-2fc182b955dac12b19b852e46a5ca3cf/256/256/Image/Png/noFilter",
@@ -1910,6 +1875,7 @@
         "https://tr.rbxcdn.com/180DAY-e43bbb09dd47347e2005cb981b15e452/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/76153462951298",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1919,19 +1885,15 @@
         "high-quality"
       ],
       "maintainerNote": "12th month of 2025 (plays like Transfur Outbreak, same visuals, same scripts, idk man what to tell you)",
-      "universeId": 9323981271,
-      "name": "[TITLE UNAVAILABLE]",
-      "playerCount": 0,
-      "created": "0001-01-01T05:51:00Z",
-      "updated": "0001-01-01T05:51:00Z",
-      "ownerName": "[UNKNOWN]",
-      "ownerUrl": "https://www.roblox.com/groups/0",
-      "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-43fabefaf76a43a6b7d0b6ca2b680ffe/256/256/Image/Png/noFilter",
-      "thumbnails": [
-        "https://tr.rbxcdn.com/180DAY-a3d37ce836922f9b831e1bd3646713c8/768/432/Image/Png/noFilter",
-        "https://tr.rbxcdn.com/180DAY-b850f274877aee6061cd4476866fee97/768/432/Image/Png/noFilter"
-      ],
+      "name": "Failed to load",
+      "playerCount": "?",
+      "created": "?",
+      "updated": "?",
+      "ownerName": "?",
+      "thumbnailUrl": "",
+      "thumbnails": [],
       "gameUrl": "https://www.roblox.com/games/93264580855999",
+      "isFailed": true,
       "subgames": []
     },
     {
@@ -1956,6 +1918,7 @@
         "https://tr.rbxcdn.com/180DAY-a01e4f412a8eff11f7926a746754dc34/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/108126315081529",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1967,7 +1930,7 @@
       "maintainerNote": "2nd month of 2025 - quite entertaining, no rp, no gimmicks, pure fighting",
       "universeId": 9661848109,
       "name": "Furfection",
-      "playerCount": 9,
+      "playerCount": 7,
       "created": "2026-02-01T19:21:20.28Z",
       "updated": "2026-04-16T14:56:03.643Z",
       "ownerName": "FURFECTED",
@@ -1977,6 +1940,7 @@
         "https://tr.rbxcdn.com/180DAY-ea33782d140e884d89012be3b3096efa/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/70477948929979",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -1988,7 +1952,7 @@
       "maintainerNote": "12th month of 2025",
       "universeId": 9464360885,
       "name": "[☀SUMMER WEEK 3☀] Fur Infection OutBreak",
-      "playerCount": 1682,
+      "playerCount": 1860,
       "created": "2025-12-30T02:29:35.923Z",
       "updated": "2026-07-02T10:54:12.362Z",
       "ownerName": "HopeStar Studio",
@@ -2003,6 +1967,7 @@
         "https://tr.rbxcdn.com/180DAY-487e13444bc91a5bd6c7d743a5d8a6b0/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/120550559221143",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2014,10 +1979,10 @@
       "maintainerNote": "1st month of 2025 - 'Successor' to Transfur Otherworld (also called Otherworld Labs).",
       "universeId": 7023939484,
       "name": "[Classic] Otherworld Furry Infection",
-      "playerCount": 26,
+      "playerCount": 28,
       "created": "2025-01-02T18:34:10.457Z",
       "updated": "2026-07-04T22:00:17.949Z",
-      "ownerName": "Terraturgy Foundation",
+      "ownerName": "PROJECT TERRATURGY",
       "ownerUrl": "https://www.roblox.com/groups/35430940",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-b64caa5bd00ad19da095200a1bb6f2bd/256/256/Image/Png/noFilter",
       "thumbnails": [
@@ -2025,6 +1990,7 @@
         "https://tr.rbxcdn.com/180DAY-fa18c1517e6997b051b4d8ff5e62214b/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/131520083189251",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2048,6 +2014,7 @@
         "https://tr.rbxcdn.com/180DAY-3e6e43dc55d436935bc5cfce023d3fb3/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/138855555399822",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2069,6 +2036,7 @@
         "https://tr.rbxcdn.com/180DAY-e0736769672017234e02eb8938cb684d/768/432/GameMediaItem12/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/16799102339",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2080,7 +2048,7 @@
       "maintainerNote": "9th month of 2025",
       "universeId": 8772374675,
       "name": "[Titles] Another Infection Game",
-      "playerCount": 1660,
+      "playerCount": 2055,
       "created": "2025-09-21T18:36:52.297Z",
       "updated": "2026-07-01T15:07:57.559Z",
       "ownerName": "NX-T",
@@ -2095,6 +2063,7 @@
         "https://tr.rbxcdn.com/180DAY-3011a3fdbce57778ea9e8f89454f100f/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/134922313437159",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2120,6 +2089,7 @@
         "https://tr.rbxcdn.com/180DAY-6e602018bd380fc813e6e76c7b43445b/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/81057919149454",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2146,6 +2116,7 @@
         "https://tr.rbxcdn.com/180DAY-ada9203599db19c751eedc397ade1e2e/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/102555902636806",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2167,6 +2138,7 @@
         "https://tr.rbxcdn.com/180DAY-ff5caebe4f50e6fc95893a202e010efb/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/7274225666",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2178,9 +2150,9 @@
       "maintainerNote": "9th month of 2025",
       "universeId": 8647439658,
       "name": "Furry Infection Outbreak",
-      "playerCount": 1157,
+      "playerCount": 1312,
       "created": "2025-09-06T11:55:35.897Z",
-      "updated": "2026-07-06T10:26:51.8873393Z",
+      "updated": "2026-07-06T13:03:59.669451Z",
       "ownerName": "Mralestroblox",
       "ownerUrl": "https://www.roblox.com/users/4031351541/profile",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-7cc50efa4113eb3ddedc4453c0757bdf/256/256/Image/Png/noFilter",
@@ -2192,6 +2164,7 @@
         "https://tr.rbxcdn.com/180DAY-1832e7458d890d9044d8787d7051337a/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/129890238624289",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2213,6 +2186,7 @@
         "https://tr.rbxcdn.com/180DAY-db25a9bb1b0f963df5553a42e5826280/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6037435012",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2234,6 +2208,7 @@
         "https://tr.rbxcdn.com/180DAY-45f546e6fbfd52e69bd58ffe6a41b803/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17036115784",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2256,6 +2231,7 @@
         "https://tr.rbxcdn.com/180DAY-775a47e6059bfbbedc9216172bfbc53d/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/17841879383",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2267,7 +2243,7 @@
       "maintainerNote": "11th month of 2025 - older version of 'Facility of Redemption'",
       "universeId": 9192528202,
       "name": "Facility of Redemption [V3+]",
-      "playerCount": 227,
+      "playerCount": 257,
       "created": "2025-11-17T23:42:17.11Z",
       "updated": "2026-07-02T12:11:03.313Z",
       "ownerName": "2nd time's the Charm!",
@@ -2283,6 +2259,7 @@
         "https://tr.rbxcdn.com/180DAY-dbeabc65bba4022806025813a48b20fd/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/79268222731089",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2294,9 +2271,9 @@
       "maintainerNote": "10th month of 2023(supposedly, because i aint ever seen this game untill 22.05.2026) - Nice scripts and moderate build quality, plays similarly to the classic transfur games",
       "universeId": 5243951540,
       "name": "Transfur infection [BETA]",
-      "playerCount": 42,
+      "playerCount": 55,
       "created": "2023-10-29T19:50:06.957Z",
-      "updated": "2026-07-06T07:59:49.7156799Z",
+      "updated": "2026-07-06T12:52:02.8985834Z",
       "ownerName": "Bloxymix Studios",
       "ownerUrl": "https://www.roblox.com/groups/33236929",
       "thumbnailUrl": "https://tr.rbxcdn.com/180DAY-5b2373aa05563dfa4a3ddc69119e454f/256/256/Image/Png/noFilter",
@@ -2304,6 +2281,7 @@
         "https://tr.rbxcdn.com/180DAY-a9cd1b8ea42ce1640212026403d860c2/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/15210839174",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2325,6 +2303,7 @@
         "https://tr.rbxcdn.com/180DAY-90e2085f5feca21c6a49fe0cc2530803/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/6390414757",
+      "isFailed": false,
       "subgames": []
     },
     {
@@ -2346,6 +2325,7 @@
         "https://tr.rbxcdn.com/180DAY-cb33dad249d5bad6e80b65df268a647d/768/432/Image/Png/noFilter"
       ],
       "gameUrl": "https://www.roblox.com/games/11220964949",
+      "isFailed": false,
       "subgames": []
     }
   ]
