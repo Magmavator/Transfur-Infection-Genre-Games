@@ -796,8 +796,8 @@ function getRelativeTime(dateString) {
         }
         
         // Separate failed games
-        const failedGames = games.filter(g => g.name === 'Failed to load');
-        const successfulGames = games.filter(g => g.name !== 'Failed to load');
+        const failedGames = games.filter(g => g.isFailed || g.failed || g.name === 'Failed to load');
+        const successfulGames = games.filter(g => !(g.isFailed || g.failed || g.name === 'Failed to load'));
         
         // Sort successful games based on currentSort
         let sortedSuccessful = [...successfulGames];
@@ -995,7 +995,7 @@ function getRelativeTime(dateString) {
         
         let html = '';
         games.forEach((game, index) => {
-            const isFailed = game.name === 'Failed to load';
+            const isFailed = game.isFailed || game.failed || game.name === 'Failed to load';
             
 // Format dates with relative time and full timestamp
 const createdRelative = getRelativeTime(game.created);
