@@ -77,6 +77,30 @@ body {
     color: #ffffff;
 }
 
+        /* Rainbow animation for about link */
+.topbar .nav a[href="about.html"] {
+    background: linear-gradient(
+        90deg,
+        #ff0000, #ff7700, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow-shine 3s linear infinite;
+    font-weight: 700;
+}
+
+@keyframes rainbow-shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+/* Optional: glow effect on hover */
+.topbar .nav a[href="about.html"]:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
 .filter-bar {
     background: #1a1a1a;
     border-radius: 8px;
