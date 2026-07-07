@@ -93,7 +93,7 @@
     {
       "gameLink": "https://www.roblox.com/games/9716268675/The-Infection-Remastered",
       "placeId": "9716268675",
-      "tags": ["high-quality"],
+      "tags": ["high-quality", "Maintainer's Pick"],
       "maintainerNote": "5th month of 2022 - Plays like an OG Transfur genre game"
     },
     {
@@ -172,7 +172,7 @@
     {
       "gameLink": "https://www.roblox.com/games/112455523658545/goo-animal-simulator-remake",
       "placeId": "112455523658545",
-      "tags": ["OG", "high-quality"],
+      "tags": ["OG-Like", "high-quality"],
       "maintainerNote": "9th month of 2025 - fan remake/reupload"
     },
     {
@@ -196,7 +196,7 @@
     {
       "gameLink": "https://www.roblox.com/games/83258383534432/transfur-outbreak-revisited",
       "placeId": "83258383534432",
-      "tags": ["OG", "high-quality"],
+      "tags": ["OG-Like", "high-quality"],
       "maintainerNote": "7th month of 2025 - Definitive recreation of Transfur Outbreak in its truthful peak. (with a bit 'more than in original' sprinkled in)",
       "subgames": [
         {
@@ -230,21 +230,15 @@
       "maintainerNote": "12th month of 2024"
     },
     {
-      "gameLink": "https://www.roblox.com/games/6456351776/Kaiju-Paradise",
-      "placeId": "6456351776",
-      "tags": ["OG"],
-      "maintainerNote": "Entry exists because the mechanics are transfur. A tree that forgot its roots still grows in the same forest. 2nd month of 2021"
-    },
-    {
       "gameLink": "https://www.roblox.com/games/14176262714/Unknow-furry-infection-game",
       "placeId": "14176262714",
-      "tags": ["high-quality"],
+      "tags": ["high-quality", "Maintainer's Pick"],
       "maintainerNote": "7th month of 2023"
     },
     {
       "gameLink": "https://www.roblox.com/games/6573732104/combat-overhaul-twisting-ruin",
       "placeId": "6573732104",
-      "tags": ["high-quality"],
+      "tags": ["high-quality", "Maintainer's Pick"],
       "maintainerNote": "3rd month of 2021"
     },
     {
@@ -272,12 +266,6 @@
       "maintainerNote": "8th month of 2025"
     },
     {
-      "gameLink": "https://www.roblox.com/games/130317993523756/HALLOWS-Hindsight-Test-Place",
-      "placeId": "130317993523756",
-      "tags": ["supreme-quality"],
-      "maintainerNote": "Game Inspired by Kaiju Paradise. Same shit. Different toilet. Includes a signed apology for the plumbing (bottom of desc). 7th month of 2025"
-    },
-    {
       "gameLink": "https://www.roblox.com/games/17649920055/Sub-Infection",
       "placeId": "17649920055",
       "tags": ["high-quality"],
@@ -286,7 +274,7 @@
     {
       "gameLink": "https://www.roblox.com/games/18955534702/Transfur-Escape",
       "placeId": "18955534702",
-      "tags": ["high-quality"],
+      "tags": ["high-quality", "Maintainer's Pick"],
       "maintainerNote": "8th month of 2024 - fresh take on the Transfur Genre",
       "subgames": [
         {
@@ -329,7 +317,7 @@
     {
       "gameLink": "https://www.roblox.com/games/17300916368/Transfur-Outbreak-Map-2",
       "placeId": "17300916368",
-      "tags": ["OG", "high-quality"],
+      "tags": ["OG-Like", "high-quality"],
       "maintainerNote": "4th month of 2024 - a 1:1 recreation of Transfur Outbreak Chapter 2 Map, looks and feels exactly how the chapter did back in 2021. This 'version' is in some degree 'upgraded' with details that the original did not contain."
     },
     {
@@ -516,7 +504,7 @@
     {
       "gameLink": "https://www.roblox.com/games/70477948929979/Furfection",
       "placeId": "70477948929979",
-      "tags": ["moderate-quality"],
+      "tags": ["moderate-quality", "Maintainer's Pick"],
       "maintainerNote": "2nd month of 2025 - quite entertaining, no rp, no gimmicks, pure fighting"
     },
     {
@@ -660,13 +648,13 @@
     {
       "gameLink": "https://www.roblox.com/games/86049422003348/Transfurmation-Rewritten",
       "placeId": "86049422003348",
-      "tags": ["high-quality", "OG"],
+      "tags": ["high-quality", "OG-Like"],
       "maintainerNote": "Released 10/2024 | Reviewed 07/2026"
     },
     {
       "gameLink": "https://www.roblox.com/games/82926214987082/Transfurmation-Revisited",
       "placeId": "82926214987082",
-      "tags": ["high-quality", "OG"],
+      "tags": ["high-quality", "OG-Like"],
       "maintainerNote": "Released 10/2024 | Reviewed 07/2026 - Sometimes it still feels like yesterday."
     },
     {
@@ -678,7 +666,7 @@
     {
       "gameLink": "https://www.roblox.com/games/9912677619/goo-animal-simulator-2-0",
       "placeId": "9912677619",
-      "tags": ["high-quality", "OG"],
+      "tags": ["high-quality", "OG-Like"],
       "maintainerNote": "Released 06/2022 | Reviewed 07/2026 - another version of goo animal simulator (GAS)"
     },
     {
