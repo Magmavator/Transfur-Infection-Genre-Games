@@ -1043,10 +1043,17 @@ const updatedAbsolute = game.updated ? new Date(game.updated).toUTCString() : '?
             let tagsHtml = '';
             if (game.tags && game.tags.length > 0) {
                 tagsHtml = '<div class="game-tags">';
-                game.tags.forEach(tag => {
-                    const tagClass = tag === 'OG' ? 'tag og' : 'tag';
-                    tagsHtml += `<span class="${tagClass}">${tag}</span>`;
-                });
+               game.tags.forEach(tag => {
+    let tagClass = 'tag';
+    if (tag === 'OG') {
+        tagClass += ' og';
+    } else if (tag === 'OG-Like') {
+        tagClass += ' og-like';
+    } else if (tag === "maintainer's pick") {
+        tagClass += ' maintainer-pick';
+    }
+    tagsHtml += `<span class="${tagClass}">${tag}</span>`;
+});
                 if (isFailed) {
                     tagsHtml += `<span class="tag failed">failed to fetch</span>`;
                 }
