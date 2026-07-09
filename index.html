@@ -729,9 +729,9 @@
     gap: 12px;
     font-size: 14px;
     color: #e0e0e0;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 30px rgba(255, 200, 0, 0.25), 0 0 60px rgba(255, 180, 0, 0.08);
     z-index: 9999;
-    animation: slideIn 1s ease-out, yellowOrangeGlow 3s ease-in-out infinite;
+    animation: slideIn 1s ease-out;
     position: fixed;
 }
 
@@ -810,7 +810,7 @@
 .floating-note.hidden {
     opacity: 0;
     transform: translateX(120%);
-    transition: all 0.3s ease;
+    transition: all 3s ease;
     pointer-events: none;
     animation: none;
 }
