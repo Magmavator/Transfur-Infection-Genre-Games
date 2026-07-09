@@ -714,6 +714,110 @@
         .stat-value a:hover {
             -webkit-text-fill-color: #ffffff;
         }
+/* ===== FLOATING NOTIFICATION (Corner Popup with Yellow-Orange Glow) ===== */
+.floating-note {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    max-width: 380px;
+    background: #1a1a1a;
+    border: 2px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: #e0e0e0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    z-index: 9999;
+    animation: slideIn 1s ease-out, yellowOrangeGlow 3s ease-in-out infinite;
+    position: fixed;
+}
+
+/* Yellow-Orange border-left strip */
+.floating-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 8px 0 0 8px;
+    background: linear-gradient(
+        180deg,
+        #ffdd00, #ffcc00, #ffbb00, #ffaa00, #ff9900, #ff8800, #ff7700
+    );
+    background-size: 100% 300%;
+    animation: yellowOrangeStrip 3s linear infinite;
+}
+
+/* Yellow-Orange glow pulsing */
+@keyframes yellowOrangeGlow {
+    0%, 100% { 
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 40px rgba(255, 220, 0, 0.4), 0 0 80px rgba(255, 200, 0, 0.15); 
+    }
+    50% { 
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 60px rgba(255, 200, 0, 0.6), 0 0 100px rgba(255, 180, 0, 0.25); 
+    }
+}
+
+/* Yellow-Orange text glow */
+.floating-note .note-content {
+    flex: 1;
+    line-height: 1.5;
+    text-shadow: 0 0 20px rgba(255, 200, 0, 0.1);
+}
+
+.floating-note .note-content strong {
+    color: #ffdd00;
+    text-shadow: 0 0 30px rgba(255, 200, 0, 0.3);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes yellowOrangeStrip {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 0% 300%; }
+}
+
+.floating-note .note-close {
+    background: none;
+    border: none;
+    color: #8a8a8a;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    margin-top: -2px;
+}
+
+.floating-note .note-close:hover {
+    color: #ffdd00;
+}
+
+.floating-note.hidden {
+    opacity: 0;
+    transform: translateX(120%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    animation: none;
+}
+
+.floating-note.hidden::before {
+    animation: none;
+}
     </style>
 </head>
 <body>
@@ -729,7 +833,6 @@
     <div class="refresh-note" style="background: #1a1a1a; border-left: 4px solid #ffffff; padding: 8px 16px; margin-bottom: 16px; border-radius: 4px; font-size: 12px; color: #b0b0b0;">
     ⚡ data updates every 6 hours. If you don't see new games, try <strong>Ctrl + Shift + R</strong> to force a full refresh.
 </div>
-
     <div class="filter-bar">
         <span class="filter-label">filter by tag:</span>
         <div class="tag-filters" id="tag-filters"></div>
@@ -756,6 +859,13 @@
 </div>
 
 <script>
+// ===== DISMISS FLOATING NOTIFICATION =====
+function dismissNote() {
+    const note = document.getElementById('floatingNote');
+    if (note) {
+        note.classList.add('hidden');
+    }
+}
    // ==================== RELATIVE TIME HELPER (SIMPLE & RELIABLE) ====================
 function getRelativeTime(dateString) {
     if (!dateString || dateString === '?') return '?';
@@ -1361,5 +1471,12 @@ setTimeout(() => {
     // Start
     loadGames();
 </script>
+<!-- ===== FLOATING NOTIFICATION ===== -->
+<div class="floating-note" id="floatingNote">
+    <div class="note-content">
+        📢 If you don't see "Released" and "Reviewed" in game note, the date in the note is when the game came out. The review date isn't listed.
+    </div>
+    <button class="note-close" onclick="dismissNote()">✕</button>
+</div>
 </body>
 </html>
