@@ -680,6 +680,30 @@
       "placeId": "11510951949",
       "tags": ["moderate-quality"],
       "maintainerNote": "Released 11/2022 | Reviewed 07/2026"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/102870527030018/Terminate-Bloodfur-ALPHA",
+      "placeId": "102870527030018",
+      "tags": ["unknown-quality"],
+      "maintainerNote": "probably a transfur game, cant check because im unverified"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/129379844140833/goo-animal-city",
+      "placeId": "129379844140833",
+      "tags": ["unknown-quality"],
+      "maintainerNote": "probably a transfur game, cant check because im unverified"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/15210839174/Transfur-infection",
+      "placeId": "15210839174",
+      "tags": ["unknown-quality"],
+      "maintainerNote": "probably a transfur game, cant check because im unverified"
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/7341390084/Furhazard-Facility",
+      "placeId": "7341390084",
+      "tags": ["unknown-quality"],
+      "maintainerNote": "probably a transfur game, cant check because im unverified"
     }
   ]
 }
