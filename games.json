@@ -487,7 +487,7 @@
       "gameLink": "https://www.roblox.com/games/76153462951298/Transfur-Danger-II",
       "placeId": "76153462951298",
       "tags": ["low-quality"],
-      "maintainerNote": "3rd month of 2026 - Beware, this game upon joining insta-opens a gamepass prompt (and keeps doing it constantly during gameplay), dont get scammed."
+      "maintainerNote": "Released 03/2026 | Reviewed 07/2026"
     },
             {
       "gameLink": "https://www.roblox.com/games/93264580855999/Afterlight-Transfur-Facility",
@@ -684,20 +684,14 @@
     {
       "gameLink": "https://www.roblox.com/games/102870527030018/Terminate-Bloodfur-ALPHA",
       "placeId": "102870527030018",
-      "tags": ["unknown-quality"],
-      "maintainerNote": "probably a transfur game, cant check because im unverified"
+      "tags": ["low-quality"],
+      "maintainerNote": "Released 2/2026 | Reviewed 07/2026 - Not exactly 'playable'"
     },
     {
       "gameLink": "https://www.roblox.com/games/129379844140833/goo-animal-city",
       "placeId": "129379844140833",
-      "tags": ["unknown-quality"],
-      "maintainerNote": "probably a transfur game, cant check because im unverified"
-    },
-    {
-      "gameLink": "https://www.roblox.com/games/7341390084/Furhazard-Facility",
-      "placeId": "7341390084",
-      "tags": ["unknown-quality"],
-      "maintainerNote": "probably a transfur game, didnt check yet"
+      "tags": ["high-quality"],
+      "maintainerNote": "Released 5/2025 | Reviewed 07/2026 - a bit messy, and laggy (GTX 1070 + i7 7700HQ ~30 fps on max grap.)."
     }
   ]
 }
