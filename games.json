@@ -93,7 +93,7 @@
     {
       "gameLink": "https://www.roblox.com/games/9716268675/The-Infection-Remastered",
       "placeId": "9716268675",
-      "tags": ["high-quality", "Maintainer's pick"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "5th month of 2022 - Plays like an OG Transfur genre game"
     },
     {
@@ -232,13 +232,13 @@
     {
       "gameLink": "https://www.roblox.com/games/14176262714/Unknow-furry-infection-game",
       "placeId": "14176262714",
-      "tags": ["high-quality", "Maintainer's pick"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "7th month of 2023"
     },
     {
       "gameLink": "https://www.roblox.com/games/6573732104/combat-overhaul-twisting-ruin",
       "placeId": "6573732104",
-      "tags": ["high-quality", "Maintainer's pick"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "3rd month of 2021"
     },
     {
@@ -274,8 +274,8 @@
     {
       "gameLink": "https://www.roblox.com/games/18955534702/Transfur-Escape",
       "placeId": "18955534702",
-      "tags": ["high-quality", "Maintainer's pick"],
-      "maintainerNote": "8th month of 2024 - fresh take on the Transfur Genre",
+      "tags": ["Maintainer's pick", "high-quality"],
+      "maintainerNote": "8th month of 2024 - fresh take on the Transfur Genre, style (and thus feeling of the game) is interesting and carefully crafted, has enough content to be playable but lacks additional to be enjoyed in the long run",
       "subgames": [
         {
           "gameLink": "https://www.roblox.com/games/77104913262515/Transfur-Escape-Test-Side-game",
@@ -504,7 +504,7 @@
     {
       "gameLink": "https://www.roblox.com/games/70477948929979/Furfection",
       "placeId": "70477948929979",
-      "tags": ["moderate-quality", "Maintainer's pick"],
+      "tags": ["Maintainer's pick", "moderate-quality"],
       "maintainerNote": "2nd month of 2025 - quite entertaining, no rp, no gimmicks, pure fighting"
     },
     {
@@ -588,7 +588,7 @@
     {
       "gameLink": "https://www.roblox.com/games/15210839174/Transfur-Infection",
       "placeId": "15210839174",
-      "tags": ["high-quality"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "10th month of 2023(supposedly, because i aint ever seen this game untill 22.05.2026) - Nice scripts and moderate build quality, plays similarly to the classic transfur games"
     },
     {
@@ -636,7 +636,7 @@
     {
       "gameLink": "https://www.roblox.com/games/109112402807015/C-U-T-E-v-1-9",
       "placeId": "109112402807015",
-      "tags": ["high-quality", "Maintainer's pick"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "Released 07/2025 | Reviewed 07/2026 - an arcade take on the transfur genre. Above average quality with surprisingly novel mechanics that set it apart from typical infection games."
     },
     {
@@ -690,7 +690,7 @@
     {
       "gameLink": "https://www.roblox.com/games/129379844140833/goo-animal-city",
       "placeId": "129379844140833",
-      "tags": ["high-quality"],
+      "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "Released 5/2025 | Reviewed 07/2026 - a bit messy, and laggy (GTX 1070 + i7 7700HQ ~30 fps on max grap.)."
     }
   ]
