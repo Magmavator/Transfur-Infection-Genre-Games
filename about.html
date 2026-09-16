@@ -13,29 +13,41 @@
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
 
+        :root {
+            --bg-page: #232323;
+            --bg-card: #2a2a2a;
+            --bg-inset: #1a1a1a;
+            --bg-inset-soft: #202020;
+            --border: #3a3a3a;
+            --border-soft: #333;
+            --accent: #ffffff;
+            --text: #dcdcdc;
+            --text-dim: #a0a0a0;
+            --text-faint: #7a7a7a;
+        }
+
         body {
             background-image: url('https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/SeamlessConcrete.jpg?raw=true');
             background-repeat: repeat;
             background-position: top left;
-            background-attachment: scroll;
             background-size: 200px 200px;
-            color: #e0e0e0;
-            line-height: 1.4;
+            color: var(--text);
+            line-height: 1.7;
             padding: 16px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            background-color: #2a2a2a;
-            padding: 20px;
+            background-color: var(--bg-card);
+            padding: 24px;
             border-radius: 12px;
-            border: 2px solid #3a3a3a;
+            border: 2px solid var(--border);
         }
 
         .topbar {
-            background: #1a1a1a;
-            color: #ffffff;
+            background: var(--bg-inset);
+            color: var(--accent);
             padding: 12px 20px;
             border-radius: 8px;
             margin-bottom: 24px;
@@ -43,173 +55,173 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            border-left: 4px solid #ffffff;
-            border: 2px solid #3a3a3a;
+            border-left: 4px solid var(--accent);
+            border: 2px solid var(--border);
         }
 
         .topbar .nav a {
-            color: #e0e0e0;
+            color: var(--text);
             margin-left: 20px;
             text-decoration: none;
             font-weight: 500;
             font-size: 14px;
+            transition: color 0.15s ease;
         }
 
         .topbar .nav a:hover {
-            color: #ffffff;
+            color: var(--accent);
         }
 
         .content-card {
-            background: #2a2a2a;
+            background: var(--bg-card);
             border-radius: 8px;
-            padding: 32px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            border: 2px solid #4a4a4a;
+            padding: 8px;
         }
 
+        /* ─── Headings ─── */
+
         .content-card h1 {
-            font-size: 32px;
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             margin-bottom: 24px;
-            border-left: 4px solid #ffffff;
             padding-left: 16px;
+            border-left: 4px solid var(--accent);
+            line-height: 1.2;
         }
 
         .content-card h2 {
-            font-size: 24px;
-            margin: 24px 0 16px 0;
-            border-left: 4px solid #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 40px 0 16px 0;
             padding-left: 12px;
+            border-left: 4px solid var(--accent);
+            line-height: 1.3;
         }
 
+        /* ─── Text ─── */
+
         .content-card p {
-            margin-bottom: 16px;
-            line-height: 1.6;
-            color: #e0e0e0;
+            margin-bottom: 14px;
+            color: var(--text);
+            max-width: 70ch;
         }
 
         .content-card a {
-            color: #ffffff;
+            color: var(--accent);
             text-decoration: none;
-            border-bottom: 1px dotted #ffffff;
+            border-bottom: 1px dotted var(--text-faint);
+            transition: border-color 0.15s ease;
         }
 
         .content-card a:hover {
-            color: #ffffff;
-            border-bottom: 1px solid #ffffff;
+            border-bottom-color: var(--accent);
         }
 
         .content-card hr {
-            margin: 24px 0;
+            margin: 40px 0;
             border: none;
-            border-top: 2px solid #4a4a4a;
+            border-top: 2px solid var(--border);
         }
 
-        .content-card ul, .content-card ol {
-            margin: 16px 0 16px 32px;
-            color: #e0e0e0;
+        /* ─── Lists ─── */
+
+        .content-card ul,
+        .content-card ol {
+            margin: 12px 0 20px 0;
+            padding: 0;
+            list-style: none;
+            max-width: 70ch;
         }
 
         .content-card li {
-            margin: 8px 0;
+            position: relative;
+            padding-left: 22px;
+            margin: 10px 0;
+            line-height: 1.6;
         }
 
-        .content-card blockquote {
-            margin: 20px 0;
-            padding: 16px 20px;
-            background: #1a1a1a;
-            border-left: 4px solid #ffffff;
-            border-radius: 4px;
-            color: #b0b0b0;
-            font-style: italic;
+        .content-card ul li::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 0.75em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
         }
 
-        .content-card .highlight {
-            background: #1a1a1a;
-            padding: 16px;
+        .content-card li strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ─── Highlight block ─── */
+
+        .highlight {
+            background: var(--bg-inset);
+            padding: 24px 28px;
             border-radius: 8px;
-            border-left: 4px solid #ffffff;
-            margin: 20px 0;
+            border-left: 4px solid var(--accent);
+            margin: 24px 0;
+            max-width: none;
         }
 
-        /* Gallery styles */
-        .gallery {
-            margin: 32px 0 24px 0;
+        .highlight > strong > h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            padding: 0;
+            border: none;
+            line-height: 1.3;
         }
 
-        .gallery-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-        .gallery-item {
-            background: #1a1a1a;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #4a4a4a;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+        .highlight p {
+            margin-bottom: 14px;
+            color: var(--text);
         }
 
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            border-color: #ffffff;
+        .highlight p:last-child {
+            margin-bottom: 0;
         }
 
-        .gallery-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    background: #0a0a0a;
-}
-
-        .gallery-item .note {
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #b0b0b0;
-            border-top: 1px solid #4a4a4a;
-            background: #1a1a1a;
-        }
-
-        .gallery-item .note strong {
-            color: #ffffff;
-            display: block;
-            margin-bottom: 4px;
-        }
+        /* ─── Defense toggle ─── */
 
         .defense-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 20px 0;
+            margin: 28px 0 8px 0;
         }
 
         .defense-btn {
-            background: #1a1a1a;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            font-size: 16px;
-            padding: 8px 20px;
+            background: var(--bg-inset);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 15px;
+            padding: 10px 22px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.15s ease, color 0.15s ease;
         }
 
         .defense-btn:hover {
-            background: #ffffff;
-            color: #1a1a1a;
+            background: var(--accent);
+            color: var(--bg-inset);
         }
 
         .defense-content {
             display: none;
-            background: #1a1a1a;
-            padding: 20px;
+            background: var(--bg-inset);
+            padding: 24px 28px;
             border-radius: 8px;
-            border-left: 4px solid #ffffff;
-            margin-top: 16px;
+            border-left: 4px solid var(--accent);
+            margin-top: 12px;
         }
 
         .defense-content.visible {
@@ -218,77 +230,203 @@
 
         .defense-content p {
             margin-bottom: 16px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .defense-content p:last-child {
             margin-bottom: 0;
         }
 
+        /* ─── Stats box ─── */
+
         .stats-box {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 24px 0;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 28px 0 36px 0;
         }
 
         .stat-box {
-            background: #1a1a1a;
-            padding: 16px;
+            background: var(--bg-inset);
+            padding: 20px 12px;
             border-radius: 8px;
             text-align: center;
-            border: 2px solid #4a4a4a;
+            border: 2px solid var(--border);
+            transition: border-color 0.15s ease;
+        }
+
+        .stat-box:hover {
+            border-color: var(--text-faint);
         }
 
         .stat-number {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            line-height: 1;
         }
 
         .stat-label {
-            color: #8a8a8a;
-            font-size: 14px;
+            color: var(--text-dim);
+            font-size: 13px;
             margin-top: 8px;
+            line-height: 1.4;
         }
 
-        .loading, .error {
-            text-align: center;
-            padding: 40px;
-        }
+        /* ─── Blockquote ─── */
 
-        .error {
-            color: #ffffff;
-        }
-
-        [data-tooltip] {
-            position: relative;
-            cursor: help;
-        }
-
-        [data-tooltip]:before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0a0a0a;
-            color: #e0e0e0;
-            padding: 4px 8px;
+        .content-card blockquote {
+            margin: 24px 0;
+            padding: 20px 24px;
+            background: var(--bg-inset);
+            border-left: 4px solid var(--accent);
             border-radius: 4px;
+            color: var(--text-dim);
+            font-style: italic;
+            font-size: 15px;
+            max-width: 70ch;
+        }
+
+        /* ─── Contact cards ─── */
+
+        .contact-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin: 16px 0 24px 0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-inset);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 18px;
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .contact-item .icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .contact-item .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .contact-item .sublabel {
             font-size: 12px;
-            white-space: nowrap;
-            display: none;
-            z-index: 10;
-            margin-bottom: 5px;
+            color: var(--text-dim);
+            margin-top: 2px;
         }
 
-        [data-tooltip]:hover:before {
+        /* ─── Gallery ─── */
+
+        .gallery {
+            margin: 40px 0 24px 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            background: var(--bg-inset);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
             display: block;
+            background: #0a0a0a;
         }
 
-        .hidden {
-            display: none;
+        .gallery-item .note {
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+            background: var(--bg-inset);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .gallery-item .note strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ─── Footer ─── */
+
+        .footer-note {
+            font-size: 12.5px;
+            color: var(--text-faint);
+            text-align: center;
+            line-height: 1.7;
+            max-width: 70ch;
+            margin: 0 auto;
+        }
+
+        .footer-note a {
+            color: var(--text-dim);
+        }
+
+        .footer-note a:hover {
+            color: var(--accent);
+        }
+
+        /* ─── Misc ─── */
+
+        .tag-chip {
+            display: inline-block;
+            background: var(--bg-inset);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 8px;
+            font-size: 12.5px;
+            color: var(--text-dim);
+            font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+            margin: 0 2px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            .content-card { padding: 4px; }
+            .content-card h1 { font-size: 26px; }
+            .content-card h2 { font-size: 19px; margin-top: 32px; }
+            .highlight { padding: 18px 20px; }
+            .stat-number { font-size: 26px; }
+            .gallery-item img { height: 130px; }
         }
     </style>
 </head>
@@ -304,18 +442,19 @@
 
     <div class="content-card">
         <h1>About this list</h1>
-        
-        <p>This is a collection of Roblox games within the transfur/infection genre - a niche but passionate corner of the platform. These games range from abandoned experiments to active communities, from rough prototypes to polished experiences.</p>
-        
-<div class="highlight">
-    <strong><h1>Why this list even exists?</h1></strong>
-    The transfur/infection genre has a scattered history. Many games come and go, get deleted, get abandoned, or get lost in the noise.
-    <br><br>I made this list because during the pandemic people tried to cancel Transfur games left and right, and the stigma stayed. Yes, Changed was the inspiration. Are the Roblox versions "fetish" games? No. Calling them that ignores what they actually are.
-    <br><br>Most of these games didn't deserve that treatment. This genre was something new, a game where you kill furries. That's it. (Heavy emphasis on kill.)
-    <br><br>That genre gave players something fresh on a stale platform. Any references to Changed were tiny details, so small you wouldn't notice them unless you were looking for trouble, <strong>and knew what to look for.</strong>
-    <br><br>These words came from someone who doesn't like furries. Think about that.
-    <br><br>Hotdog buns aren't baguettes, even though they share the same ingredient.
-</div>
+
+        <p>A collection of Roblox games within the transfur / infection genre &mdash; a niche but passionate corner of the platform. These games range from abandoned experiments to active communities, from rough prototypes to polished experiences.</p>
+
+        <!-- WHY THIS LIST EXISTS -->
+        <div class="highlight">
+            <strong><h1>Why this list even exists</h1></strong>
+            <p>The transfur / infection genre has a scattered history. Many games come and go, get deleted, get abandoned, or get lost in the noise.</p>
+            <p>I made this list because during the pandemic people tried to cancel Transfur games left and right, and the stigma stayed. Yes, Changed was the inspiration. Are the Roblox versions "fetish" games? No. Calling them that ignores what they actually are.</p>
+            <p>Most of these games didn't deserve that treatment. This genre was something new &mdash; a game where you kill furries. That's it. <em>(Heavy emphasis on <strong>kill</strong>.)</em></p>
+            <p>That genre gave players something fresh on a stale platform. Any references to Changed were tiny details, so small you wouldn't notice them unless you were looking for trouble, <strong>and knew what to look for.</strong></p>
+            <p>These words came from someone who doesn't like furries. Think about that.</p>
+            <p>Hotdog buns aren't baguettes, even though they share the same ingredient.</p>
+        </div>
 
         <!-- DEFENSE BUTTON -->
         <div class="defense-header">
@@ -324,17 +463,12 @@
 
         <div class="defense-content" id="defenseContent">
             <p>If you shit in a kitchen does that make it food?</p>
-<!-- hello inspect element, here is my actual defense-->
-<!-- <p><strong>Swap the furries with zombies and suddenly the "controversy" disappears.</strong> That's the whole point. There's no hidden agenda. No fetish content. Just a game where you fight monsters.</p> -->
-<!-- <p>I'm a furry hater. I don't like furries. But I like these games because they're games where you <strong>kill furries</strong>. That's it. I'm not reframing. I'm not playing politics. I'm telling you what these games actually are from a Roblox player's perspective.</p> -->
-<!-- <p><strong>Yes, these games exist because of Changed. No, they aren't fetish games.</strong> No adult content. Nothing to flag. And to most of the playerbase, that's all there is to it.</p> -->
-<!-- <p>If that makes you uncomfortable, ask yourself why. If swapping furries with zombies makes the controvery dissapear then the problem was never the game. It was the association.</p> -->
-<!-- <p>Hotdog buns aren't baguettes, even though they share the same ingredient. An origin isn't an identity. A starting point isn't a destination. The game is what's in front of you, not what inspired it.</p> -->
         </div>
-        
+
+        <!-- HOW THIS WORKS -->
         <h2>How this website works</h2>
-        <p>Data is pulled from <code>games-data.json</code>, which is updated automatically every 6 hours via GitHub Actions. Player counts, thumbnails, and game details are fetched directly from Roblox APIs. Tags and maintainer notes are added manually based on community knowledge and personal testing.</p>
-        
+        <p>Data is pulled from <span class="tag-chip">games-data.json</span>, which is updated automatically every 6 hours via GitHub Actions. Player counts, thumbnails, and game details are fetched directly from Roblox APIs. Tags and maintainer notes are added manually based on community knowledge and personal testing.</p>
+
         <div class="stats-box">
             <div class="stat-box">
                 <div class="stat-number" id="total-games">—</div>
@@ -342,107 +476,136 @@
             </div>
             <div class="stat-box">
                 <div class="stat-number" id="active-games">—</div>
-                <div class="stat-label">games with active players</div>
+                <div class="stat-label">with active players</div>
             </div>
             <div class="stat-box">
                 <div class="stat-number" id="og-games">—</div>
-                <div class="stat-label">OG / classic games</div>
+                <div class="stat-label">OG / classic</div>
             </div>
             <div class="stat-box">
                 <div class="stat-number" id="failed-games">—</div>
                 <div class="stat-label">deleted / inaccessible</div>
             </div>
         </div>
-        
+
+        <!-- CRITERIA -->
         <h2>The criteria</h2>
         <p>A game is included if:</p>
         <ul>
             <li>It's within the transfur / infection / furry infection genre</li>
-            <li>Isn't a clear spit in the face to the Transfur Genre</li>
+            <li>It isn't a clear spit in the face to the Transfur genre</li>
             <li>It's a remake, reupload, or spiritual successor to a classic</li>
             <li>It's simply a hidden gem worth documenting</li>
         </ul>
-        <p>Games are not included based on quality alone - dead games, broken games, and obscure experiments are all welcome. This is an archive, not a recommendation engine. (Although this website wasnt made for pure archival)</p>
-        
+        <p>Games are not included based on quality alone &mdash; dead games, broken games, and obscure experiments are all welcome. This is an archive, not a recommendation engine. <em>(Although this website wasn't made for pure archival.)</em></p>
+
+        <!-- TAGS -->
         <h2>Tags explained</h2>
         <ul>
-            <li><strong>unknown-quality</strong> - haven't played to judge</li>
-            <li><strong>low-quality</strong> - visible low or zero effort</li>
-            <li><strong>moderate-quality</strong> - decent, playable, some effort</li>
-            <li><strong>high-quality</strong> - polished, well-made, recommended</li>
-            <li><strong>supreme-quality</strong> - exceptional, self-explainatory</li>
-            <li><strong>OG</strong> - original or early classic in the genre</li>
-            <li><strong>OG-Like</strong> - is like an OG game, maybe an reupload, an archival, or a remix</li>
-            <li><strong>maintainer's pick</strong> - my personal tag for games that hit home (pandemic 2020) and that are made to have a blast playing it</li>
+            <li><strong>unknown-quality</strong> &mdash; haven't played to judge</li>
+            <li><strong>low-quality</strong> &mdash; visible low or zero effort</li>
+            <li><strong>moderate-quality</strong> &mdash; decent, playable, some effort</li>
+            <li><strong>high-quality</strong> &mdash; polished, well-made, recommended</li>
+            <li><strong>supreme-quality</strong> &mdash; exceptional, self-explanatory</li>
+            <li><strong>OG</strong> &mdash; original or early classic in the genre</li>
+            <li><strong>OG-Like</strong> &mdash; like an OG game; a reupload, an archival, or a remix</li>
+            <li><strong>maintainer's pick</strong> &mdash; my personal tag for games that hit home (pandemic 2020) and that are made to have a blast playing</li>
         </ul>
-        
-        <h2>About the maintainer</h2>
-        <p>Slav from Eastern Poland. This list started as a personal txt file on my laptop. It grew into something worth sharing. <br>If a game is missing, email me. If something is wrong, email me. If you want a second opinion, email me. If you just want to talk, also email me.</p>
-        
-        <blockquote>
-            "driving nonchalantly is driving boldly" - some guy with a Panda 1.1L FIRE, and a 10 year old gaming laptop
-        </blockquote>
-        
-        <h2>Contact</h2>
-        <p>📧 <a href="https://discord.com/users/722229409150533643">Discord account (Main contact)</a></p>
-        <p>🔗 <a href="https://comina-pacnicca.itch.io/">Itch.io page</a></p>
-        <p>🔗 <a href="https://www.roblox.com/communities/5903879/COMINA#!/about">Roblox group</a></p>
 
-                <!-- GALLERY SECTION -->
+        <!-- MAINTAINER -->
+        <h2>About the maintainer</h2>
+        <p>Slav from Eastern Poland. This list started as a personal txt file on my laptop. It grew into something worth sharing.</p>
+        <p>If a game is missing, email me. If something is wrong, email me. If you want a second opinion, email me. If you just want to talk, also email me.</p>
+
+        <blockquote>
+            "driving nonchalantly is driving boldly"<br>
+            <span style="color: var(--text-faint); font-size: 13px; font-style: normal;">&mdash; some guy with a Panda 1.1L FIRE, and a 10 year old gaming laptop</span>
+        </blockquote>
+
+        <!-- CONTACT -->
+        <h2>Contact</h2>
+        <div class="contact-list">
+            <a class="contact-item" href="https://discord.com/users/722229409150533643">
+                <span class="icon">💬</span>
+                <div>
+                    <div class="label">Discord</div>
+                    <div class="sublabel">main contact</div>
+                </div>
+            </a>
+            <a class="contact-item" href="https://comina-pacnicca.itch.io/">
+                <span class="icon">🎮</span>
+                <div>
+                    <div class="label">Itch.io</div>
+                    <div class="sublabel">my games</div>
+                </div>
+            </a>
+            <a class="contact-item" href="https://www.roblox.com/communities/5903879/COMINA#!/about">
+                <span class="icon">🟥</span>
+                <div>
+                    <div class="label">Roblox group</div>
+                    <div class="sublabel">COMINA</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- GALLERY -->
         <div class="gallery">
             <h2>Gallery</h2>
-            <div class="gallery-grid" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_16.png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>27.10.2020 15:20:12</strong> Transfurmation</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_16.png?raw=true" alt="gallery image">
+                    <div class="note"><strong>27.10.2020 15:20:12</strong>Transfurmation</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_17.png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>11.11.2020 16:30:04</strong> Infection V</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_17.png?raw=true" alt="gallery image">
+                    <div class="note"><strong>11.11.2020 16:30:04</strong>Infection V</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_24%20(2).png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>12.11.2020 17:04:24</strong> Also Infection V - worthless screenshot but maybe these people will stumble upon it.</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_24%20(2).png?raw=true" alt="gallery image">
+                    <div class="note"><strong>12.11.2020 17:04:24</strong>Also Infection V &mdash; worthless screenshot but maybe these people will stumble upon it.</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_43%20(2).png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>14.11.2020 09:59:04</strong> Furrious Outbreak - game got moderated shortly after.</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_43%20(2).png?raw=true" alt="gallery image">
+                    <div class="note"><strong>14.11.2020 09:59:04</strong>Furrious Outbreak &mdash; game got moderated shortly after.</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_75.png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>28.12.2020 09:50:26</strong> Transfur Outbreak (Chapter 2) - i was exploiting here</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_75.png?raw=true" alt="gallery image">
+                    <div class="note"><strong>28.12.2020 09:50:26</strong>Transfur Outbreak (Chapter 2) &mdash; i was exploiting here</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/qwerty.png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>31.10.2025 05:19:43</strong> Transfur Outbreak Map 2 - ᴳˡᵒʳᶦᶠᶦᵉᵈ Recreation of the Transfur Outbreak Chapter 2 Skyline from human spawn</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/qwerty.png?raw=true" alt="gallery image">
+                    <div class="note"><strong>31.10.2025 05:19:43</strong>Transfur Outbreak Map 2 &mdash; glorified recreation of the Transfur Outbreak Chapter 2 skyline from human spawn</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/I%20was%20here%20before.png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>05.11.2025 21:07</strong> Transfurmation 2 - "i was here before" Throwback to first transfurmation image, it is so lonely over there today, only memories are left. Its bittersweet.</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/I%20was%20here%20before.png?raw=true" alt="gallery image">
+                    <div class="note"><strong>05.11.2025 21:07</strong>Transfurmation 2 &mdash; "i was here before". Throwback to first Transfurmation image. It's so lonely over there today, only memories are left. It's bittersweet.</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_4%20(2).png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>08.11.2025 20:38:00</strong> Unknow furry infection game - shout out to denis</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_4%20(2).png?raw=true" alt="gallery image">
+                    <div class="note"><strong>08.11.2025 20:38:00</strong>Unknown furry infection game &mdash; shout out to Denis</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_3%20(4).png?raw=true" alt="gallery image" style="width: 100%; height: auto; display: block;">
-                    <div class="note"><strong>01.01.2026 23:48:51</strong> i dont remember the game lol</div>
+                    <img src="https://github.com/Magmavator/Transfur-Infection-Genre-Games/blob/main/gallery/Screenshot_3%20(4).png?raw=true" alt="gallery image">
+                    <div class="note"><strong>01.01.2026 23:48:51</strong>i don't remember the game lol</div>
                 </div>
             </div>
         </div>
-        
+
         <hr>
-        
-        <p style="font-size: 12px; color: #8a8a8a; text-align: center;">Some games were found through <a href="https://www.reddit.com/r/ChangedFurry/comments/p4q9b2/a_list_of_1108_different_transfur_games/" target="_blank" rel="noopener">this Reddit thread</a>
-            , though only about 15 made it onto this list. Most of the others are either banned, privated, or have names too generic to find via search. 
-            A few gems slipped through the cracks, like Transfur X, which definitely exists but somehow evaded both Bing and Roblox search.<br>
-Honorable mention: "Transfurmation but better (he wasnt wrong, it was better)" XDDD</p>
+
+        <p class="footer-note">
+            Some games were found through <a href="https://www.reddit.com/r/ChangedFurry/comments/p4q9b2/a_list_of_1108_different_transfur_games/" target="_blank" rel="noopener">this Reddit thread</a>,
+            though only about 15 made it onto this list. Most of the others are either banned, privated, or have names too generic to find via search.
+            A few gems slipped through the cracks, like Transfur X, which definitely exists but somehow evaded both Bing and Roblox search.
+            <br><br>
+            Honorable mention: "Transfurmation but better" <span style="color: var(--text-dim);">(he wasn't wrong, it was better)</span> XDDD
+        </p>
     </div>
 
 </div>
 
 <script>
-    // ==================== TOGGLE DEFENSE SECTION ====================
+    // ─── Defense toggle ───
     const defenseBtn = document.getElementById('defenseBtn');
     const defenseContent = document.getElementById('defenseContent');
 
@@ -451,49 +614,25 @@ Honorable mention: "Transfurmation but better (he wasnt wrong, it was better)" X
         defenseBtn.textContent = defenseContent.classList.contains('visible') ? '▲ my defense' : '▼ my defense';
     });
 
-    // ==================== RELATIVE TIME HELPER ====================
-    function getRelativeTime(dateString) {
-        if (!dateString || dateString === '?') return '?';
-        
-        const past = new Date(dateString);
-        const now = new Date();
-        
-        const diffMs = now - past;
-        const diffSec = Math.floor(diffMs / 1000);
-        const diffMin = Math.floor(diffSec / 60);
-        const diffHour = Math.floor(diffMin / 60);
-        const diffDay = Math.floor(diffHour / 24);
-        const diffMonth = Math.floor(diffDay / 30);
-        const diffYear = Math.floor(diffMonth / 12);
-
-        if (diffSec < 60) return 'just now';
-        if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
-        if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
-        if (diffDay < 30) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
-        if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
-        return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
-    }
-
-    // ==================== FETCH STATS FROM GAMES-DATA ====================
+    // ─── Stats loader ───
     async function loadStats() {
         try {
             const response = await fetch('games-data.json');
             const data = await response.json();
             const games = data.games;
-            
+
             const total = games.length;
             const active = games.filter(g => {
                 const playerCount = typeof g.playerCount === 'number' ? g.playerCount : 0;
                 return playerCount > 0;
             }).length;
             const og = games.filter(g => g.tags && g.tags.includes('OG')).length;
-            const failed = games.filter(g => g.name === 'Failed to load').length;
-            
+            const failed = games.filter(g => g.isFailed === true).length;
+
             document.getElementById('total-games').textContent = total;
             document.getElementById('active-games').textContent = active;
             document.getElementById('og-games').textContent = og;
             document.getElementById('failed-games').textContent = failed;
-            
         } catch (err) {
             console.error('Failed to load stats:', err);
             document.getElementById('total-games').textContent = '?';
@@ -502,7 +641,7 @@ Honorable mention: "Transfurmation but better (he wasnt wrong, it was better)" X
             document.getElementById('failed-games').textContent = '?';
         }
     }
-    
+
     loadStats();
 </script>
 
