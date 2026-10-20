@@ -692,6 +692,12 @@
       "placeId": "129379844140833",
       "tags": ["Maintainer's pick", "high-quality"],
       "maintainerNote": "Released 5/2025 | Reviewed 07/2026 - a bit messy, and laggy (GTX 1070 + i7 7700HQ ~30 fps on max grap.)."
+    },
+    {
+      "gameLink": "https://www.roblox.com/games/12825612112/Contagious-Experiment",
+      "placeId": "12825612112",
+      "tags": ["high-quality"],
+      "maintainerNote": "Released 3/2023 | Reviewed 10/2026 - This game showed up after Contagious Revival got taken down, this version doesnt meet Revival's quality and is mid at best."
     }
   ]
 }
