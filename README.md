@@ -3,17 +3,13 @@
   <br>
 
   <h1 style="font-size:72px; color:#ff3b3b; margin:0; line-height:1.1; letter-spacing:2px;">
-    ⚠️ WRONG PAGE ⚠️
+    ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ COME HERE BELOW ⚠️⚠️⚠️⚠️⚠️⚠️⚠️
   </h1>
 
   <br>
 
   <h2 style="font-size:36px; color:#ffcc00; margin:0; line-height:1.3;">
-    This is a GitHub repository.
-  </h2>
-
-  <h2 style="font-size:36px; color:#ffcc00; margin:0; line-height:1.3;">
-    The actual website is over here:
+    This is a GitHub repository. The actual website is below
   </h2>
 
   <br><br>
