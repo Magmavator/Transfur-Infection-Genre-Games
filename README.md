@@ -13,9 +13,4 @@
   <a href="https://magmavator.github.io/Transfur-Infection-Genre-Games/">
     <img src="gallery/Screenshot_16.png" alt="Website preview" width="800">
   </a>
-
-  <br><br>
-
-  <sub>Not the actual site — click the link above.</sub>
-
 </div>
